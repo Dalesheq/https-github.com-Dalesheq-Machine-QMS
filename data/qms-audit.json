@@ -1,0 +1,1500 @@
+[
+  {
+    "id": "AUD-1792568896323-ezidk",
+    "timestamp": "2026-10-21T07:48:16.323Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "FILE_UPLOAD",
+    "recordType": "ATTACHMENT",
+    "recordId": "ATT-1792568896316-33SR",
+    "details": {
+      "originalFilename": "test_ncr_failed_journal_photo.jpg",
+      "fileSize": 57,
+      "category": "NCR_EVIDENCE",
+      "relatedRecordId": "NCR-TEST-LIVE-001"
+    },
+    "newValue": "{\"fileId\":\"ATT-1792568896316-33SR\",\"originalFilename\":\"test_ncr_failed_journal_photo.jpg\",\"storedFilename\":\"ATT-1792568896316-33SR_test_ncr_failed_journal_photo.jpg\",\"mimeType\":\"image/jpeg\",\"fileSize\":57,\"uploadDate\":\"2026-10-21T07:48:16.316Z\",\"uploadedBy\":\"Basil De Swardt\",\"uploadedById\":\"USR-008\",\"category\":\"NCR_EVIDENCE\",\"relatedRecordId\":\"NCR-TEST-LIVE-001\",\"downloadUrl\":\"/api/attachments/ATT-1792568896316-33SR\"}"
+  },
+  {
+    "id": "AUD-1792568896296-sluvk",
+    "timestamp": "2026-10-21T07:48:16.296Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "AUTO_RECORD_NCR_FROM_INSPECTION_POINT",
+    "recordType": "INSPECTION",
+    "recordId": "INSP-TEST-LIVE-NCR-001",
+    "details": {
+      "recordType": "INSPECTION",
+      "recordId": "INSP-TEST-LIVE-NCR-001"
+    }
+  },
+  {
+    "id": "AUD-1792568896228-1p07c",
+    "timestamp": "2026-10-21T07:48:16.228Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "AUTO_RECORD_NCR_FROM_INSPECTION_POINT",
+    "recordType": "INSPECTION",
+    "recordId": "INSP-TEST-LIVE-NCR-001",
+    "details": {
+      "recordType": "INSPECTION",
+      "recordId": "INSP-TEST-LIVE-NCR-001",
+      "ncrId": "NCR-TEST-LIVE-001"
+    }
+  },
+  {
+    "id": "AUD-1792568896203-blz9k",
+    "timestamp": "2026-10-21T07:48:16.203Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "CREATE_MANUFACTURING_RECORD",
+    "recordType": "DATABASE",
+    "recordId": "ALL",
+    "details": {}
+  },
+  {
+    "id": "AUD-1792568896159-oynot",
+    "timestamp": "2026-10-21T07:48:16.159Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792568871753-uqbyf",
+    "timestamp": "2026-10-21T07:47:51.753Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792568863697-3slih",
+    "timestamp": "2026-10-21T07:47:43.697Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "FILE_UPLOAD",
+    "recordType": "ATTACHMENT",
+    "recordId": "ATT-1792568863635-0NMW",
+    "details": {
+      "originalFilename": "test_ncr_failed_journal_photo.jpg",
+      "fileSize": 57,
+      "category": "NCR_EVIDENCE",
+      "relatedRecordId": "NCR-TEST-LIVE-001"
+    },
+    "newValue": "{\"fileId\":\"ATT-1792568863635-0NMW\",\"originalFilename\":\"test_ncr_failed_journal_photo.jpg\",\"storedFilename\":\"ATT-1792568863635-0NMW_test_ncr_failed_journal_photo.jpg\",\"mimeType\":\"image/jpeg\",\"fileSize\":57,\"uploadDate\":\"2026-10-21T07:47:43.635Z\",\"uploadedBy\":\"Basil De Swardt\",\"uploadedById\":\"USR-008\",\"category\":\"NCR_EVIDENCE\",\"relatedRecordId\":\"NCR-TEST-LIVE-001\",\"downloadUrl\":\"/api/attachments/ATT-1792568863635-0NMW\"}"
+  },
+  {
+    "id": "AUD-1792568863617-90pnb",
+    "timestamp": "2026-10-21T07:47:43.617Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "AUTO_RECORD_NCR_FROM_INSPECTION_POINT",
+    "recordType": "INSPECTION",
+    "recordId": "INSP-TEST-LIVE-NCR-001",
+    "details": {
+      "recordType": "INSPECTION",
+      "recordId": "INSP-TEST-LIVE-NCR-001"
+    }
+  },
+  {
+    "id": "AUD-1792568863577-mtrs2",
+    "timestamp": "2026-10-21T07:47:43.577Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "AUTO_RECORD_NCR_FROM_INSPECTION_POINT",
+    "recordType": "INSPECTION",
+    "recordId": "INSP-TEST-LIVE-NCR-001",
+    "details": {
+      "recordType": "INSPECTION",
+      "recordId": "INSP-TEST-LIVE-NCR-001",
+      "ncrId": "NCR-TEST-LIVE-001"
+    }
+  },
+  {
+    "id": "AUD-1792568863555-d0vi6",
+    "timestamp": "2026-10-21T07:47:43.555Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "CREATE_MANUFACTURING_RECORD",
+    "recordType": "DATABASE",
+    "recordId": "ALL",
+    "details": {}
+  },
+  {
+    "id": "AUD-1792568863512-m3flf",
+    "timestamp": "2026-10-21T07:47:43.512Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792568811052-vbsws",
+    "timestamp": "2026-10-21T07:46:51.052Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "FILE_UPLOAD",
+    "recordType": "ATTACHMENT",
+    "recordId": "ATT-1792568811045-60J4",
+    "details": {
+      "originalFilename": "test_ncr_failed_journal_photo.jpg",
+      "fileSize": 57,
+      "category": "NCR_EVIDENCE",
+      "relatedRecordId": "NCR-TEST-LIVE-001"
+    },
+    "newValue": "{\"fileId\":\"ATT-1792568811045-60J4\",\"originalFilename\":\"test_ncr_failed_journal_photo.jpg\",\"storedFilename\":\"ATT-1792568811045-60J4_test_ncr_failed_journal_photo.jpg\",\"mimeType\":\"image/jpeg\",\"fileSize\":57,\"uploadDate\":\"2026-10-21T07:46:51.046Z\",\"uploadedBy\":\"Basil De Swardt\",\"uploadedById\":\"USR-008\",\"category\":\"NCR_EVIDENCE\",\"relatedRecordId\":\"NCR-TEST-LIVE-001\",\"downloadUrl\":\"/api/attachments/ATT-1792568811045-60J4\"}"
+  },
+  {
+    "id": "AUD-1792568811024-egnho",
+    "timestamp": "2026-10-21T07:46:51.024Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "AUTO_RECORD_NCR_FROM_INSPECTION_POINT",
+    "recordType": "INSPECTION",
+    "recordId": "INSP-TEST-LIVE-NCR-001",
+    "details": {
+      "recordType": "INSPECTION",
+      "recordId": "INSP-TEST-LIVE-NCR-001"
+    }
+  },
+  {
+    "id": "AUD-1792568810991-148z6",
+    "timestamp": "2026-10-21T07:46:50.991Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "AUTO_RECORD_NCR_FROM_INSPECTION_POINT",
+    "recordType": "INSPECTION",
+    "recordId": "INSP-TEST-LIVE-NCR-001",
+    "details": {
+      "recordType": "INSPECTION",
+      "recordId": "INSP-TEST-LIVE-NCR-001",
+      "ncrId": "NCR-TEST-LIVE-001"
+    }
+  },
+  {
+    "id": "AUD-1792568810970-zabka",
+    "timestamp": "2026-10-21T07:46:50.970Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "UPDATE_COMPONENT",
+    "recordType": "DATABASE",
+    "recordId": "ALL",
+    "details": {}
+  },
+  {
+    "id": "AUD-1792568810925-3pmdu",
+    "timestamp": "2026-10-21T07:46:50.925Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792568775750-8yuf5",
+    "timestamp": "2026-10-21T07:46:15.750Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792568720608-osu4c",
+    "timestamp": "2026-10-21T07:45:20.608Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "username": "dave.vance",
+      "email": "dave.vance@spiralsystems.co.za",
+      "role": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1792568719427-bgfkp",
+    "timestamp": "2026-10-21T07:45:19.427Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "CREDENTIAL_MIGRATION_COMPLETED",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "message": "Individual production credential established successfully"
+    }
+  },
+  {
+    "id": "AUD-1792568718282-ti7f7",
+    "timestamp": "2026-10-21T07:45:18.282Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "MIGRATION_CODE_GENERATED",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "targetUserId": "USR-001"
+    }
+  },
+  {
+    "id": "AUD-1792568717174-0i1b4",
+    "timestamp": "2026-10-21T07:45:17.174Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "CREDENTIAL_MIGRATION_BLOCKED_DEFAULT_PASSWORD",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "reason": "Attempted to use known default password for account migration"
+    }
+  },
+  {
+    "id": "AUD-1792568716060-4s2b6",
+    "timestamp": "2026-10-21T07:45:16.060Z",
+    "user": "UNAUTHENTICATED",
+    "role": "NONE",
+    "action": "UNAUTHORIZED_ACTION_BLOCKED",
+    "recordType": "DATABASE",
+    "recordId": "POST_API_DB",
+    "details": {
+      "reason": "Unauthenticated attempt to mutate database via POST /api/db"
+    }
+  },
+  {
+    "id": "AUD-1792568716057-t4uea",
+    "timestamp": "2026-10-21T07:45:16.057Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "UNAUTHORIZED_ACTION_BLOCKED",
+    "recordType": "SYSTEM",
+    "recordId": "DWG-001",
+    "details": {
+      "attemptedAction": "APPROVE_DRAWING",
+      "userRole": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1792568716054-ms8qh",
+    "timestamp": "2026-10-21T07:45:16.054Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "UNAUTHORIZED_ACTION_BLOCKED",
+    "recordType": "SYSTEM",
+    "recordId": "QUALITY_RELEASE_EXECUTED",
+    "details": {
+      "attemptedAction": "QUALITY_RELEASE_EXECUTED",
+      "userRole": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1792568716034-tly8j",
+    "timestamp": "2026-10-21T07:45:16.034Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-007",
+    "details": {
+      "username": "johan.kruger",
+      "email": "johan.kruger@spiralsystems.co.za",
+      "role": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1792568714872-5hr56",
+    "timestamp": "2026-10-21T07:45:14.872Z",
+    "user": "hacker.admin",
+    "role": "UNAUTHENTICATED",
+    "action": "PUBLIC_ADMIN_REGISTRATION_BLOCKED",
+    "recordType": "AUTH",
+    "recordId": "hacker.admin",
+    "details": {
+      "attemptedRole": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792568714863-wmc9x",
+    "timestamp": "2026-10-21T07:45:14.863Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGOUT",
+    "recordType": "AUTH",
+    "recordId": "USR-007"
+  },
+  {
+    "id": "AUD-1792568714851-2vpk3",
+    "timestamp": "2026-10-21T07:45:14.851Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-007",
+    "details": {
+      "username": "johan.kruger",
+      "email": "johan.kruger@spiralsystems.co.za",
+      "role": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1792568713684-e1lw5",
+    "timestamp": "2026-10-21T07:45:13.684Z",
+    "user": "admin.qms",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN_BLOCKED_DISABLED_ACCOUNT",
+    "recordType": "AUTH",
+    "recordId": "USR-006",
+    "details": {
+      "reason": "Account is disabled"
+    }
+  },
+  {
+    "id": "AUD-1792568712520-a402z",
+    "timestamp": "2026-10-21T07:45:12.520Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN_FAILED",
+    "recordType": "AUTH",
+    "recordId": "USR-007",
+    "details": {
+      "reason": "Invalid password"
+    }
+  },
+  {
+    "id": "AUD-1792568711360-ygu72",
+    "timestamp": "2026-10-21T07:45:11.360Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-007",
+    "details": {
+      "username": "johan.kruger",
+      "email": "johan.kruger@spiralsystems.co.za",
+      "role": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1792568710162-rd45y",
+    "timestamp": "2026-10-21T07:45:10.162Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "PASSWORD_RESET",
+    "recordType": "AUTH",
+    "recordId": "USR-007"
+  },
+  {
+    "id": "AUD-1792568708955-fth3a",
+    "timestamp": "2026-10-21T07:45:08.955Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN_BLOCKED_DEFAULT_CREDENTIAL",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "reason": "Default password or unmigrated account blocked in production"
+    }
+  },
+  {
+    "id": "AUD-1792568707798-it9rq",
+    "timestamp": "2026-10-21T07:45:07.798Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792568624058-qbijy",
+    "timestamp": "2026-10-21T07:43:44.058Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "username": "dave.vance",
+      "email": "dave.vance@spiralsystems.co.za",
+      "role": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1792568622870-gf023",
+    "timestamp": "2026-10-21T07:43:42.870Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "CREDENTIAL_MIGRATION_COMPLETED",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "message": "Individual production credential established successfully"
+    }
+  },
+  {
+    "id": "AUD-1792568621699-wp8do",
+    "timestamp": "2026-10-21T07:43:41.699Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "MIGRATION_CODE_GENERATED",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "targetUserId": "USR-001"
+    }
+  },
+  {
+    "id": "AUD-1792568620570-0i1ds",
+    "timestamp": "2026-10-21T07:43:40.570Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "CREDENTIAL_MIGRATION_BLOCKED_DEFAULT_PASSWORD",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "reason": "Attempted to use known default password for account migration"
+    }
+  },
+  {
+    "id": "AUD-1792568619453-h9238",
+    "timestamp": "2026-10-21T07:43:39.453Z",
+    "user": "UNAUTHENTICATED",
+    "role": "NONE",
+    "action": "UNAUTHORIZED_ACTION_BLOCKED",
+    "recordType": "DATABASE",
+    "recordId": "POST_API_DB",
+    "details": {
+      "reason": "Unauthenticated attempt to mutate database via POST /api/db"
+    }
+  },
+  {
+    "id": "AUD-1792568619450-px2j9",
+    "timestamp": "2026-10-21T07:43:39.450Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "UNAUTHORIZED_ACTION_BLOCKED",
+    "recordType": "SYSTEM",
+    "recordId": "DWG-001",
+    "details": {
+      "attemptedAction": "APPROVE_DRAWING",
+      "userRole": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1792568619447-nohva",
+    "timestamp": "2026-10-21T07:43:39.447Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "UNAUTHORIZED_ACTION_BLOCKED",
+    "recordType": "SYSTEM",
+    "recordId": "QUALITY_RELEASE_EXECUTED",
+    "details": {
+      "attemptedAction": "QUALITY_RELEASE_EXECUTED",
+      "userRole": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1792568619429-k6ok7",
+    "timestamp": "2026-10-21T07:43:39.429Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-007",
+    "details": {
+      "username": "johan.kruger",
+      "email": "johan.kruger@spiralsystems.co.za",
+      "role": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1792568618292-l0cqd",
+    "timestamp": "2026-10-21T07:43:38.292Z",
+    "user": "hacker.admin",
+    "role": "UNAUTHENTICATED",
+    "action": "PUBLIC_ADMIN_REGISTRATION_BLOCKED",
+    "recordType": "AUTH",
+    "recordId": "hacker.admin",
+    "details": {
+      "attemptedRole": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792568618279-d6uqe",
+    "timestamp": "2026-10-21T07:43:38.279Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGOUT",
+    "recordType": "AUTH",
+    "recordId": "USR-007"
+  },
+  {
+    "id": "AUD-1792568618268-jtzjt",
+    "timestamp": "2026-10-21T07:43:38.268Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-007",
+    "details": {
+      "username": "johan.kruger",
+      "email": "johan.kruger@spiralsystems.co.za",
+      "role": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1792568617099-ty1z5",
+    "timestamp": "2026-10-21T07:43:37.099Z",
+    "user": "admin.qms",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN_BLOCKED_DISABLED_ACCOUNT",
+    "recordType": "AUTH",
+    "recordId": "USR-006",
+    "details": {
+      "reason": "Account is disabled"
+    }
+  },
+  {
+    "id": "AUD-1792568615995-hhs1o",
+    "timestamp": "2026-10-21T07:43:35.995Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN_FAILED",
+    "recordType": "AUTH",
+    "recordId": "USR-007",
+    "details": {
+      "reason": "Invalid password"
+    }
+  },
+  {
+    "id": "AUD-1792568614846-n2780",
+    "timestamp": "2026-10-21T07:43:34.846Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-007",
+    "details": {
+      "username": "johan.kruger",
+      "email": "johan.kruger@spiralsystems.co.za",
+      "role": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1792568613671-p2o2f",
+    "timestamp": "2026-10-21T07:43:33.671Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "PASSWORD_RESET",
+    "recordType": "AUTH",
+    "recordId": "USR-007"
+  },
+  {
+    "id": "AUD-1792568612504-sobhf",
+    "timestamp": "2026-10-21T07:43:32.504Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN_BLOCKED_DEFAULT_CREDENTIAL",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "reason": "Default password or unmigrated account blocked in production"
+    }
+  },
+  {
+    "id": "AUD-1792568611257-t42dj",
+    "timestamp": "2026-10-21T07:43:31.257Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792568513385-lfmqe",
+    "timestamp": "2026-10-21T07:41:53.385Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792568476929-v3xnx",
+    "timestamp": "2026-10-21T07:41:16.929Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "CREDENTIAL_MIGRATION_BLOCKED_DEFAULT_PASSWORD",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "reason": "Attempted to use known default password for account migration"
+    }
+  },
+  {
+    "id": "AUD-1792568475812-igei6",
+    "timestamp": "2026-10-21T07:41:15.812Z",
+    "user": "UNAUTHENTICATED",
+    "role": "NONE",
+    "action": "UNAUTHORIZED_ACTION_BLOCKED",
+    "recordType": "DATABASE",
+    "recordId": "POST_API_DB",
+    "details": {
+      "reason": "Unauthenticated attempt to mutate database via POST /api/db"
+    }
+  },
+  {
+    "id": "AUD-1792568475809-1bveq",
+    "timestamp": "2026-10-21T07:41:15.809Z",
+    "user": "UNAUTHENTICATED",
+    "role": "NONE",
+    "action": "UNAUTHORIZED_ACTION_BLOCKED",
+    "recordType": "DATABASE",
+    "recordId": "POST_API_DB",
+    "details": {
+      "reason": "Unauthenticated attempt to mutate database via POST /api/db"
+    }
+  },
+  {
+    "id": "AUD-1792568475805-miq2y",
+    "timestamp": "2026-10-21T07:41:15.805Z",
+    "user": "UNAUTHENTICATED",
+    "role": "NONE",
+    "action": "UNAUTHORIZED_ACTION_BLOCKED",
+    "recordType": "DATABASE",
+    "recordId": "POST_API_DB",
+    "details": {
+      "reason": "Unauthenticated attempt to mutate database via POST /api/db"
+    }
+  },
+  {
+    "id": "AUD-1792568475786-f1jxg",
+    "timestamp": "2026-10-21T07:41:15.786Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN_FAILED",
+    "recordType": "AUTH",
+    "recordId": "USR-007",
+    "details": {
+      "reason": "Invalid password"
+    }
+  },
+  {
+    "id": "AUD-1792568474631-pxvwp",
+    "timestamp": "2026-10-21T07:41:14.631Z",
+    "user": "hacker.admin",
+    "role": "UNAUTHENTICATED",
+    "action": "PUBLIC_ADMIN_REGISTRATION_BLOCKED",
+    "recordType": "AUTH",
+    "recordId": "hacker.admin",
+    "details": {
+      "attemptedRole": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792568474622-oy1x0",
+    "timestamp": "2026-10-21T07:41:14.622Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN_FAILED",
+    "recordType": "AUTH",
+    "recordId": "USR-007",
+    "details": {
+      "reason": "Invalid password"
+    }
+  },
+  {
+    "id": "AUD-1792568473419-3p8ci",
+    "timestamp": "2026-10-21T07:41:13.419Z",
+    "user": "admin.qms",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN_BLOCKED_DISABLED_ACCOUNT",
+    "recordType": "AUTH",
+    "recordId": "USR-006",
+    "details": {
+      "reason": "Account is disabled"
+    }
+  },
+  {
+    "id": "AUD-1792568472255-km3rl",
+    "timestamp": "2026-10-21T07:41:12.255Z",
+    "userId": "USR-007",
+    "user": "Johan Kruger",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN_FAILED",
+    "recordType": "AUTH",
+    "recordId": "USR-007",
+    "details": {
+      "reason": "Invalid password"
+    }
+  },
+  {
+    "id": "AUD-1792568471012-j3mmv",
+    "timestamp": "2026-10-21T07:41:11.012Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN_BLOCKED_DEFAULT_CREDENTIAL",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "reason": "Default password or unmigrated account blocked in production"
+    }
+  },
+  {
+    "id": "AUD-1792483140730-ulheq",
+    "timestamp": "2026-10-20T07:59:00.730Z",
+    "user": "attacker.insp",
+    "role": "UNAUTHENTICATED",
+    "action": "PUBLIC_ADMIN_REGISTRATION_BLOCKED",
+    "recordType": "AUTH",
+    "recordId": "attacker.insp",
+    "details": {
+      "attemptedRole": "INSPECTOR"
+    }
+  },
+  {
+    "id": "AUD-1792483140726-t158e",
+    "timestamp": "2026-10-20T07:59:00.726Z",
+    "user": "attacker.admin",
+    "role": "UNAUTHENTICATED",
+    "action": "PUBLIC_ADMIN_REGISTRATION_BLOCKED",
+    "recordType": "AUTH",
+    "recordId": "attacker.admin",
+    "details": {
+      "attemptedRole": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792483140717-hnf76",
+    "timestamp": "2026-10-20T07:59:00.717Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792483140594-wh0h3",
+    "timestamp": "2026-10-20T07:59:00.594Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGOUT",
+    "recordType": "AUTH",
+    "recordId": "USR-008"
+  },
+  {
+    "id": "AUD-1792483140556-yptii",
+    "timestamp": "2026-10-20T07:59:00.556Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN_BLOCKED_DEFAULT_CREDENTIAL",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "reason": "Default password or unmigrated account blocked in production"
+    }
+  },
+  {
+    "id": "AUD-1792483140545-79mqc",
+    "timestamp": "2026-10-20T07:59:00.545Z",
+    "user": "admin.qms",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN_BLOCKED_DISABLED_ACCOUNT",
+    "recordType": "AUTH",
+    "recordId": "USR-006",
+    "details": {
+      "reason": "Account is disabled"
+    }
+  },
+  {
+    "id": "AUD-1792483140535-a9x5v",
+    "timestamp": "2026-10-20T07:59:00.535Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN_FAILED",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "reason": "Invalid password"
+    }
+  },
+  {
+    "id": "AUD-1792483140470-62q33",
+    "timestamp": "2026-10-20T07:59:00.471Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792483140381-stiad",
+    "timestamp": "2026-10-20T07:59:00.381Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN_BLOCKED_DEFAULT_CREDENTIAL",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "reason": "Default password or unmigrated account blocked in production"
+    }
+  },
+  {
+    "id": "AUD-1792481436023-ov22x",
+    "timestamp": "2026-10-20T07:30:36.023Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792481418228-ogdmb",
+    "timestamp": "2026-10-20T07:30:18.228Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "FILE_UPLOAD",
+    "recordType": "ATTACHMENT",
+    "recordId": "ATT-1792481418222-I3L8",
+    "details": {
+      "originalFilename": "test_restart_evidence.jpg",
+      "fileSize": 47,
+      "category": "EVIDENCE_PHOTO",
+      "relatedRecordId": "MR-RESTART-TEST-001"
+    },
+    "newValue": "{\"fileId\":\"ATT-1792481418222-I3L8\",\"originalFilename\":\"test_restart_evidence.jpg\",\"storedFilename\":\"ATT-1792481418222-I3L8_test_restart_evidence.jpg\",\"mimeType\":\"image/jpeg\",\"fileSize\":47,\"uploadDate\":\"2026-10-20T07:30:18.223Z\",\"uploadedBy\":\"Basil De Swardt\",\"uploadedById\":\"USR-008\",\"category\":\"EVIDENCE_PHOTO\",\"relatedRecordId\":\"MR-RESTART-TEST-001\",\"downloadUrl\":\"/api/attachments/ATT-1792481418222-I3L8\"}"
+  },
+  {
+    "id": "AUD-1792481418203-apfdd",
+    "timestamp": "2026-10-20T07:30:18.203Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792481376901-0vyw0",
+    "timestamp": "2026-10-20T07:29:36.901Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792481356072-twtly",
+    "timestamp": "2026-10-20T07:29:16.072Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792396479475-zeb7j",
+    "timestamp": "2026-10-19T07:54:39.475Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792396322991-rc248",
+    "timestamp": "2026-10-19T07:52:02.991Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792396287908-hdtm6",
+    "timestamp": "2026-10-19T07:51:27.908Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792396276588-adefw",
+    "timestamp": "2026-10-19T07:51:16.588Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792396270994-8jrdd",
+    "timestamp": "2026-10-19T07:51:10.994Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1792396066297-k4mq0",
+    "timestamp": "2026-10-19T07:47:46.297Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN_FAILED",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "reason": "Invalid password"
+    }
+  },
+  {
+    "id": "AUD-1792396061215-5hqsv",
+    "timestamp": "2026-10-19T07:47:41.215Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN_FAILED",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "reason": "Invalid password"
+    }
+  },
+  {
+    "id": "AUD-1792388537489-hqfyd",
+    "timestamp": "2026-10-19T05:42:17.489Z",
+    "userId": "USR-002",
+    "user": "Sarah Connor",
+    "role": "INSPECTOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-002",
+    "details": {
+      "username": "sarah.connor",
+      "email": "sarah.connor@spiralsystems.co.za",
+      "role": "INSPECTOR"
+    }
+  },
+  {
+    "id": "AUD-1792136149166-kxn1a",
+    "timestamp": "2026-10-16T07:35:49.166Z",
+    "userId": "USR-002",
+    "user": "Sarah Connor",
+    "role": "INSPECTOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-002",
+    "details": {
+      "username": "sarah.connor",
+      "email": "sarah.connor@spiralsystems.co.za",
+      "role": "INSPECTOR"
+    }
+  },
+  {
+    "id": "AUD-1791965179762-na3zb",
+    "timestamp": "2026-10-14T08:06:19.762Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "AUTO_RECORD_NCR_FROM_INSPECTION_POINT",
+    "recordType": "INSPECTION",
+    "recordId": "DALE-INSP-2026-001",
+    "details": {
+      "recordType": "INSPECTION",
+      "recordId": "DALE-INSP-2026-001"
+    }
+  },
+  {
+    "id": "AUD-1791965136785-603y9",
+    "timestamp": "2026-10-14T08:05:36.785Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-008",
+    "details": {
+      "username": "sheq",
+      "email": "sheq@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1791877413859-dv7st",
+    "timestamp": "2026-10-13T07:43:33.859Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "AUTO_RECORD_NCR_FROM_INSPECTION_POINT",
+    "recordType": "INSPECTION",
+    "recordId": "DALE-INSP-001",
+    "details": {
+      "recordType": "INSPECTION",
+      "recordId": "DALE-INSP-001"
+    }
+  },
+  {
+    "id": "AUD-1791877408441-bwksz",
+    "timestamp": "2026-10-13T07:43:28.441Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "UPDATE_DALE_INSPECTION",
+    "recordType": "INSPECTION",
+    "recordId": "DALE-INSP-001",
+    "details": {
+      "recordType": "INSPECTION",
+      "recordId": "DALE-INSP-001"
+    }
+  },
+  {
+    "id": "AUD-1791877401529-gs081",
+    "timestamp": "2026-10-13T07:43:21.529Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "username": "dave.vance",
+      "email": "dave.vance@spiralsystems.co.za",
+      "role": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1791877240048-utf3w",
+    "timestamp": "2026-10-13T07:40:40.048Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN_FAILED",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "reason": "Invalid password"
+    }
+  },
+  {
+    "id": "AUD-1791876418750-ob4vv",
+    "timestamp": "2026-10-13T07:26:58.750Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "UPDATE_DALE_INSPECTION",
+    "recordType": "INSPECTION",
+    "recordId": "DALE-INSP-2026-001",
+    "details": {
+      "recordType": "INSPECTION",
+      "recordId": "DALE-INSP-2026-001"
+    }
+  },
+  {
+    "id": "AUD-1791876405578-hvf31",
+    "timestamp": "2026-10-13T07:26:45.578Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "username": "dave.vance",
+      "email": "dave.vance@spiralsystems.co.za",
+      "role": "MACHINIST"
+    }
+  },
+  {
+    "id": "AUD-1791876394443-io3o7",
+    "timestamp": "2026-10-13T07:26:34.443Z",
+    "userId": "USR-001",
+    "user": "Dave Vance",
+    "role": "MACHINIST",
+    "action": "USER_LOGIN_FAILED",
+    "recordType": "AUTH",
+    "recordId": "USR-001",
+    "details": {
+      "reason": "Invalid password"
+    }
+  },
+  {
+    "id": "AUD-1790860180686-ycnit",
+    "timestamp": "2026-10-01T13:09:40.686Z",
+    "userId": "USR-999",
+    "user": "Seamless Operator",
+    "role": "INSPECTOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-999",
+    "details": {
+      "username": "seamless.operator",
+      "email": "seamless.operator@spiralsystems.co.za",
+      "role": "INSPECTOR"
+    }
+  },
+  {
+    "id": "AUD-1790860180519-zw48u",
+    "timestamp": "2026-10-01T13:09:40.519Z",
+    "userId": "USR-006",
+    "user": "System Administrator",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-006",
+    "details": {
+      "username": "admin.qms",
+      "email": "qms.admin@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1790842284119-z1jmr",
+    "timestamp": "2026-10-01T08:11:24.119Z",
+    "userId": "USR-002",
+    "user": "Sarah Connor",
+    "role": "INSPECTOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-002",
+    "details": {
+      "username": "sarah.connor",
+      "email": "sarah.connor@spiralsystems.co.za",
+      "role": "INSPECTOR"
+    }
+  },
+  {
+    "id": "AUD-1790842284049-qhnwv",
+    "timestamp": "2026-10-01T08:11:24.049Z",
+    "userId": "USR-006",
+    "user": "System Administrator",
+    "role": "ADMINISTRATOR",
+    "action": "RESET_TO_DEFAULTS",
+    "recordType": "DATABASE",
+    "recordId": "RESET",
+    "details": {
+      "recordType": "DATABASE",
+      "recordId": "RESET"
+    }
+  },
+  {
+    "id": "AUD-1790842284035-pjbva",
+    "timestamp": "2026-10-01T08:11:24.035Z",
+    "userId": "USR-006",
+    "user": "System Administrator",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-006",
+    "details": {
+      "username": "admin.qms",
+      "email": "qms.admin@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1790842083512-vlorx",
+    "timestamp": "2026-10-01T08:08:03.512Z",
+    "userId": "USR-006",
+    "user": "System Administrator",
+    "role": "ADMINISTRATOR",
+    "action": "RESTORE_DATABASE_BACKUP",
+    "recordType": "DATABASE",
+    "recordId": "RESTORE",
+    "details": {
+      "recordType": "DATABASE",
+      "recordId": "RESTORE"
+    }
+  },
+  {
+    "id": "AUD-1790842083497-vwpqn",
+    "timestamp": "2026-10-01T08:08:03.497Z",
+    "userId": "USR-006",
+    "user": "System Administrator",
+    "role": "ADMINISTRATOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-006",
+    "details": {
+      "username": "admin.qms",
+      "email": "qms.admin@spiralsystems.co.za",
+      "role": "ADMINISTRATOR"
+    }
+  },
+  {
+    "id": "AUD-1790842083383-vfuxi",
+    "timestamp": "2026-10-01T08:08:03.383Z",
+    "userId": "USR-002",
+    "user": "Sarah Connor",
+    "role": "INSPECTOR",
+    "action": "CREATE_DRAWING",
+    "recordType": "DRAWING",
+    "recordId": "T0888-010-405-00-01-00",
+    "details": {
+      "recordType": "DRAWING",
+      "recordId": "T0888-010-405-00-01-00"
+    }
+  },
+  {
+    "id": "AUD-1790842083357-gci0h",
+    "timestamp": "2026-10-01T08:08:03.357Z",
+    "userId": "USR-002",
+    "user": "Sarah Connor",
+    "role": "INSPECTOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-002",
+    "details": {
+      "username": "sarah.connor",
+      "email": "sarah.connor@spiralsystems.co.za",
+      "role": "INSPECTOR"
+    }
+  },
+  {
+    "id": "AUD-1790841932084-y9xo4",
+    "timestamp": "2026-10-01T08:05:32.084Z",
+    "user": "sconnor",
+    "role": "UNAUTHENTICATED",
+    "action": "USER_LOGIN_FAILED",
+    "recordType": "AUTH",
+    "recordId": "sconnor",
+    "details": {
+      "reason": "Unknown or inactive user identifier"
+    }
+  },
+  {
+    "id": "AUD-1790603325230-dihmn",
+    "timestamp": "2026-09-28T13:48:45.230Z",
+    "userId": "USR-002",
+    "user": "Sarah Connor",
+    "role": "INSPECTOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-002",
+    "details": {
+      "username": "sarah.connor",
+      "email": "sarah.connor@spiralsystems.co.za",
+      "role": "INSPECTOR"
+    }
+  },
+  {
+    "id": "AUD-1790603325130-b8tha",
+    "timestamp": "2026-09-28T13:48:45.130Z",
+    "userId": "ANONYMOUS",
+    "user": "Anonymous",
+    "role": "NONE",
+    "action": "ROLE_SWITCH_BLOCKED",
+    "recordType": "AUTH",
+    "recordId": "UNKNOWN",
+    "details": {
+      "reason": "Direct role switching is permanently disabled in Production Mode. Credential login required."
+    }
+  },
+  {
+    "id": "AUD-1790603325111-xhqbr",
+    "timestamp": "2026-09-28T13:48:45.111Z",
+    "user": "UNAUTHENTICATED",
+    "role": "NONE",
+    "action": "UNAUTHORIZED_ACTION_BLOCKED",
+    "recordType": "DATABASE",
+    "recordId": "POST_API_DB",
+    "details": {
+      "reason": "Unauthenticated attempt to mutate database via POST /api/db"
+    }
+  },
+  {
+    "id": "AUD-1790602008513-c1ttz",
+    "timestamp": "2026-09-28T13:26:48.513Z",
+    "userId": "USR-002",
+    "user": "Sarah Connor",
+    "role": "INSPECTOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-002",
+    "details": {
+      "username": "sarah.connor",
+      "email": "sarah.connor@spiralsystems.co.za",
+      "role": "INSPECTOR"
+    }
+  },
+  {
+    "id": "AUD-1790602008442-yeaox",
+    "timestamp": "2026-09-28T13:26:48.442Z",
+    "userId": "USR-002",
+    "user": "Sarah Connor",
+    "role": "INSPECTOR",
+    "action": "USER_LOGIN",
+    "recordType": "AUTH",
+    "recordId": "USR-002",
+    "details": {
+      "username": "sarah.connor",
+      "email": "sarah.connor@spiralsystems.co.za",
+      "role": "INSPECTOR"
+    }
+  }
+]

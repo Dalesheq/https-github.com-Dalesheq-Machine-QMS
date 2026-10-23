@@ -1,0 +1,8 @@
+{
+  "name": "MACHINE QMS - Spiral Systems",
+  "description": "Manufacturing Quality \u0026 Component Traceability System for critical components and assembly verification",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
