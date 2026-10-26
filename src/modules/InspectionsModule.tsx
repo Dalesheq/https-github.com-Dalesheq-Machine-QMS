@@ -525,7 +525,16 @@ export const InspectionsModule: React.FC = () => {
           </div>
 
           <div className="bg-white rounded-lg border border-slate-200 shadow-xs divide-y divide-slate-200 max-h-[680px] overflow-y-auto">
-            {filteredInspections.map((insp) => {
+            {filteredInspections.length === 0 ? (
+              <div className="p-8 text-center text-slate-400 text-xs">
+                <ClipboardCheck className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+                <p className="font-bold text-slate-700">Zero Dimensional Inspections</p>
+                <p className="text-[11px] text-slate-500 mt-1">
+                  Clean blank slate active. When manufacturing records are logged, metrological inspection checklists will appear here for dimensional sign-off.
+                </p>
+              </div>
+            ) : (
+              filteredInspections.map((insp) => {
               const isSelected = selectedInspection?.id === insp.id;
               return (
                 <button
@@ -560,7 +569,8 @@ export const InspectionsModule: React.FC = () => {
                   </div>
                 </button>
               );
-            })}
+            })
+          )}
           </div>
         </div>
 
@@ -1040,8 +1050,12 @@ export const InspectionsModule: React.FC = () => {
               </div>
             </>
           ) : (
-            <div className="bg-white p-8 rounded-lg border border-slate-200 text-center text-xs text-slate-500">
-              Select an inspection record from the left register or start a new inspection.
+            <div className="bg-white p-12 rounded-lg border border-slate-200 text-center text-xs text-slate-500 space-y-2">
+              <ClipboardCheck className="w-8 h-8 text-slate-300 mx-auto mb-1" />
+              <p className="font-bold text-slate-700">Dimensional Quality Inspection</p>
+              <p className="text-[11px] text-slate-500 max-w-md mx-auto">
+                Clean blank slate active. Select any component inspection record from the register on the left to evaluate tolerances and record instrument calibrations.
+              </p>
             </div>
           )}
         </div>

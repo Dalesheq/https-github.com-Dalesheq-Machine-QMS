@@ -55,12 +55,13 @@ async function runTraceabilityAndReportsTest() {
 
   // 5.2 Verify machine dossier lists both fitted components
   const dossier = ReportService.generateFinalMachineReleaseRecord(db, TEST_MACHINE_SN);
+  const dossierHtml = dossier.html || '';
   const containsBothInDossier =
     dossier.success &&
-    dossier.html.includes(COMPONENT_1_TAG) &&
-    dossier.html.includes(COMPONENT_2_TAG);
+    dossierHtml.includes(COMPONENT_1_TAG) &&
+    dossierHtml.includes(COMPONENT_2_TAG);
   record('5.2 Machine Dossier Lists Both Fitted Components', containsBothInDossier ? 'PASS' : 'FAIL',
-    `Dossier doc: ${dossier.documentNumber}, contains ${COMPONENT_1_TAG}: ${dossier.html.includes(COMPONENT_1_TAG)}, contains ${COMPONENT_2_TAG}: ${dossier.html.includes(COMPONENT_2_TAG)}`);
+    `Dossier doc: ${dossier.documentNumber}, contains ${COMPONENT_1_TAG}: ${dossierHtml.includes(COMPONENT_1_TAG)}, contains ${COMPONENT_2_TAG}: ${dossierHtml.includes(COMPONENT_2_TAG)}`);
 
   // 5.3 Reverse traceability returns the correct machine and project for each component
   let passReverseTrace = true;
@@ -80,9 +81,10 @@ async function runTraceabilityAndReportsTest() {
   const uninstalledRecord = db.manufacturingRecords.find((r: any) => r.traceabilityNumber === UNINSTALLED_TAG);
   const uninstalledFitments = (db.machineComponentFitments || []).filter((f: any) => f.traceabilityNumber === UNINSTALLED_TAG);
   const uninstalledRep = ReportService.generateComponentTraceabilityReport(db, UNINSTALLED_TAG);
-  const passNotFitted = uninstalledFitments.length === 0 && uninstalledRep.html.includes('NOT FITTED');
+  const uninstalledHtml = uninstalledRep.html || '';
+  const passNotFitted = uninstalledFitments.length === 0 && uninstalledHtml.includes('NOT FITTED');
   record('5.4 Uninstalled Component Displays NOT FITTED', passNotFitted ? 'PASS' : 'FAIL',
-    `Tag ${UNINSTALLED_TAG}: fitment count = ${uninstalledFitments.length}, Report output contains 'NOT FITTED': ${uninstalledRep.html.includes('NOT FITTED')}`);
+    `Tag ${UNINSTALLED_TAG}: fitment count = ${uninstalledFitments.length}, Report output contains 'NOT FITTED': ${uninstalledHtml.includes('NOT FITTED')}`);
 
   // 5.5 Generate and open the seven supported report types
   // Report 1: Department Inspection Sheet
@@ -104,7 +106,7 @@ async function runTraceabilityAndReportsTest() {
     rep1.success && rep2.success && rep3.success && rep4.success &&
     rep5.success && rep6.success && rep7.success;
   record('5.5 All Seven Supported Report Types Generated Successfully', allSevenSuccess ? 'PASS' : 'FAIL',
-    `Rep1: ${rep1.documentNumber} (${rep1.html.length}B), Rep2: ${rep2.documentNumber} (${rep2.html.length}B), Rep3: ${rep3.documentNumber} (${rep3.html.length}B), Rep4: ${rep4.documentNumber} (${rep4.html.length}B), Rep5: ${rep5.documentNumber} (${rep5.html.length}B), Rep6: ${rep6.documentNumber} (${rep6.html.length}B), Rep7: ${rep7.documentNumber} (${rep7.html.length}B)`);
+    `Rep1: ${rep1.documentNumber} (${(rep1.html || '').length}B), Rep2: ${rep2.documentNumber} (${(rep2.html || '').length}B), Rep3: ${rep3.documentNumber} (${(rep3.html || '').length}B), Rep4: ${rep4.documentNumber} (${(rep4.html || '').length}B), Rep5: ${rep5.documentNumber} (${(rep5.html || '').length}B), Rep6: ${rep6.documentNumber} (${(rep6.html || '').length}B), Rep7: ${rep7.documentNumber} (${(rep7.html || '').length}B)`);
 
   // 5.6 Confirm release certificate CANNOT be generated for a component on HOLD
   const holdRecord = db.manufacturingRecords.find((r: any) => r.manufacturingStatus === 'NCR_HOLD') || db.manufacturingRecords[0];
@@ -113,10 +115,11 @@ async function runTraceabilityAndReportsTest() {
   holdRecord.manufacturingStatus = 'NCR_HOLD';
 
   const holdCert = ReportService.generateQualityReleaseCertificate(db, holdRecord.traceabilityNumber);
+  const holdCertHtml = holdCert.html || '';
   const passHoldCertBlocked =
     !holdCert.success &&
     holdCert.error?.includes('BLOCKED') &&
-    holdCert.html.includes('RELEASE CERTIFICATE BLOCKED');
+    holdCertHtml.includes('RELEASE CERTIFICATE BLOCKED');
 
   holdRecord.manufacturingStatus = originalStatus; // restore
 

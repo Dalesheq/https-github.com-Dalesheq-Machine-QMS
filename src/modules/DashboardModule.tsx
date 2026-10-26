@@ -266,7 +266,20 @@ export const DashboardModule: React.FC<DashboardModuleProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-mono text-[11px]">
-                {filteredMachines.map((m) => {
+                {filteredMachines.length === 0 ? (
+                  <tr>
+                    <td colSpan={9} className="py-10 text-center text-slate-500 font-sans">
+                      <div className="max-w-md mx-auto space-y-1.5">
+                        <Cpu className="w-8 h-8 text-slate-300 mx-auto" />
+                        <p className="font-bold text-slate-700">No Machines in Quality Register</p>
+                        <p className="text-xs text-slate-400">
+                          Blank slate active. When new projects and machine serials are created, fleet production status will appear here.
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  filteredMachines.map((m) => {
                   const mfgRecords = db.manufacturingRecords.filter((r) => r.machineSerialNumber === m.serialNumber);
                   const released = mfgRecords.filter((r) => r.manufacturingStatus === 'RELEASED').length;
                   const mNcrs = db.ncrs.filter((n) => n.machineSerialNumber === m.serialNumber && n.status !== 'CLOSED');
@@ -324,8 +337,9 @@ export const DashboardModule: React.FC<DashboardModuleProps> = ({
                       </td>
                     </tr>
                   );
-                })}
-              </tbody>
+                })
+              )}
+            </tbody>
             </table>
           </div>
         </div>

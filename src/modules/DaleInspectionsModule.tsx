@@ -533,19 +533,25 @@ export const DaleInspectionsModule: React.FC<DaleInspectionsModuleProps> = ({
 
   // Auto-populate Pool of Inspection Sheets for Selected Project / Machine
   const handleAutoPopulatePool = async () => {
-    const prj = selectedProject !== 'ALL' ? selectedProject : (availableProjects[0] || 'T0559');
+    if (!db.machines || db.machines.length === 0) {
+      alert('The database is currently clean (blank slate). Please load or create a machine and Bill of Materials (BOM) in the Machines module first before populating inspection sheets.');
+      return;
+    }
+
+    const prj = selectedProject !== 'ALL' ? selectedProject : (availableProjects[0] || db.machines[0]?.projectNumber || 'PRJ-001');
     const machObj =
       (selectedMachineSerial !== 'ALL' ? db.machines.find((m) => m.serialNumber === selectedMachineSerial) : null) ||
       (db.machines || []).find((m) => m.projectNumber === prj) ||
-      db.machines[0] || {
-        serialNumber: 'T0559-SN-001',
-        projectName: 'BULK HOPPER — VIBRATORY INFEED SUB-ASSY',
-        machineType: 'VIBRATORY INFEED',
-      };
+      db.machines[0];
+
+    if (!machObj) {
+      alert('Please select or create a valid machine serial first.');
+      return;
+    }
 
     const targetSerial =
       selectedMachineSerial !== 'ALL' ? selectedMachineSerial : machObj.serialNumber;
-    const targetMachName = `${machObj.projectName} (${targetSerial})`;
+    const targetMachName = `${machObj.projectName || machObj.machineType} (${targetSerial})`;
     const mParts = getManufacturedPartsForMachine(prj, targetSerial);
 
     const poolTemplates = generateProjectMachineInspectionPool({

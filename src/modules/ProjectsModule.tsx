@@ -752,8 +752,17 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({ onViewMachineCom
       </div>
 
       {/* Projects Grid with Complete Cross-References (Machines, Drawings, Parts, Mfg Records) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {filteredProjects.map((project) => {
+      {filteredProjects.length === 0 ? (
+        <div className="bg-white p-12 rounded-xl border border-slate-200 text-center space-y-3">
+          <FolderKanban className="w-12 h-12 text-slate-300 mx-auto" />
+          <h3 className="font-bold text-base text-slate-800">No Projects in Register</h3>
+          <p className="text-xs text-slate-500 max-w-lg mx-auto">
+            The project register is clean (blank slate). Click "+ Register Project" or "Import Projects (Excel / CSV)" above to register your first customer project and link machines.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {filteredProjects.map((project) => {
           const xref =
             crossRefsByProjectId.get(project.id) || getProjectCrossReferences(db, project);
           const currentDrawings = xref.drawings.filter((d) => d.isCurrent);
@@ -1005,7 +1014,8 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({ onViewMachineCom
             </div>
           );
         })}
-      </div>
+        </div>
+      )}
 
       {/* Create / Edit Project Modal with Machine, Drawing, and Part Allocation */}
       <Modal

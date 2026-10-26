@@ -25,6 +25,7 @@ import {
   ExternalLink,
   Layers,
   Trash2,
+  Wrench,
 } from 'lucide-react';
 
 interface ParsedComponentRow {
@@ -670,7 +671,20 @@ export const ComponentsModule: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200">
-              {filteredComponents.map((comp) => {
+              {filteredComponents.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="py-12 text-center text-slate-500 font-sans">
+                    <div className="max-w-md mx-auto space-y-2">
+                      <Wrench className="w-8 h-8 text-slate-300 mx-auto" />
+                      <p className="font-bold text-slate-700">No Components in Master Register</p>
+                      <p className="text-xs text-slate-500">
+                        The component master register is clean (blank slate). Click "+ New Component" or "Import Components (Excel / CSV)" to load your parts list and BOM items.
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                filteredComponents.map((comp) => {
                 const xref =
                   crossRefsByCompId.get(comp.id) || getComponentCrossReferences(db, comp);
                 const primaryDwg =
@@ -844,7 +858,8 @@ export const ComponentsModule: React.FC = () => {
                     </td>
                   </tr>
                 );
-              })}
+              })
+            )}
             </tbody>
           </table>
         </div>

@@ -18,6 +18,7 @@ import {
   ArrowRight,
   Filter,
   Camera,
+  ShieldCheck,
 } from 'lucide-react';
 
 export const NCRsModule: React.FC = () => {
@@ -334,8 +335,14 @@ export const NCRsModule: React.FC = () => {
             <tbody className="divide-y divide-slate-100 text-slate-700">
               {filteredNCRs.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="p-6 text-center text-slate-400">
-                    No Non-Conformance Reports match your search criteria.
+                  <td colSpan={9} className="py-12 text-center text-slate-500 font-sans">
+                    <div className="max-w-md mx-auto space-y-2">
+                      <ShieldCheck className="w-8 h-8 text-emerald-500 mx-auto" />
+                      <p className="font-bold text-slate-700">Zero Non-Conformance Reports (NCRs)</p>
+                      <p className="text-xs text-slate-500">
+                        The quality register is clean (blank slate). Any non-conformances identified during shop-floor machining, assembly or inspection will be recorded here.
+                      </p>
+                    </div>
                   </td>
                 </tr>
               ) : (

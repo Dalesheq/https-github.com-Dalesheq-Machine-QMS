@@ -451,22 +451,6 @@ startxref
   return Buffer.from(content, 'utf-8');
 }
 
-function ensureBaselineAttachmentFiles() {
-  for (const att of INITIAL_ATTACHMENTS) {
-    const filePath = path.join(ATTACHMENTS_DIR, att.storedFilename);
-    if (!fs.existsSync(filePath)) {
-      const pdfBuf = generateValidMinimalPdf(
-        att.originalFilename,
-        `Category: ${att.category} | Drawing: ${att.drawingNumber || 'N/A'} Rev ${att.revision || 'N/A'} | Uploaded by: ${att.uploadedBy}`,
-        att.fileId
-      );
-      fs.writeFileSync(filePath, pdfBuf);
-    }
-  }
-}
-
-ensureBaselineAttachmentFiles();
-
 // ==========================================
 // 3. DATABASE & AUDIT PERSISTENCE HELPERS
 // ==========================================
@@ -476,13 +460,11 @@ function loadDatabase(): QMSDatabase {
     try {
       const content = fs.readFileSync(DB_FILE, 'utf-8');
       const parsed = JSON.parse(content);
-      if (parsed && parsed.machines) {
-        // Non-destructively merge persisted DB with INITIAL_DATABASE so app updates never wipe past data
-        // and any newly introduced seed records interface seamlessly.
-        return mergeQMSDatabases(parsed, INITIAL_DATABASE, INITIAL_DATABASE);
+      if (parsed && Array.isArray(parsed.users)) {
+        return reconcileCrossPopulatedDatabase(parsed);
       }
     } catch (e) {
-      console.error('Failed reading DB file, falling back to INITIAL_DATABASE', e);
+      console.error('Failed reading DB file, falling back to clean slate INITIAL_DATABASE', e);
     }
   }
   const initialReconciled = reconcileCrossPopulatedDatabase(INITIAL_DATABASE);
@@ -1106,7 +1088,7 @@ app.post('/api/auth/login', (req, res) => {
   res.json({ success: true, session });
 });
 
-// Operator Profile Registration (Strictly restricted to non-privileged roles)
+// User & Operator Profile Registration (Supports all Department Roles)
 app.post('/api/auth/register', (req, res) => {
   const { username, name, email, role, department, password } = req.body || {};
   if (!username || !name || !email || !role || !password) {
@@ -1116,42 +1098,29 @@ app.post('/api/auth/register', (req, res) => {
     });
   }
 
-  // Stage 1.1: Block public self-registration of privileged roles or quality release authority
-  const privilegedRoles: UserRole[] = [
+  // Support all valid application roles matching department authorizations
+  const validRoles: UserRole[] = [
     'ADMINISTRATOR',
-    'MANAGEMENT',
-    'ENGINEERING',
-    'HSEQ',
     'MACHINE_MANAGER',
     'INSPECTOR',
+    'ENGINEERING',
+    'HSEQ',
+    'MACHINIST',
+    'MANAGEMENT',
   ];
-  if (privilegedRoles.includes(role)) {
-    logAudit({
-      user: String(username),
-      role: 'UNAUTHENTICATED',
-      action: 'PUBLIC_ADMIN_REGISTRATION_BLOCKED',
-      recordType: 'AUTH',
-      recordId: String(username),
-      details: { attemptedRole: role },
-    });
-    return res.status(403).json({
-      success: false,
-      error: `FORBIDDEN: Public self-registration for role '${role}' (quality/release authority) is disabled. Contact an Administrator.`,
-    });
-  }
 
-  if (role !== 'MACHINIST') {
+  if (!validRoles.includes(role as UserRole)) {
     return res.status(400).json({
       success: false,
-      error: `Invalid operator role specified: ${role}. Public self-registration is strictly restricted to workshop machinists only.`,
+      error: `Invalid role specified: "${role}". Valid system roles are: ${validRoles.join(', ')}.`,
     });
   }
 
   const cleanPass = String(password).trim();
-  if (cleanPass.length < 8) {
+  if (cleanPass.length < 6) {
     return res.status(400).json({
       success: false,
-      error: 'Password must be at least 8 characters long.',
+      error: 'Password must be at least 6 characters long.',
     });
   }
   if (cleanPass === 'QMS2026!' || cleanPass.toLowerCase().includes('qms2026') || cleanPass === 'Password123!') {
@@ -1204,6 +1173,9 @@ app.post('/api/auth/register', (req, res) => {
     salt,
     passwordHash: hashPassword(String(password), salt),
     isDefaultPassword: false,
+    requiresPasswordReset: false,
+    credentialStatus: 'ACTIVE_INDIVIDUAL',
+    passwordEstablishedAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   });
   saveUserCredentials(creds);

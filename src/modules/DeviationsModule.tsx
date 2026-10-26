@@ -16,6 +16,7 @@ import {
   FileCheck,
   Trash2,
   AlertTriangle,
+  GitBranch,
 } from 'lucide-react';
 
 export const DeviationsModule: React.FC = () => {
@@ -311,7 +312,16 @@ export const DeviationsModule: React.FC = () => {
           </div>
 
           <div className="bg-white rounded-lg border border-slate-200 shadow-xs divide-y divide-slate-200 max-h-[620px] overflow-y-auto">
-            {filteredDeviations.map((dev) => {
+            {filteredDeviations.length === 0 ? (
+              <div className="p-8 text-center text-slate-400 text-xs">
+                <GitBranch className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+                <p className="font-bold text-slate-700">Zero Engineering Deviations</p>
+                <p className="text-[11px] text-slate-500 mt-1">
+                  Clean blank slate active. Any concession requests or redline drawing revisions will appear here.
+                </p>
+              </div>
+            ) : (
+              filteredDeviations.map((dev) => {
               const isSelected = selectedDev?.id === dev.id;
               return (
                 <button
@@ -347,7 +357,8 @@ export const DeviationsModule: React.FC = () => {
                   </p>
                 </button>
               );
-            })}
+            })
+          )}
           </div>
         </div>
 
@@ -561,8 +572,12 @@ export const DeviationsModule: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="bg-white p-8 rounded-lg border border-slate-200 text-center text-xs text-slate-500">
-              Select a deviation record from the register.
+            <div className="bg-white p-12 rounded-lg border border-slate-200 text-center text-xs text-slate-500 space-y-2">
+              <GitBranch className="w-8 h-8 text-slate-300 mx-auto mb-1" />
+              <p className="font-bold text-slate-700">Engineering Deviation &amp; Concession System</p>
+              <p className="text-[11px] text-slate-500 max-w-md mx-auto">
+                Clean blank slate active. When deviations or concessions are raised, select any record from the left to view engineering redlines and authorization sign-offs.
+              </p>
             </div>
           )}
         </div>

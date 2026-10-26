@@ -1,6 +1,36 @@
 [
   {
-    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAwOCIsInVzZXJuYW1lIjoic2hlcSIsIm5hbWUiOiJCYXNpbCBEZSBTd2FyZHQiLCJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImRlcGFydG1lbnQiOiJRTVMgU3lzdGVtcyAmIEdvdmVybmFuY2UiLCJlbWFpbCI6InNoZXFAc3BpcmFsc3lzdGVtcy5jby56YSIsImFjdGl2ZSI6dHJ1ZX0sImV4cCI6IjIwMjYtMTAtMjFUMTU6NDE6NTMuMzg0WiIsImlhdCI6MTc5MjU2ODUxMzM4NCwibm9uY2UiOiJjZjdhYzBhYzE1ZmFkOWViYmIwZjRkODU5NjMyOWQwYSJ9.d-WqneiMVkGEaZNf3Q7PRB2byYkqSSwA6cSXvfCzZkk",
+    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAxNiIsInVzZXJuYW1lIjoidGVzdC5pbnNwZWN0b3IucWEiLCJuYW1lIjoiVGVzdCBJbnNwZWN0b3IgUUEiLCJyb2xlIjoiSU5TUEVDVE9SIiwiZGVwYXJ0bWVudCI6IlF1YWxpdHkgTWV0cm9sb2d5ICYgSW5zcGVjdGlvbiIsImVtYWlsIjoidGVzdC5pbnNwQHNwaXJhbHN5c3RlbXMuY28uemEiLCJhY3RpdmUiOnRydWV9LCJleHAiOiIyMDI2LTEwLTIzVDE5OjM3OjM1LjIyOVoiLCJpYXQiOjE3OTI3NTU0NTUyMjksIm5vbmNlIjoiYzg4NjdiM2MzNzRkNzJlM2VkY2M0ZTRjMWM2MmE5MTUifQ.FV5OKcAGmB7CeA4yjvZVW7HBZMJAC5hTY1bl0yoEHYI",
+    "user": {
+      "id": "USR-016",
+      "username": "test.inspector.qa",
+      "name": "Test Inspector QA",
+      "role": "INSPECTOR",
+      "department": "Quality Metrology & Inspection",
+      "email": "test.insp@spiralsystems.co.za",
+      "active": true
+    },
+    "expiresAt": "2026-10-23T19:37:35.229Z",
+    "productionMode": true,
+    "authMode": "PRODUCTION"
+  },
+  {
+    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAxNiIsInVzZXJuYW1lIjoidGVzdC5pbnNwZWN0b3IucWEiLCJuYW1lIjoiVGVzdCBJbnNwZWN0b3IgUUEiLCJyb2xlIjoiSU5TUEVDVE9SIiwiZGVwYXJ0bWVudCI6IlF1YWxpdHkgTWV0cm9sb2d5ICYgSW5zcGVjdGlvbiIsImVtYWlsIjoidGVzdC5pbnNwQHNwaXJhbHN5c3RlbXMuY28uemEiLCJhY3RpdmUiOnRydWV9LCJleHAiOiIyMDI2LTEwLTIzVDE5OjM3OjQyLjk3OVoiLCJpYXQiOjE3OTI3NTU0NjI5NzksIm5vbmNlIjoiOTU2OWQ1NjNiYjcyMDNlODc2N2ZlYWNlZDM2YTA5ZTUifQ.uixeITcoH2sNUmQb8KK1QrAnGsA7nzR8nBkpywxOhgk",
+    "user": {
+      "id": "USR-016",
+      "username": "test.inspector.qa",
+      "name": "Test Inspector QA",
+      "role": "INSPECTOR",
+      "department": "Quality Metrology & Inspection",
+      "email": "test.insp@spiralsystems.co.za",
+      "active": true
+    },
+    "expiresAt": "2026-10-23T19:37:42.979Z",
+    "productionMode": true,
+    "authMode": "PRODUCTION"
+  },
+  {
+    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAwOCIsInVzZXJuYW1lIjoic2hlcSIsIm5hbWUiOiJCYXNpbCBEZSBTd2FyZHQiLCJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImRlcGFydG1lbnQiOiJRTVMgU3lzdGVtcyAmIEdvdmVybmFuY2UiLCJlbWFpbCI6InNoZXFAc3BpcmFsc3lzdGVtcy5jby56YSIsImFjdGl2ZSI6dHJ1ZX0sImV4cCI6IjIwMjYtMTAtMjNUMTk6NDE6NTAuNzA3WiIsImlhdCI6MTc5Mjc1NTcxMDcwNywibm9uY2UiOiI4MDZiZDViNzRiMjUzMjZhOTI0YzhiZDAzZGQyYTM3YyJ9.OfSn-o5CDaA_-EJFcgrypzqiXuW-b32jBv2fDL3F63M",
     "user": {
       "id": "USR-008",
       "username": "sheq",
@@ -10,157 +40,7 @@
       "email": "sheq@spiralsystems.co.za",
       "active": true
     },
-    "expiresAt": "2026-10-21T15:41:53.384Z",
-    "productionMode": true,
-    "authMode": "PRODUCTION"
-  },
-  {
-    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAwOCIsInVzZXJuYW1lIjoic2hlcSIsIm5hbWUiOiJCYXNpbCBEZSBTd2FyZHQiLCJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImRlcGFydG1lbnQiOiJRTVMgU3lzdGVtcyAmIEdvdmVybmFuY2UiLCJlbWFpbCI6InNoZXFAc3BpcmFsc3lzdGVtcy5jby56YSIsImFjdGl2ZSI6dHJ1ZX0sImV4cCI6IjIwMjYtMTAtMjFUMTU6NDM6MzEuMjU2WiIsImlhdCI6MTc5MjU2ODYxMTI1Niwibm9uY2UiOiIxYTc5M2FkMjAxODE2ZWIxZmYwMTI2ZDkxMGNjM2U1MyJ9.xTUoBlteftXhN-E8-suexD-0XKCA3s601QU-zEA59nI",
-    "user": {
-      "id": "USR-008",
-      "username": "sheq",
-      "name": "Basil De Swardt",
-      "role": "ADMINISTRATOR",
-      "department": "QMS Systems & Governance",
-      "email": "sheq@spiralsystems.co.za",
-      "active": true
-    },
-    "expiresAt": "2026-10-21T15:43:31.256Z",
-    "productionMode": true,
-    "authMode": "PRODUCTION"
-  },
-  {
-    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAwOCIsInVzZXJuYW1lIjoic2hlcSIsIm5hbWUiOiJCYXNpbCBEZSBTd2FyZHQiLCJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImRlcGFydG1lbnQiOiJRTVMgU3lzdGVtcyAmIEdvdmVybmFuY2UiLCJlbWFpbCI6InNoZXFAc3BpcmFsc3lzdGVtcy5jby56YSIsImFjdGl2ZSI6dHJ1ZX0sImV4cCI6IjIwMjYtMTAtMjFUMTU6NDU6MDcuNzk2WiIsImlhdCI6MTc5MjU2ODcwNzc5Niwibm9uY2UiOiI0ZmU0ZDYwZmIwYmJjZTUzOGYxZjFlMzNmODE1NWQ3YSJ9.9Ar7UIyh6b20iQ_VM1LCQGHYYQMHF9u3JfXK4x8_GW0",
-    "user": {
-      "id": "USR-008",
-      "username": "sheq",
-      "name": "Basil De Swardt",
-      "role": "ADMINISTRATOR",
-      "department": "QMS Systems & Governance",
-      "email": "sheq@spiralsystems.co.za",
-      "active": true
-    },
-    "expiresAt": "2026-10-21T15:45:07.796Z",
-    "productionMode": true,
-    "authMode": "PRODUCTION"
-  },
-  {
-    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAwNyIsInVzZXJuYW1lIjoiam9oYW4ua3J1Z2VyIiwibmFtZSI6IkpvaGFuIEtydWdlciIsInJvbGUiOiJNQUNISU5JU1QiLCJkZXBhcnRtZW50IjoiSGVhdnkgTWlsbGluZyAmIEJvcmluZyIsImVtYWlsIjoiam9oYW4ua3J1Z2VyQHNwaXJhbHN5c3RlbXMuY28uemEiLCJhY3RpdmUiOnRydWV9LCJleHAiOiIyMDI2LTEwLTIxVDE1OjQ1OjExLjM1OVoiLCJpYXQiOjE3OTI1Njg3MTEzNTksIm5vbmNlIjoiNmQxZjExYWI3ODVhNzU1YTY1N2M0NTc5MGU2NjczYWUifQ.752lXWHMzSlOE6cXszIUdMZe6cIN95mD_wlhHkEcqNc",
-    "user": {
-      "id": "USR-007",
-      "username": "johan.kruger",
-      "name": "Johan Kruger",
-      "role": "MACHINIST",
-      "department": "Heavy Milling & Boring",
-      "email": "johan.kruger@spiralsystems.co.za",
-      "active": true
-    },
-    "expiresAt": "2026-10-21T15:45:11.359Z",
-    "productionMode": true,
-    "authMode": "PRODUCTION"
-  },
-  {
-    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAwNyIsInVzZXJuYW1lIjoiam9oYW4ua3J1Z2VyIiwibmFtZSI6IkpvaGFuIEtydWdlciIsInJvbGUiOiJNQUNISU5JU1QiLCJkZXBhcnRtZW50IjoiSGVhdnkgTWlsbGluZyAmIEJvcmluZyIsImVtYWlsIjoiam9oYW4ua3J1Z2VyQHNwaXJhbHN5c3RlbXMuY28uemEiLCJhY3RpdmUiOnRydWV9LCJleHAiOiIyMDI2LTEwLTIxVDE1OjQ1OjE2LjAzM1oiLCJpYXQiOjE3OTI1Njg3MTYwMzMsIm5vbmNlIjoiZTJiNmM4ODhhMzEwOTQ3NGRkZmZmMDJkNTJhOTY2ZDUifQ.68aujiT5uBUoRhr3xCzjAFBGnCKjIaWy3YtEhLyl7gA",
-    "user": {
-      "id": "USR-007",
-      "username": "johan.kruger",
-      "name": "Johan Kruger",
-      "role": "MACHINIST",
-      "department": "Heavy Milling & Boring",
-      "email": "johan.kruger@spiralsystems.co.za",
-      "active": true
-    },
-    "expiresAt": "2026-10-21T15:45:16.033Z",
-    "productionMode": true,
-    "authMode": "PRODUCTION"
-  },
-  {
-    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAwMSIsInVzZXJuYW1lIjoiZGF2ZS52YW5jZSIsIm5hbWUiOiJEYXZlIFZhbmNlIiwicm9sZSI6Ik1BQ0hJTklTVCIsImRlcGFydG1lbnQiOiJDTkMgTWFjaGluaW5nICYgVHVybmluZyIsImVtYWlsIjoiZGF2ZS52YW5jZUBzcGlyYWxzeXN0ZW1zLmNvLnphIiwiYWN0aXZlIjp0cnVlfSwiZXhwIjoiMjAyNi0xMC0yMVQxNTo0NToyMC42MDdaIiwiaWF0IjoxNzkyNTY4NzIwNjA3LCJub25jZSI6IjkxMmI1MDBmMGRjNDc0MDI1ZTIxOGY5OTA1ZTFkOTYxIn0.xv335wtVsakAlr086rVL4VQeHy9Z8i-COiMtxPWlviI",
-    "user": {
-      "id": "USR-001",
-      "username": "dave.vance",
-      "name": "Dave Vance",
-      "role": "MACHINIST",
-      "department": "CNC Machining & Turning",
-      "email": "dave.vance@spiralsystems.co.za",
-      "active": true
-    },
-    "expiresAt": "2026-10-21T15:45:20.607Z",
-    "productionMode": true,
-    "authMode": "PRODUCTION"
-  },
-  {
-    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAwOCIsInVzZXJuYW1lIjoic2hlcSIsIm5hbWUiOiJCYXNpbCBEZSBTd2FyZHQiLCJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImRlcGFydG1lbnQiOiJRTVMgU3lzdGVtcyAmIEdvdmVybmFuY2UiLCJlbWFpbCI6InNoZXFAc3BpcmFsc3lzdGVtcy5jby56YSIsImFjdGl2ZSI6dHJ1ZX0sImV4cCI6IjIwMjYtMTAtMjFUMTU6NDY6MTUuNzQ4WiIsImlhdCI6MTc5MjU2ODc3NTc0OCwibm9uY2UiOiI5MDBhMGM3ZmRkMDczNTNmZmVlOWQyYWE5NjU5N2EyNiJ9.OYB_IISpq3kL1ITb6L_d7ZODQeSzaQh-inGATeXRoRU",
-    "user": {
-      "id": "USR-008",
-      "username": "sheq",
-      "name": "Basil De Swardt",
-      "role": "ADMINISTRATOR",
-      "department": "QMS Systems & Governance",
-      "email": "sheq@spiralsystems.co.za",
-      "active": true
-    },
-    "expiresAt": "2026-10-21T15:46:15.748Z",
-    "productionMode": true,
-    "authMode": "PRODUCTION"
-  },
-  {
-    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAwOCIsInVzZXJuYW1lIjoic2hlcSIsIm5hbWUiOiJCYXNpbCBEZSBTd2FyZHQiLCJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImRlcGFydG1lbnQiOiJRTVMgU3lzdGVtcyAmIEdvdmVybmFuY2UiLCJlbWFpbCI6InNoZXFAc3BpcmFsc3lzdGVtcy5jby56YSIsImFjdGl2ZSI6dHJ1ZX0sImV4cCI6IjIwMjYtMTAtMjFUMTU6NDY6NTAuOTIzWiIsImlhdCI6MTc5MjU2ODgxMDkyMywibm9uY2UiOiJmN2NiMmJjZjFmZDAzODYzNjBiNmYxOTMzMDI5MjNjMCJ9.gB4LJeIM-a9bNqX4e4hxxYmr1VOqen8l3IqlRA_S-RU",
-    "user": {
-      "id": "USR-008",
-      "username": "sheq",
-      "name": "Basil De Swardt",
-      "role": "ADMINISTRATOR",
-      "department": "QMS Systems & Governance",
-      "email": "sheq@spiralsystems.co.za",
-      "active": true
-    },
-    "expiresAt": "2026-10-21T15:46:50.923Z",
-    "productionMode": true,
-    "authMode": "PRODUCTION"
-  },
-  {
-    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAwOCIsInVzZXJuYW1lIjoic2hlcSIsIm5hbWUiOiJCYXNpbCBEZSBTd2FyZHQiLCJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImRlcGFydG1lbnQiOiJRTVMgU3lzdGVtcyAmIEdvdmVybmFuY2UiLCJlbWFpbCI6InNoZXFAc3BpcmFsc3lzdGVtcy5jby56YSIsImFjdGl2ZSI6dHJ1ZX0sImV4cCI6IjIwMjYtMTAtMjFUMTU6NDc6NDMuNTExWiIsImlhdCI6MTc5MjU2ODg2MzUxMSwibm9uY2UiOiI5Zjc2NjM0NjFlZjFiZTFiNWUxNjQ1MWYyMmI4OTNhNyJ9.dsPnib-JDMoTYj10KspTGqazWLXQw5SekGoOR11AsrU",
-    "user": {
-      "id": "USR-008",
-      "username": "sheq",
-      "name": "Basil De Swardt",
-      "role": "ADMINISTRATOR",
-      "department": "QMS Systems & Governance",
-      "email": "sheq@spiralsystems.co.za",
-      "active": true
-    },
-    "expiresAt": "2026-10-21T15:47:43.511Z",
-    "productionMode": true,
-    "authMode": "PRODUCTION"
-  },
-  {
-    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAwOCIsInVzZXJuYW1lIjoic2hlcSIsIm5hbWUiOiJCYXNpbCBEZSBTd2FyZHQiLCJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImRlcGFydG1lbnQiOiJRTVMgU3lzdGVtcyAmIEdvdmVybmFuY2UiLCJlbWFpbCI6InNoZXFAc3BpcmFsc3lzdGVtcy5jby56YSIsImFjdGl2ZSI6dHJ1ZX0sImV4cCI6IjIwMjYtMTAtMjFUMTU6NDc6NTEuNzUyWiIsImlhdCI6MTc5MjU2ODg3MTc1Mywibm9uY2UiOiJmMzkzMWM4Y2JhOTkwOWEwMjAzNmZkNDdiMzRkZmJiNCJ9.Ys-1Q9EpEHiTkSwy7hR9sBysBxq0oMAFZ3PFONeUZSA",
-    "user": {
-      "id": "USR-008",
-      "username": "sheq",
-      "name": "Basil De Swardt",
-      "role": "ADMINISTRATOR",
-      "department": "QMS Systems & Governance",
-      "email": "sheq@spiralsystems.co.za",
-      "active": true
-    },
-    "expiresAt": "2026-10-21T15:47:51.752Z",
-    "productionMode": true,
-    "authMode": "PRODUCTION"
-  },
-  {
-    "token": "QMS1.eyJ1Ijp7ImlkIjoiVVNSLTAwOCIsInVzZXJuYW1lIjoic2hlcSIsIm5hbWUiOiJCYXNpbCBEZSBTd2FyZHQiLCJyb2xlIjoiQURNSU5JU1RSQVRPUiIsImRlcGFydG1lbnQiOiJRTVMgU3lzdGVtcyAmIEdvdmVybmFuY2UiLCJlbWFpbCI6InNoZXFAc3BpcmFsc3lzdGVtcy5jby56YSIsImFjdGl2ZSI6dHJ1ZX0sImV4cCI6IjIwMjYtMTAtMjFUMTU6NDg6MTYuMTU3WiIsImlhdCI6MTc5MjU2ODg5NjE1Nywibm9uY2UiOiJlOWQyNWYyMTI5Y2NlMGRmYzU2YjI4NjVlZGMxMDA1YSJ9.KU2BW8k8KdVjWEkyiiyNIyDVpO65JKwmEraD17W9zA4",
-    "user": {
-      "id": "USR-008",
-      "username": "sheq",
-      "name": "Basil De Swardt",
-      "role": "ADMINISTRATOR",
-      "department": "QMS Systems & Governance",
-      "email": "sheq@spiralsystems.co.za",
-      "active": true
-    },
-    "expiresAt": "2026-10-21T15:48:16.157Z",
+    "expiresAt": "2026-10-23T19:41:50.707Z",
     "productionMode": true,
     "authMode": "PRODUCTION"
   }

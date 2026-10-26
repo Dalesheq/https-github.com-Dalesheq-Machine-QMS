@@ -214,11 +214,15 @@ export const TraceabilitySearchModule: React.FC<TraceabilitySearchModuleProps> =
               onChange={(e) => setSelectedMachineSerial(e.target.value)}
               className="w-full px-3 py-2 border border-slate-300 rounded font-mono text-xs font-bold bg-slate-50"
             >
-              {db.machines.map((m) => (
-                <option key={m.id} value={m.serialNumber}>
-                  {m.serialNumber} — {m.projectName} ({m.projectNumber})
-                </option>
-              ))}
+              {db.machines.length === 0 ? (
+                <option value="">-- No Machines in Database (Blank Slate) --</option>
+              ) : (
+                db.machines.map((m) => (
+                  <option key={m.id} value={m.serialNumber}>
+                    {m.serialNumber} — {m.projectName} ({m.projectNumber})
+                  </option>
+                ))
+              )}
             </select>
           </div>
         ) : (
@@ -231,11 +235,15 @@ export const TraceabilitySearchModule: React.FC<TraceabilitySearchModuleProps> =
               onChange={(e) => setSelectedPartNumber(e.target.value)}
               className="w-full px-3 py-2 border border-slate-300 rounded font-mono text-xs font-bold bg-slate-50"
             >
-              {db.components.map((c) => (
-                <option key={c.id} value={c.partNumber}>
-                  {c.partNumber} — {c.description}
-                </option>
-              ))}
+              {db.components.length === 0 ? (
+                <option value="">-- No Components in Database (Blank Slate) --</option>
+              ) : (
+                db.components.map((c) => (
+                  <option key={c.id} value={c.partNumber}>
+                    {c.partNumber} — {c.description}
+                  </option>
+                ))
+              )}
             </select>
           </div>
         )}

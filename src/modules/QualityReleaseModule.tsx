@@ -858,7 +858,15 @@ export const QualityReleaseModule: React.FC = () => {
                 </div>
               )}
             </>
-          ) : null}
+          ) : (
+            <div className="bg-white rounded-xl border border-slate-200 p-12 text-center space-y-3">
+              <ShieldCheck className="w-12 h-12 text-slate-300 mx-auto" />
+              <h3 className="font-bold text-base text-slate-800">18-Point Quality Release Barrier</h3>
+              <p className="text-xs text-slate-500 max-w-md mx-auto">
+                Clean blank slate active. Once components are created or imported, select any component from the list on the left to evaluate all 18 quality gates before authorizing workshop release.
+              </p>
+            </div>
+          )}
         </div>
       </div>
 

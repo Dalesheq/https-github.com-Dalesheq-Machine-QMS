@@ -242,7 +242,7 @@ export const ReportsModule: React.FC = () => {
                 reportViewTab === 'DALE_REPORTS' ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-800'
               }`}
             >
-              {db.daleInspections?.length || 7}
+              {db.daleInspections?.length ?? 0}
             </span>
           </button>
 
@@ -444,8 +444,14 @@ export const ReportsModule: React.FC = () => {
                 <tbody className="divide-y divide-slate-100 font-mono text-[11px]">
                   {filteredDaleSheets.length === 0 ? (
                     <tr>
-                      <td colSpan={10} className="py-8 text-center text-slate-400 font-sans">
-                        No inspection reports match the selected filters.
+                      <td colSpan={10} className="py-12 text-center text-slate-500 font-sans">
+                        <div className="max-w-md mx-auto space-y-2">
+                          <ClipboardCheck className="w-8 h-8 text-slate-300 mx-auto" />
+                          <p className="font-bold text-slate-700">No Inspection Reports in System</p>
+                          <p className="text-xs text-slate-500">
+                            Clean blank slate active. When new projects and machine BOMs are loaded, inspection sheets and quality sign-offs will appear here.
+                          </p>
+                        </div>
                       </td>
                     </tr>
                   ) : (
@@ -533,8 +539,18 @@ export const ReportsModule: React.FC = () => {
       {/* VIEW 2: MACHINE QUALITY DOSSIER (ORIGINAL MACHINE AGGREGATOR) */}
       {reportViewTab === 'MACHINE_DOSSIER' && (
         <div className="space-y-4">
-          {/* Machine Selector Bar */}
-          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+          {db.machines.length === 0 ? (
+            <div className="bg-white p-12 rounded-xl border border-slate-200 text-center space-y-3">
+              <Cpu className="w-12 h-12 text-slate-300 mx-auto" />
+              <h3 className="font-bold text-base text-slate-800">No Machine Builds in System</h3>
+              <p className="text-xs text-slate-500 max-w-lg mx-auto">
+                Clean blank slate active. Once real projects are loaded and machine serials are created with Bill of Materials (BOM), official Machine Quality Dossiers and Component Traceability Packs will generate automatically here.
+              </p>
+            </div>
+          ) : (
+            <>
+              {/* Machine Selector Bar */}
+              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <Cpu className="w-5 h-5 text-blue-600" />
               <span className="font-bold text-slate-800 text-sm">Select Machine Build for Dossier Generation:</span>
@@ -737,12 +753,13 @@ export const ReportsModule: React.FC = () => {
               {/* Machine Release Gate Declaration */}
               <div className="border-t border-slate-200 pt-4 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-slate-500">
                 <div>MACHINE QMS OFFICIAL DOSSIER • SERIAL: {selectedMachine.serialNumber}</div>
-                <div>STATUS: {ncrCount === 0 && pendingCount === 0 ? 'MACHINE RELEASE READY' : 'MACHINE BUILD INCOMPLETE'}</div>
               </div>
             </div>
           )}
-        </div>
+        </>
       )}
+    </div>
+  )}
 
       {/* VIEW 3: NON-CONFORMANCE (NCR) QUALITY REPORTS */}
       {reportViewTab === 'NCR_REPORTS' && (
@@ -796,9 +813,22 @@ export const ReportsModule: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-mono text-[11px]">
-                  {db.ncrs
-                    .filter((n) => ncrStatusFilter === 'ALL' || n.status === ncrStatusFilter)
-                    .map((ncr) => {
+                  {db.ncrs.filter((n) => ncrStatusFilter === 'ALL' || n.status === ncrStatusFilter).length === 0 ? (
+                    <tr>
+                      <td colSpan={8} className="py-12 text-center text-slate-500 font-sans">
+                        <div className="max-w-md mx-auto space-y-2">
+                          <ShieldCheck className="w-8 h-8 text-emerald-500 mx-auto" />
+                          <p className="font-bold text-slate-700">Zero Non-Conformance Records (NCRs)</p>
+                          <p className="text-xs text-slate-500">
+                            Clean blank slate active. Any workshop defects logged during manufacturing or Dale inspections will generate controlled NCR disposition dossiers here.
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : (
+                    db.ncrs
+                      .filter((n) => ncrStatusFilter === 'ALL' || n.status === ncrStatusFilter)
+                      .map((ncr) => {
                       const isClosed = ncr.status === 'CLOSED';
                       return (
                         <tr key={ncr.id} className="hover:bg-slate-50/80 transition-colors">
@@ -845,7 +875,8 @@ export const ReportsModule: React.FC = () => {
                           </td>
                         </tr>
                       );
-                    })}
+                    })
+                  )}
                 </tbody>
               </table>
             </div>
@@ -905,9 +936,22 @@ export const ReportsModule: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-mono text-[11px]">
-                  {db.deviations
-                    .filter((d) => devStatusFilter === 'ALL' || d.status === devStatusFilter)
-                    .map((dev) => {
+                  {db.deviations.filter((d) => devStatusFilter === 'ALL' || d.status === devStatusFilter).length === 0 ? (
+                    <tr>
+                      <td colSpan={8} className="py-12 text-center text-slate-500 font-sans">
+                        <div className="max-w-md mx-auto space-y-2">
+                          <GitBranch className="w-8 h-8 text-purple-400 mx-auto" />
+                          <p className="font-bold text-slate-700">Zero Engineering Concession Permits</p>
+                          <p className="text-xs text-slate-500">
+                            Clean blank slate active. Concessions or redline engineering deviations raised for components will appear here with full sign-off history.
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : (
+                    db.deviations
+                      .filter((d) => devStatusFilter === 'ALL' || d.status === devStatusFilter)
+                      .map((dev) => {
                       const isApproved = dev.status === 'APPROVED';
                       return (
                         <tr key={dev.id} className="hover:bg-slate-50/80 transition-colors">
@@ -957,7 +1001,8 @@ export const ReportsModule: React.FC = () => {
                           </td>
                         </tr>
                       );
-                    })}
+                    })
+                  )}
                 </tbody>
               </table>
             </div>

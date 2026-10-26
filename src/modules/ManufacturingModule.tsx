@@ -20,6 +20,7 @@ import {
   ExternalLink,
   Eye,
   Trash2,
+  Layers,
 } from 'lucide-react';
 
 interface ManufacturingModuleProps {
@@ -412,7 +413,20 @@ export const ManufacturingModule: React.FC<ManufacturingModuleProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200">
-              {filteredRecords.map((rec) => {
+              {filteredRecords.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="py-12 text-center text-slate-500 font-sans">
+                    <div className="max-w-md mx-auto space-y-2">
+                      <Layers className="w-8 h-8 text-slate-300 mx-auto" />
+                      <p className="font-bold text-slate-700">No Manufacturing Records in System</p>
+                      <p className="text-xs text-slate-500">
+                        The manufacturing register is clean (blank slate). Click "+ New Manufacturing Record" to create unique traceability records linked to your drawings and machines.
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                filteredRecords.map((rec) => {
                 const currentDwg = db.drawings.find(
                   (d) =>
                     d.drawingNumber.toUpperCase() === rec.drawingNumber.toUpperCase() &&
@@ -585,7 +599,8 @@ export const ManufacturingModule: React.FC<ManufacturingModuleProps> = ({
                     </td>
                   </tr>
                 );
-              })}
+              })
+            )}
             </tbody>
           </table>
         </div>

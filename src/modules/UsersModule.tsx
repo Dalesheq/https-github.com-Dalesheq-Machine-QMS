@@ -352,23 +352,42 @@ export const UsersModule: React.FC = () => {
               <label className="block font-bold text-slate-700 mb-1">Role *</label>
               <select
                 value={newUserForm.role}
-                onChange={(e) =>
-                  setNewUserForm({ ...newUserForm, role: e.target.value as UserRole })
-                }
-                className="w-full px-3 py-2 border border-slate-300 rounded bg-white font-bold"
+                onChange={(e) => {
+                  const role = e.target.value as UserRole;
+                  const defaultDept: Record<UserRole, string> = {
+                    ADMINISTRATOR: 'QMS Systems & Governance',
+                    MACHINE_MANAGER: 'Machine Shop Management',
+                    INSPECTOR: 'Quality Metrology & Inspection',
+                    ENGINEERING: 'Mechanical Design & Engineering',
+                    HSEQ: 'Quality Assurance & Compliance (HSEQ)',
+                    MACHINIST: 'Machine Shop (CNC)',
+                    MANAGEMENT: 'Executive Oversight & Quality Governance',
+                  };
+                  setNewUserForm({
+                    ...newUserForm,
+                    role,
+                    department: defaultDept[role] || newUserForm.department,
+                  });
+                }}
+                className="w-full px-3 py-2 border border-slate-300 rounded bg-white font-bold text-slate-900"
               >
-                <option value="MACHINIST">MACHINIST</option>
-                {isAdmin && (
-                  <>
-                    <option value="INSPECTOR">INSPECTOR</option>
-                    <option value="MACHINE_MANAGER">MACHINE_MANAGER</option>
-                    <option value="ENGINEERING">ENGINEERING</option>
-                    <option value="HSEQ">HSEQ</option>
-                    <option value="ADMINISTRATOR">ADMINISTRATOR</option>
-                    <option value="MANAGEMENT">MANAGEMENT (Executive Read-Only Oversight)</option>
-                  </>
-                )}
+                <option value="ADMINISTRATOR">ADMINISTRATOR (System Admin & QMS Governance)</option>
+                <option value="MACHINE_MANAGER">MACHINE_MANAGER (Machine Shop / Production Lead)</option>
+                <option value="INSPECTOR">INSPECTOR (Quality Metrology & Inspection)</option>
+                <option value="ENGINEERING">ENGINEERING (Mechanical Design & CAD)</option>
+                <option value="HSEQ">HSEQ (Quality Assurance & Compliance)</option>
+                <option value="MACHINIST">MACHINIST (Workshop Operator / Bay Machinist)</option>
+                <option value="MANAGEMENT">MANAGEMENT (Executive Oversight & Reporting)</option>
               </select>
+              <p className="text-[10px] text-blue-700 font-medium mt-1">
+                {newUserForm.role === 'ADMINISTRATOR' && 'Full governance authority: user admin, permissions, drawings, and QMS settings.'}
+                {newUserForm.role === 'MACHINE_MANAGER' && 'Production lead: machine builds, scheduling, BOMs, and inspection templates.'}
+                {newUserForm.role === 'INSPECTOR' && 'Quality authority: dimensional inspection, holding points, CMM, NCRs, and FAT release.'}
+                {newUserForm.role === 'ENGINEERING' && 'Technical authority: drawing revisions, CAD redlines, and engineering deviations.'}
+                {newUserForm.role === 'HSEQ' && 'Compliance authority: NCR disposition, corrective actions, audits, and release sign-offs.'}
+                {newUserForm.role === 'MACHINIST' && 'Workshop authority: machining, turning, fabrication, pre-fitting, and first-off checks.'}
+                {newUserForm.role === 'MANAGEMENT' && 'Executive oversight: machine progress, quality KPIs, and management reports.'}
+              </p>
             </div>
             <div>
               <label className="block font-bold text-slate-700 mb-1">Department *</label>

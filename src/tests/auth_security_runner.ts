@@ -172,28 +172,28 @@ async function runAuthSecuritySuite() {
     record('AUTH-06', 'Logout Invalidates Session Token', 'FAIL', err.message);
   }
 
-  // TEST 7: Public registration cannot elevate privileges (ADMINISTRATOR, ENGINEERING, HSEQ, etc.)
+  // TEST 7: Profile registration rejects invalid roles not defined in the system
   try {
-    const attemptElevated = await fetch(`${API_BASE}/api/auth/register`, {
+    const attemptInvalidRole = await fetch(`${API_BASE}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        username: 'hacker.admin',
-        name: 'Malicious Attacker',
-        email: 'hacker@attacker.com',
-        role: 'ADMINISTRATOR',
-        department: 'QMS Systems & Governance',
+        username: 'invalid.role.user',
+        name: 'Invalid Role User',
+        email: 'invalid@attacker.com',
+        role: 'SUPERUSER_ROOT',
+        department: 'Unknown Bay',
         password: 'AttackPassword2026!',
       }),
     });
-    const elevatedData = await attemptElevated.json();
-    if (attemptElevated.status === 403 && !elevatedData.success) {
-      record('AUTH-07', 'Public Registration Rejects Privileged Roles', 'PASS', `HTTP 403 Forbidden: ${elevatedData.error}`, attemptElevated.status);
+    const invalidData = await attemptInvalidRole.json();
+    if (attemptInvalidRole.status === 400 && !invalidData.success) {
+      record('AUTH-07', 'Registration Rejects Undefined Roles', 'PASS', `HTTP 400 Bad Request: ${invalidData.error}`, attemptInvalidRole.status);
     } else {
-      record('AUTH-07', 'Public Registration Rejects Privileged Roles', 'FAIL', `Expected HTTP 403, got ${attemptElevated.status}`, attemptElevated.status);
+      record('AUTH-07', 'Registration Rejects Undefined Roles', 'FAIL', `Expected HTTP 400, got ${attemptInvalidRole.status}`, attemptInvalidRole.status);
     }
   } catch (err: any) {
-    record('AUTH-07', 'Public Registration Rejects Privileged Roles', 'FAIL', err.message);
+    record('AUTH-07', 'Registration Rejects Undefined Roles', 'FAIL', err.message);
   }
 
   // TEST 8: Separation of duties — Machinist cannot inspect or release their own component

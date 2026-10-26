@@ -80,7 +80,7 @@ async function runLiveNcrWorkflowTest() {
   db.manufacturingRecords.push(testMfgRecord);
 
   // Create inspection record with nominal 50.00 +/-0.02mm
-  const testInspection = {
+  const testInspection: any = {
     id: TEST_INSP_ID,
     manufacturingRecordId: TEST_MR_ID,
     traceabilityNumber: TEST_TAG,

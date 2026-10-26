@@ -106,7 +106,7 @@ function StandaloneLoginScreen() {
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center p-4 font-sans text-slate-900">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-2xl border border-slate-700 overflow-hidden">
+      <div className="w-full max-w-xl bg-white rounded-xl shadow-2xl border border-slate-700 overflow-hidden">
         <div className="bg-slate-950 text-white p-6 border-b border-slate-800">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-blue-600 rounded-lg text-white">
@@ -301,18 +301,20 @@ function StandaloneLoginScreen() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Department Role *</label>
+                <label className="block font-bold text-slate-700 mb-1">
+                  Department Role *
+                </label>
                 <select
                   value={regForm.role}
                   onChange={(e) => {
                     const role = e.target.value as UserRole;
                     const defaultDept: Record<UserRole, string> = {
-                      MACHINIST: 'CNC Machining & Turning',
-                      INSPECTOR: 'Quality Control & Metrology',
-                      MACHINE_MANAGER: 'Machine Shop Management',
-                      ENGINEERING: 'Mechanical Design & CAD',
-                      HSEQ: 'Health, Safety, Environment & Quality',
                       ADMINISTRATOR: 'QMS Systems & Governance',
+                      MACHINE_MANAGER: 'Machine Shop Management',
+                      INSPECTOR: 'Quality Metrology & Inspection',
+                      ENGINEERING: 'Mechanical Design & Engineering',
+                      HSEQ: 'Quality Assurance & Compliance (HSEQ)',
+                      MACHINIST: 'Machine Shop (CNC)',
                       MANAGEMENT: 'Executive Oversight & Quality Governance',
                     };
                     setRegForm({
@@ -323,18 +325,30 @@ function StandaloneLoginScreen() {
                   }}
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold text-slate-900 bg-white"
                 >
-                  <option value="MACHINIST">MACHINIST (Workshop Operator)</option>
+                  <option value="ADMINISTRATOR">ADMINISTRATOR (System Admin & QMS Governance)</option>
+                  <option value="MACHINE_MANAGER">MACHINE_MANAGER (Machine Shop / Production Lead)</option>
+                  <option value="INSPECTOR">INSPECTOR (Quality Metrology & Inspection)</option>
+                  <option value="ENGINEERING">ENGINEERING (Mechanical Design & CAD)</option>
+                  <option value="HSEQ">HSEQ (Quality Assurance & Compliance)</option>
+                  <option value="MACHINIST">MACHINIST (Workshop Operator / Bay Machinist)</option>
+                  <option value="MANAGEMENT">MANAGEMENT (Executive Oversight & Reporting)</option>
                 </select>
-                <p className="text-[10px] text-slate-500 mt-0.5">
-                  Privileged roles (Inspection, Engineering, Management, Admin) must be provisioned by an Administrator.
+                <p className="text-[10px] text-blue-700 font-medium mt-1">
+                  {regForm.role === 'ADMINISTRATOR' && 'Full governance authority: users, permissions, drawings, and system configuration.'}
+                  {regForm.role === 'MACHINE_MANAGER' && 'Production lead: machine builds, scheduling, BOMs, and inspection templates.'}
+                  {regForm.role === 'INSPECTOR' && 'Quality authority: dimensional inspection, holding points, CMM, NCRs, and FAT release.'}
+                  {regForm.role === 'ENGINEERING' && 'Technical authority: drawing revisions, CAD redlines, and engineering deviations.'}
+                  {regForm.role === 'HSEQ' && 'Compliance authority: NCR disposition, corrective actions, audits, and release sign-offs.'}
+                  {regForm.role === 'MACHINIST' && 'Workshop authority: machining, turning, fabrication, pre-fitting, and first-off checks.'}
+                  {regForm.role === 'MANAGEMENT' && 'Executive oversight: machine progress, quality KPIs, and management reports.'}
                 </p>
               </div>
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Department *</label>
+                <label className="block font-bold text-slate-700 mb-1">Assigned Department / Bay *</label>
                 <select
                   value={regForm.department}
                   onChange={(e) => setRegForm({ ...regForm, department: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-900 bg-white"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-900 bg-white font-medium"
                 >
                   {WORKSHOP_DEPARTMENTS.map((dept) => (
                     <option key={dept.id} value={dept.name}>
@@ -342,6 +356,9 @@ function StandaloneLoginScreen() {
                     </option>
                   ))}
                 </select>
+                <p className="text-[10px] text-slate-500 mt-1">
+                  Links profile to department inspection holding points and job allocation.
+                </p>
               </div>
             </div>
 

@@ -2295,7 +2295,20 @@ export const DrawingsModule: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200">
-              {filteredDrawings.map((baseDwg) => {
+              {filteredDrawings.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="py-12 text-center text-slate-500 font-sans">
+                    <div className="max-w-md mx-auto space-y-2">
+                      <FileText className="w-8 h-8 text-slate-300 mx-auto" />
+                      <p className="font-bold text-slate-700">No Drawings in Register</p>
+                      <p className="text-xs text-slate-500">
+                        The controlled drawings register is clean (blank slate). Click "+ New Drawing / Revision" or "Import Drawings Register (Excel / CSV)" to upload your engineering drawings and BOM parts lists.
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                filteredDrawings.map((baseDwg) => {
                 const dwgKey = baseDwg.drawingNumber.trim().toUpperCase();
                 const allRevsForDwg = versionsByDrawingNumber[dwgKey] || [baseDwg];
                 // When in CURRENT mode and a drawing has multiple versions, allow inline switching between Current & Archived right inside the row
@@ -2692,7 +2705,8 @@ export const DrawingsModule: React.FC = () => {
                     </td>
                   </tr>
                 );
-              })}
+              })
+            )}
             </tbody>
           </table>
         </div>

@@ -559,8 +559,14 @@ export const MachinesModule: React.FC<MachinesModuleProps> = ({
             <tbody className="divide-y divide-slate-200">
               {filteredMachines.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-8 text-center text-slate-400">
-                    No machines match your search criteria.
+                  <td colSpan={7} className="py-12 text-center text-slate-500 font-sans">
+                    <div className="max-w-md mx-auto space-y-2">
+                      <Cpu className="w-8 h-8 text-slate-300 mx-auto" />
+                      <p className="font-bold text-slate-700">No Machines in Register</p>
+                      <p className="text-xs text-slate-500">
+                        The quality register is clean (blank slate). Click "+ Register Machine" or "Import Machines &amp; BOM (Excel)" to load your new machines and assemblies.
+                      </p>
+                    </div>
                   </td>
                 </tr>
               ) : (
