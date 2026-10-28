@@ -508,7 +508,7 @@ function AppContent() {
               />
             )}
 
-            {!isManagement && activeTab === 'machines' && (
+            {activeTab === 'machines' && (
               <MachinesModule
                 onViewMachineComponents={handleViewMachineComponents}
                 isCreateModalOpen={isCreateMachineModalOpen}
@@ -516,7 +516,7 @@ function AppContent() {
               />
             )}
 
-            {!isManagement && activeTab === 'projects' && (
+            {activeTab === 'projects' && (
               <ProjectsModule onViewMachineComponents={handleViewMachineComponents} />
             )}
 
@@ -532,7 +532,7 @@ function AppContent() {
               />
             )}
 
-            {!isManagement && (activeTab === 'dale-inspections' || activeTab === 'inspections') && (
+            {(activeTab === 'dale-inspections' || activeTab === 'inspections') && (
               <InspectionsModule />
             )}
 
@@ -540,13 +540,13 @@ function AppContent() {
               <InspectionTemplatesModule />
             )}
 
-            {!isManagement && activeTab === 'ncr' && <NCRsModule />}
+            {activeTab === 'ncr' && <NCRsModule />}
 
-            {!isManagement && activeTab === 'deviations' && <DeviationsModule />}
+            {activeTab === 'deviations' && <DeviationsModule />}
 
-            {!isManagement && activeTab === 'quality-release' && <QualityReleaseModule />}
+            {activeTab === 'quality-release' && <QualityReleaseModule />}
 
-            {!isManagement && activeTab === 'traceability-search' && (
+            {activeTab === 'traceability-search' && (
               <TraceabilitySearchModule
                 initialQuery={traceabilityQuery}
                 onViewTraceabilityTag={handleViewTraceabilityTag}

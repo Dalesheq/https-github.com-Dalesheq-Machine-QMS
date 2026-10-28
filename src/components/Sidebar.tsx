@@ -103,6 +103,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
   }).length;
 
   const isManagement = currentUser?.role === 'MANAGEMENT';
+  const openProjectsCount = (db.projects || []).filter((p) => p.projectStatus !== 'COMPLETED').length;
 
   const navItems: NavSection[] = isManagement
     ? [
@@ -116,6 +117,37 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
               badge: 'READ-ONLY',
               badgeColor: 'bg-indigo-900/80 text-indigo-200 border-indigo-700 font-bold',
               subtext: 'Fleet KPIs & Quality Conformance',
+            },
+            {
+              id: 'projects' as ActiveTab,
+              label: 'Open Projects',
+              icon: FolderGit2,
+              badge: openProjectsCount > 0 ? `${openProjectsCount} Open` : '0 Open',
+              badgeColor: 'bg-blue-100 text-blue-900 border-blue-200 font-bold',
+              subtext: 'Contracts & Machine BOMs',
+            },
+            {
+              id: 'machines' as ActiveTab,
+              label: 'Machine Fleet',
+              icon: Cpu,
+              badge: db.machines.length,
+              subtext: 'Divider & Equipment Serials',
+            },
+            {
+              id: 'dale-inspections' as ActiveTab,
+              label: 'Quality Inspections',
+              icon: ClipboardCheck,
+              badge: awaitingInspectionCount > 0 ? `${awaitingInspectionCount} Pending` : null,
+              badgeColor: 'bg-amber-100 text-amber-900 border-amber-300 font-bold',
+              subtext: 'QA Gates & FAT Checklists',
+            },
+            {
+              id: 'ncr' as ActiveTab,
+              label: 'Non-Conformances (NCR)',
+              icon: AlertTriangle,
+              badge: openNcrCount > 0 ? `${openNcrCount} Active` : '0 Active',
+              badgeColor: openNcrCount > 0 ? 'bg-rose-100 text-rose-900 border-rose-300 font-bold' : 'bg-emerald-100 text-emerald-900 border-emerald-300',
+              subtext: 'Quarantine & Containment',
             },
             {
               id: 'reports' as ActiveTab,
