@@ -3,172 +3,165 @@
     "userId": "USR-001",
     "username": "dave.vance",
     "email": "dave.vance@spiralsystems.co.za",
-    "salt": "d01b4bc3ce518d389d014151c15f00d2",
-    "passwordHash": "1721583f03975dd4fafc8628653d386309b7fc302a28b3189c765649be559ba175f2121a4ceee1376829cd46d67357d125a3771a8a6020e73d723315ca2193a2",
+    "salt": "3066bb294be34739245e8e3a7b741b63",
+    "passwordHash": "d9fb3f20aa690f70b56ad75d70b0cb8df066986cfc7445ff6cd49a836120c448a68ec087c39ddb97591caa7dbf5327a96a11bcc622c441e654fff1cc985c68a4",
     "isDefaultPassword": false,
     "requiresPasswordReset": false,
     "credentialStatus": "ACTIVE_INDIVIDUAL",
-    "updatedAt": "2026-10-21T07:45:19.426Z",
-    "passwordEstablishedAt": "2026-10-21T07:45:19.426Z"
+    "updatedAt": "2026-10-29T12:41:25.930Z"
   },
   {
     "userId": "USR-002",
     "username": "sarah.connor",
     "email": "sarah.connor@spiralsystems.co.za",
-    "salt": "9507597a7d32174603f98281b30cfe7b",
-    "passwordHash": "e4c7c8dc7fe4c3b5e385eb0fd9cdcb3f990d9d7259aa9c13bfda3108ee205fb16f2ddc2297f3da06d144e9446f203229147bd429ae58ced7cbf8f5a52c9e16b3",
+    "salt": "efdbb388855637e8275c6f18f369319b",
+    "passwordHash": "819070bfef7bbad02a46c2ed220670976508b2de57cb97c034ab9df82c084b4a635e82d11ba64a9300c3fac3a80e4c6a6d755e58de0a6f51712e17d6f52ddbef",
     "isDefaultPassword": false,
     "requiresPasswordReset": false,
     "credentialStatus": "ACTIVE_INDIVIDUAL",
-    "passwordEstablishedAt": "2026-10-20T07:55:43.475Z",
-    "updatedAt": "2026-10-20T07:55:43.475Z"
+    "updatedAt": "2026-10-29T12:41:26.003Z"
   },
   {
     "userId": "USR-003",
     "username": "peter.ndlovu",
     "email": "peter.ndlovu@spiralsystems.co.za",
-    "salt": "f82510f7a96e02637c4842e6d5d96726",
-    "passwordHash": "dde6f81eec272eff2ce7a5839e4964b46a70f9a67250fd92e1301c846d29c31ed15743adca10dfbc9fd38e98b9b116505416c33370bdd7fa3c560632af358654",
+    "salt": "de5b0ee8c953a68a9c2f24e4b0cae0be",
+    "passwordHash": "c0d9eaf915e62fb87630bdba222374596e7833f7a337e8ca8bb7bfb7864f9814f939dded2e81dec7ecc4b8ceda8f1f53767fe991581d0971f2ff064fc15fed52",
     "isDefaultPassword": false,
     "requiresPasswordReset": false,
     "credentialStatus": "ACTIVE_INDIVIDUAL",
-    "passwordEstablishedAt": "2026-10-20T07:55:43.536Z",
-    "updatedAt": "2026-10-20T07:55:43.536Z"
+    "updatedAt": "2026-10-29T12:41:26.056Z"
   },
   {
     "userId": "USR-004",
     "username": "elena.rostova",
     "email": "elena.rostova@spiralsystems.co.za",
-    "salt": "036930a71c1e574876a327c7192d9c94",
-    "passwordHash": "60c99cf57bf999dad2b712139b30f96d3574f00db9ec32e7387ce0c292337a8f27a89b7660213cf1ae25721eeeef29ec40aaaa59527aa0359181043b924ac329",
+    "salt": "f3be22d7b11a7cbfbd82ad0f3887474f",
+    "passwordHash": "269ed27356b2555b7a261b7ec3e7d8398573328518fb61dceb74946afd37ec41c1c298450e2e2516eb0cbf9fb02c50d18583bf3583d979e2437bf602901b1f64",
     "isDefaultPassword": false,
     "requiresPasswordReset": false,
     "credentialStatus": "ACTIVE_INDIVIDUAL",
-    "passwordEstablishedAt": "2026-10-20T07:55:43.572Z",
-    "updatedAt": "2026-10-20T07:55:43.572Z"
+    "updatedAt": "2026-10-29T12:41:26.111Z"
   },
   {
     "userId": "USR-005",
     "username": "marcus.chen",
     "email": "marcus.chen@spiralsystems.co.za",
-    "salt": "1c459f21c01708edde94c52b0dcc2724",
-    "passwordHash": "285fd1372efd8586c9eb4b98033e4b05cc08d2d5c6e90d87516b213ae9f681a40ccfffcef5098b7538aee7d55d77af3596ed5bdb75e049e7ef4a915d5c09392f",
+    "salt": "afae59c51309832cabea34dfc70cac1e",
+    "passwordHash": "1a45992bfe252e1f078491ca17f1f60b8d8d6dc9f9a180a8e726e779607b012f20ca91df25cb30f76858da0289ceec63c1254b83638790a5eb88f1499d0f0e4b",
     "isDefaultPassword": false,
     "requiresPasswordReset": false,
     "credentialStatus": "ACTIVE_INDIVIDUAL",
-    "passwordEstablishedAt": "2026-10-20T07:55:43.608Z",
-    "updatedAt": "2026-10-20T07:55:43.608Z"
+    "updatedAt": "2026-10-29T12:41:26.164Z"
   },
   {
     "userId": "USR-006",
     "username": "admin.qms",
     "email": "qms.admin@spiralsystems.co.za",
-    "salt": "68f6e3e450bfcdc176352f7393a7ac06",
-    "passwordHash": "ce56016eea80f3eaca0b6f699616ea9e5cf2569ebfc7b09e1e1bfb9c905f30246401119e2d0903ad6b4531e1d5c78a578c63819868229bb50a077fa634e94b1d",
+    "salt": "eb013f4283b323f9708188028209e89d",
+    "passwordHash": "0a00796f4171618a8aac489650c15582ac26559325a1f69cc6b5e8c1e38725ee3da4de59708a94db62a6700fe6736fb8097761d36a66debbfca10b8f44a6eec2",
     "isDefaultPassword": false,
     "requiresPasswordReset": false,
-    "credentialStatus": "DISABLED",
-    "updatedAt": "2026-10-20T07:55:43.645Z"
+    "credentialStatus": "ACTIVE_INDIVIDUAL",
+    "updatedAt": "2026-10-29T12:41:26.218Z"
   },
   {
     "userId": "USR-007",
     "username": "johan.kruger",
     "email": "johan.kruger@spiralsystems.co.za",
-    "salt": "3127d2c4a3ad8f20464a465d99ab91d5",
-    "passwordHash": "664eca7036bf79f44aeb7d781d50732c7e490f61049f8ee0630657c2e70f0e4cb1c862b9f270008f4f28bb156f4f92d29ddf5243761696c2316d5a5c516e2e7b",
+    "salt": "c1f8c306021441979d96b9182b74c51c",
+    "passwordHash": "e55fc46980c0e86caf816958eeea02416d8e721d103afa9d45d10a33d973078b7de1898cc90e8aa5787b8e7fc1205c9c40b71ef02ffd930cb3fe7c419f08ee20",
     "isDefaultPassword": false,
     "requiresPasswordReset": false,
     "credentialStatus": "ACTIVE_INDIVIDUAL",
-    "passwordEstablishedAt": "2026-10-21T07:45:10.161Z",
-    "updatedAt": "2026-10-21T07:45:10.161Z"
+    "updatedAt": "2026-10-29T12:41:26.272Z"
   },
   {
     "userId": "USR-008",
     "username": "sheq",
     "email": "sheq@spiralsystems.co.za",
-    "salt": "00d46a6605c4a4fc1a232fcd554a1856",
-    "passwordHash": "c26f13b0f16290a50c8e1b2b4b01dc1c6535afdc971a86d981d102ef73f7a027003ce637cdb51329aa7b4294f6290be12a972f94fb0dcc78fb750d98771288a4",
+    "salt": "716a2bf8e6339d7568b11c6398fbec2f",
+    "passwordHash": "3b42c02dc9dbca7ee016e3691bf43e1c97890fb32eaa2972ad4897162b91405bac73758e547f6e360b9660c7acbadc4b4c8ece9fb69ef7b808d3121838af1f10",
     "isDefaultPassword": false,
     "requiresPasswordReset": false,
     "credentialStatus": "ACTIVE_INDIVIDUAL",
-    "passwordEstablishedAt": "2026-10-21T07:41:42.388Z",
-    "updatedAt": "2026-10-21T07:41:42.389Z"
+    "updatedAt": "2026-10-29T12:41:26.325Z"
   },
   {
     "userId": "USR-009",
     "username": "kobus.vanwyk",
     "email": "kobus.vanwyk@spiralsystems.co.za",
-    "salt": "60b24e9ec1ab7814d5e839780dae8ef7",
-    "passwordHash": "e16c6f874a4c0e99e05ab54b29c21a1eb1df1c3fd632597f1bedb5a4493b946b4a3fed2bb5a30bb3f801ca04ad921d1294d3ca2f273a81690ecbf50e0f7faa5a",
+    "salt": "499f355dcd45ac0e106e4e35b02d378e",
+    "passwordHash": "4f3cd39c96eb9a8520e70fd3d640a745fbb54cde4f76fb0b6a7ca98c65ea62d2d3c28e009cd37ba5f823ec6f27e9d716c38dd10c0ed7e7bd206c048b20983d5a",
     "isDefaultPassword": false,
-    "requiresPasswordReset": true,
-    "credentialStatus": "REQUIRES_REPLACEMENT",
-    "updatedAt": "2026-10-20T07:55:43.755Z"
+    "requiresPasswordReset": false,
+    "credentialStatus": "ACTIVE_INDIVIDUAL",
+    "updatedAt": "2026-10-29T12:41:26.378Z"
   },
   {
     "userId": "USR-010",
     "username": "sipho.dlamini",
     "email": "sipho.dlamini@spiralsystems.co.za",
-    "salt": "cc9e48c06460039af27aa9462ce26502",
-    "passwordHash": "0413dc483bba3a0fdedc21339d5a3ec6408e79551eb1a0a4e65030f43d8b8faca307c906b76721749fd1a238ece5cc913250954acd80bdc8e29b698bf93b4da2",
+    "salt": "a51209727d8bfbcded696841ffeb930e",
+    "passwordHash": "46ccac5795156a144935c40ef0b9dd72ed0ce558592a933ff9835edc1e5722374e5438417161d7c78dc823769b036d5cd225b089903bf381c1e0581ceaa7d2c9",
     "isDefaultPassword": false,
-    "requiresPasswordReset": true,
-    "credentialStatus": "REQUIRES_REPLACEMENT",
-    "updatedAt": "2026-10-20T07:55:43.791Z"
+    "requiresPasswordReset": false,
+    "credentialStatus": "ACTIVE_INDIVIDUAL",
+    "updatedAt": "2026-10-29T12:41:26.431Z"
   },
   {
     "userId": "USR-011",
     "username": "andre.fourie",
     "email": "andre.fourie@spiralsystems.co.za",
-    "salt": "31b2b17a356a961bba87d8790a139582",
-    "passwordHash": "632785aeb52824bbfcde67b1c066d2e13d73daa0e8e7f3d1fc7c2368fea4bba9b44e5c405931f7332549aec42029f7c79ce12999d78a2ac30de3f0767e2c5097",
+    "salt": "b30ef07a502060de48b9a5207f2832b8",
+    "passwordHash": "5c8829558cf32e12b23ee661359945bf0899ab1b0c0b30c1bd6d1c6307c2cd297bc75a2e98cccb3a59ee56709d593aac0a6f6fcdbe4532c2cc550ba08da03988",
     "isDefaultPassword": false,
-    "requiresPasswordReset": true,
-    "credentialStatus": "REQUIRES_REPLACEMENT",
-    "updatedAt": "2026-10-20T07:55:43.828Z"
+    "requiresPasswordReset": false,
+    "credentialStatus": "ACTIVE_INDIVIDUAL",
+    "updatedAt": "2026-10-29T12:41:26.483Z"
   },
   {
     "userId": "USR-012",
     "username": "thabo.molefe",
     "email": "thabo.molefe@spiralsystems.co.za",
-    "salt": "1af428dd676c583505c4d31634b36c09",
-    "passwordHash": "407be956d793f3c3ed722e74a7a0dd9568a418d94265e669dacda31dc432004bccfd87263eeeb45aeec0c5e6bb94f74e9e34e57daa8ff68fe76f00c8a93d19a6",
+    "salt": "7e2ae11c2fb830308b679a0143b0596e",
+    "passwordHash": "610aba51912fff25c1cfb314400955c7868f8be556a748a8d984f45153cc103e654bfdd222c5b39017a87eb997a693842a286efa2c29b603bf049599ee0f36c5",
     "isDefaultPassword": false,
-    "requiresPasswordReset": true,
-    "credentialStatus": "REQUIRES_REPLACEMENT",
-    "updatedAt": "2026-10-20T07:55:43.865Z"
+    "requiresPasswordReset": false,
+    "credentialStatus": "ACTIVE_INDIVIDUAL",
+    "updatedAt": "2026-10-29T12:41:26.535Z"
   },
   {
     "userId": "USR-013",
     "username": "heinrich.meyer",
     "email": "heinrich.meyer@spiralsystems.co.za",
-    "salt": "2875539c5d455e7f248bb26f07116a44",
-    "passwordHash": "0f90edfb1756e3ac9b79e862c3f16bfda9cdccc83eaf18ba64be69140076a21fca76ffdb4148177d18c862bb4fd89ff4eda54d27e165145193e2c5c684f565e1",
+    "salt": "483eb976b124454edc83174425656c26",
+    "passwordHash": "205be22edc899f0b2b1385281617f953e2576eab0bef2151e49f09def024b8dae247626d23d646587abe469e988b4ceb483d5379d1c2f6fd8b63a085a0399ae1",
     "isDefaultPassword": false,
-    "requiresPasswordReset": true,
-    "credentialStatus": "REQUIRES_REPLACEMENT",
-    "updatedAt": "2026-10-20T07:55:43.900Z"
+    "requiresPasswordReset": false,
+    "credentialStatus": "ACTIVE_INDIVIDUAL",
+    "updatedAt": "2026-10-29T12:41:26.591Z"
   },
   {
     "userId": "USR-014",
     "username": "liam.pretorius",
     "email": "liam.pretorius@spiralsystems.co.za",
-    "salt": "c2c33f0b7c8031e3df19198381064f86",
-    "passwordHash": "4ca42321a31a7dd213cdba1d8bb92209ceb97e1db05288129d3c61aeb1d17d1f336fb499d2a3c977e6bf889962e93a720340b1e796935542db9168692f4985fd",
+    "salt": "74a3b3742b4da20c0da175867ef08fe9",
+    "passwordHash": "8ffc05624bb9c27e1e4da858d2baca90be7224ac359e3eaa7b592805920a076ee59511073e5ba84591a1f07372decda723791bf71edd964dbf69d234a72b29d5",
     "isDefaultPassword": false,
-    "requiresPasswordReset": true,
-    "credentialStatus": "REQUIRES_REPLACEMENT",
-    "updatedAt": "2026-10-20T07:55:43.937Z"
+    "requiresPasswordReset": false,
+    "credentialStatus": "ACTIVE_INDIVIDUAL",
+    "updatedAt": "2026-10-29T12:41:26.646Z"
   },
   {
     "userId": "USR-015",
     "username": "jacques.botha",
     "email": "jacques.botha@spiralsystems.co.za",
-    "salt": "179b31352afa1c0905347441d66037d4",
-    "passwordHash": "b98a5a0944e1221aa505177faf52d8a922b4aaaf3703851f64c86497d2104bd0e8df218a67f674f2f61fe15f99848f08bf5efe46f6b19f3d4352eb358dae9815",
+    "salt": "ecce39cdc634e45700d7e5eb84eb4782",
+    "passwordHash": "510d610c10bea0c76f9c4b5a545950b58150d15165b5c0755f697688d27555739af1830283efe6eb1a91619837cbbc97a10b6b36ee54abfe51443b8cb44ec77b",
     "isDefaultPassword": false,
-    "requiresPasswordReset": true,
-    "credentialStatus": "REQUIRES_REPLACEMENT",
-    "updatedAt": "2026-10-20T07:55:43.973Z"
+    "requiresPasswordReset": false,
+    "credentialStatus": "ACTIVE_INDIVIDUAL",
+    "updatedAt": "2026-10-29T12:41:26.698Z"
   }
 ]

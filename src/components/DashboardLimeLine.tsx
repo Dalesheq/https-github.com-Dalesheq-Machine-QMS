@@ -518,36 +518,36 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
   const getBadgeStyle = (item: LimeLineItem) => {
     if (item.category === 'DEVIATION_TO_CORRECT') {
       return {
-        pill: 'bg-purple-100 text-purple-900 border-purple-300',
-        node: 'bg-purple-600 border-purple-200 text-white',
-        border: 'border-purple-300/80 bg-purple-50/20',
-        gatePill: 'bg-purple-100 text-purple-800 border-purple-300',
+        pill: 'bg-purple-100 dark:bg-purple-950/70 text-purple-900 dark:text-purple-300 border-purple-300 dark:border-purple-800',
+        node: 'bg-purple-600 border-purple-200 dark:border-purple-700 text-white',
+        border: 'border-purple-300/80 dark:border-purple-800/80 bg-purple-50/20 dark:bg-purple-950/20',
+        gatePill: 'bg-purple-100 dark:bg-purple-950/80 text-purple-800 dark:text-purple-300 border-purple-300 dark:border-purple-700',
         lineAccent: 'border-l-purple-500',
       };
     }
     if (item.category === 'GATE_READY') {
       return {
-        pill: 'bg-lime-100 text-lime-900 border-lime-300',
-        node: 'bg-lime-500 border-lime-200 text-slate-950 font-black',
-        border: 'border-lime-300/80 bg-lime-50/30',
-        gatePill: 'bg-lime-100 text-lime-900 border-lime-300',
+        pill: 'bg-lime-100 dark:bg-lime-950/70 text-lime-900 dark:text-lime-300 border-lime-300 dark:border-lime-700',
+        node: 'bg-lime-500 border-lime-200 dark:border-lime-700 text-slate-950 font-black',
+        border: 'border-lime-300/80 dark:border-lime-800/80 bg-lime-50/30 dark:bg-lime-950/20',
+        gatePill: 'bg-lime-100 dark:bg-lime-950/80 text-lime-900 dark:text-lime-300 border-lime-300 dark:border-lime-700',
         lineAccent: 'border-l-lime-500',
       };
     }
     if (item.urgency === 'CRITICAL_HOLD') {
       return {
-        pill: 'bg-rose-100 text-rose-900 border-rose-300',
-        node: 'bg-rose-600 border-rose-200 text-white',
-        border: 'border-rose-300/80 bg-rose-50/30',
-        gatePill: 'bg-rose-100 text-rose-900 border-rose-300',
+        pill: 'bg-rose-100 dark:bg-rose-950/70 text-rose-900 dark:text-rose-300 border-rose-300 dark:border-rose-800',
+        node: 'bg-rose-600 border-rose-200 dark:border-rose-700 text-white',
+        border: 'border-rose-300/80 dark:border-rose-800/80 bg-rose-50/30 dark:bg-rose-950/20',
+        gatePill: 'bg-rose-100 dark:bg-rose-950/80 text-rose-900 dark:text-rose-300 border-rose-300 dark:border-rose-700',
         lineAccent: 'border-l-rose-500',
       };
     }
     return {
-      pill: 'bg-amber-100 text-amber-900 border-amber-300',
-      node: 'bg-amber-500 border-amber-200 text-white',
-      border: 'border-amber-300/80 bg-amber-50/30',
-      gatePill: 'bg-amber-100 text-amber-900 border-amber-300',
+      pill: 'bg-amber-100 dark:bg-amber-950/70 text-amber-900 dark:text-amber-300 border-amber-300 dark:border-amber-800',
+      node: 'bg-amber-500 border-amber-200 dark:border-amber-700 text-white',
+      border: 'border-amber-300/80 dark:border-amber-800/80 bg-amber-50/30 dark:bg-amber-950/20',
+      gatePill: 'bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 border-amber-300 dark:border-amber-700',
       lineAccent: 'border-l-amber-500',
     };
   };
@@ -566,7 +566,7 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
   }, [gateModalItem, db.manufacturingRecords, evaluateQualityRelease]);
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
       {/* =========================================================================
           1. LIME LINE TOP HEADER & RELEASE GATE SYNCHRONIZATION BAR
           ========================================================================= */}
@@ -834,22 +834,22 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
           "Only admin can and will have full access."
           ========================================================================= */}
       {isAdmin && (
-        <div className="p-3 bg-slate-50 border-b border-slate-200 text-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div className="p-3 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 text-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-bold text-slate-700 font-mono flex items-center gap-1">
-              <Filter className="w-3.5 h-3.5 text-slate-500" />
+            <span className="font-bold text-slate-700 dark:text-slate-300 font-mono flex items-center gap-1">
+              <Filter className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
               Admin Master Controls:
             </span>
 
             {/* Filter by Category */}
-            <div className="inline-flex rounded-lg border border-slate-200 bg-white p-0.5 text-[11px] font-semibold">
+            <div className="inline-flex rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-0.5 text-[11px] font-semibold">
               <button
                 type="button"
                 onClick={() => setAdminCategoryFilter('ALL')}
                 className={`px-2.5 py-1 rounded-md transition-colors ${
                   adminCategoryFilter === 'ALL'
-                    ? 'bg-slate-900 text-white'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 font-bold'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 All Pipeline ({allItems.length})
@@ -859,8 +859,8 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
                 onClick={() => setAdminCategoryFilter('HOLDING_POINTS')}
                 className={`px-2.5 py-1 rounded-md transition-colors ${
                   adminCategoryFilter === 'HOLDING_POINTS'
-                    ? 'bg-amber-600 text-white'
-                    : 'text-slate-600 hover:text-amber-800'
+                    ? 'bg-amber-600 text-white font-bold'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-amber-800 dark:hover:text-amber-300'
                 }`}
               >
                 Holding Points ({totalHoldingPoints})
@@ -870,8 +870,8 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
                 onClick={() => setAdminCategoryFilter('DEVIATIONS')}
                 className={`px-2.5 py-1 rounded-md transition-colors ${
                   adminCategoryFilter === 'DEVIATIONS'
-                    ? 'bg-purple-700 text-white'
-                    : 'text-slate-600 hover:text-purple-800'
+                    ? 'bg-purple-700 text-white font-bold'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-purple-800 dark:hover:text-purple-300'
                 }`}
               >
                 Deviations to Correct ({totalDeviations})
@@ -882,7 +882,7 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
                 className={`px-2.5 py-1 rounded-md transition-colors ${
                   adminCategoryFilter === 'GATES'
                     ? 'bg-lime-600 text-slate-950 font-black'
-                    : 'text-slate-600 hover:text-lime-800'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-lime-800 dark:hover:text-lime-300'
                 }`}
               >
                 Release Ready ({totalGateReady})
@@ -893,7 +893,7 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
             <select
               value={adminPersonFilter}
               onChange={(e) => setAdminPersonFilter(e.target.value)}
-              className="px-2.5 py-1 bg-white border border-slate-300 rounded-lg text-slate-700 text-[11px] font-semibold focus:outline-none focus:ring-1 focus:ring-lime-500"
+              className="px-2.5 py-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 text-[11px] font-semibold focus:outline-none focus:ring-1 focus:ring-lime-500"
             >
               <option value="ALL">All Action Owners ({uniquePersons.length})</option>
               {uniquePersons.map((p) => (
@@ -909,7 +909,7 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
               onChange={(e) =>
                 setAdminGateFilter(e.target.value === 'ALL' ? 'ALL' : parseInt(e.target.value))
               }
-              className="px-2.5 py-1 bg-white border border-slate-300 rounded-lg text-slate-700 text-[11px] font-semibold focus:outline-none focus:ring-1 focus:ring-lime-500"
+              className="px-2.5 py-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 text-[11px] font-semibold focus:outline-none focus:ring-1 focus:ring-lime-500"
             >
               <option value="ALL">All Blocked Quality Release Gates</option>
               <option value={9}>Gate QG-09 (Checklist Verification)</option>
@@ -931,7 +931,7 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
                   setAdminGateFilter('ALL');
                   setSearchQuery('');
                 }}
-                className="px-2 py-1 text-[11px] text-slate-500 hover:text-slate-800 font-semibold flex items-center gap-1"
+                className="px-2 py-1 text-[11px] text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-semibold flex items-center gap-1"
               >
                 <RotateCcw className="w-3 h-3" />
                 Reset Filters
@@ -945,7 +945,7 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
               placeholder="Search holding points..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="px-2.5 py-1 text-xs border border-slate-300 rounded-lg bg-white w-48 focus:outline-none focus:ring-1 focus:ring-lime-500"
+              className="px-2.5 py-1 text-xs border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 w-48 focus:outline-none focus:ring-1 focus:ring-lime-500 placeholder:text-slate-400 dark:placeholder:text-slate-500"
             />
           </div>
         </div>
@@ -956,14 +956,14 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
           ========================================================================= */}
       <div className="p-4 sm:p-6">
         {visibleItems.length === 0 ? (
-          <div className="p-8 text-center bg-slate-50 border border-slate-200 rounded-xl">
-            <div className="w-12 h-12 rounded-full bg-lime-100 text-lime-700 flex items-center justify-center mx-auto mb-3">
+          <div className="p-8 text-center bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800 rounded-xl">
+            <div className="w-12 h-12 rounded-full bg-lime-100 dark:bg-lime-950 text-lime-700 dark:text-lime-300 flex items-center justify-center mx-auto mb-3">
               <CheckCircle2 className="w-6 h-6" />
             </div>
-            <h3 className="text-sm font-black text-slate-900 uppercase font-mono">
+            <h3 className="text-sm font-black text-slate-900 dark:text-slate-100 uppercase font-mono">
               Lime Line Clear — No Pending Responsibilities Found
             </h3>
-            <p className="text-xs text-slate-500 max-w-md mx-auto mt-1 leading-relaxed">
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto mt-1 leading-relaxed">
               {!isAdmin
                 ? `You have zero pending holding points or deviations assigned to your responsibility (${currentUser.name} • ${currentUser.role}). All release gates under your supervision are conforming. Only Administrator has full master plant access.`
                 : 'Zero holding points or deviations match the active master filters.'}
@@ -972,9 +972,9 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
               <button
                 type="button"
                 onClick={() => handleQuickSwitchOperator(TEST_OPERATORS[4])}
-                className="mt-4 px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs font-semibold inline-flex items-center gap-1.5 shadow-sm"
+                className="mt-4 px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white text-white rounded text-xs font-semibold inline-flex items-center gap-1.5 shadow-sm"
               >
-                <Unlock className="w-3.5 h-3.5 text-lime-400" />
+                <Unlock className="w-3.5 h-3.5 text-lime-400 dark:text-lime-600" />
                 <span>Switch to Administrator for Full Master Access</span>
               </button>
             )}
@@ -1019,36 +1019,36 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
                               : 'HOLDING POINT'}
                           </span>
 
-                          <span className="text-xs font-mono font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                          <span className="text-xs font-mono font-bold text-slate-900 dark:text-slate-100 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">
                             {item.partNumber}
                           </span>
 
-                          <span className="text-xs text-slate-600 font-mono">
-                            Drawing: <strong className="text-slate-900">{item.drawingInfo}</strong>
+                          <span className="text-xs text-slate-600 dark:text-slate-400 font-mono">
+                            Drawing: <strong className="text-slate-900 dark:text-slate-100">{item.drawingInfo}</strong>
                           </span>
 
-                          <span className="text-xs text-slate-600 font-mono">
-                            Machine: <strong className="text-slate-900">{item.machineSerial}</strong> (Job {item.projectNumber})
+                          <span className="text-xs text-slate-600 dark:text-slate-400 font-mono">
+                            Machine: <strong className="text-slate-900 dark:text-slate-100">{item.machineSerial}</strong> (Job {item.projectNumber})
                           </span>
 
                           {isMine && (
-                            <span className="px-1.5 py-0.2 rounded text-[9px] font-bold font-mono bg-lime-100 text-lime-900 border border-lime-300 flex items-center gap-1 shadow-2xs">
-                              <Sparkles className="w-2.5 h-2.5 text-lime-600" />
+                            <span className="px-1.5 py-0.2 rounded text-[9px] font-bold font-mono bg-lime-100 dark:bg-lime-950/80 text-lime-900 dark:text-lime-300 border border-lime-300 dark:border-lime-700 flex items-center gap-1 shadow-2xs">
+                              <Sparkles className="w-2.5 h-2.5 text-lime-600 dark:text-lime-400" />
                               YOUR DIRECT RESPONSIBILITY
                             </span>
                           )}
                         </div>
 
-                        <h3 className="text-sm font-black text-slate-900 leading-snug">
+                        <h3 className="text-sm font-black text-slate-900 dark:text-slate-100 leading-snug">
                           {item.title}
                         </h3>
 
-                        <p className="text-xs text-slate-600 leading-relaxed">
+                        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                           {item.partDescription}
                         </p>
 
                         {/* Connection to Quality Release Gate */}
-                        <div className="pt-2 border-t border-slate-200/80 flex flex-wrap items-center gap-2">
+                        <div className="pt-2 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-wrap items-center gap-2">
                           <div
                             className={`px-2.5 py-1 rounded-md text-[11px] font-mono font-bold border flex items-center gap-1.5 ${styles.gatePill}`}
                           >
@@ -1057,28 +1057,28 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
                               BLOCKS QUALITY RELEASE GATE {item.blockedGateNumber}: {item.blockedGateName}
                             </span>
                           </div>
-                          <span className="text-[11px] text-slate-600 italic">
+                          <span className="text-[11px] text-slate-600 dark:text-slate-400 italic">
                             {item.gateImpactSummary}
                           </span>
                         </div>
                       </div>
 
                       {/* Right Side: Explicit WHO MUST ACTION Card */}
-                      <div className="lg:w-84 p-3 bg-white border border-slate-200 rounded-lg shadow-xs space-y-2.5 shrink-0">
+                      <div className="lg:w-84 p-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg shadow-xs space-y-2.5 shrink-0">
                         {/* Header: Who Must Action + Due Date */}
-                        <div className="flex items-center justify-between text-xs pb-1.5 border-b border-slate-100">
-                          <span className="font-mono font-black text-slate-700 uppercase text-[10px] flex items-center gap-1">
-                            <UserCheck className="w-3.5 h-3.5 text-blue-600" />
+                        <div className="flex items-center justify-between text-xs pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                          <span className="font-mono font-black text-slate-700 dark:text-slate-300 uppercase text-[10px] flex items-center gap-1">
+                            <UserCheck className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                             WHO MUST ACTION:
                           </span>
-                          <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-100 text-slate-700">
+                          <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                             Due: {item.dueDate}
                           </span>
                         </div>
 
                         {/* Person Profile Details */}
                         <div className="flex items-start gap-2.5">
-                          <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-800 font-bold font-mono text-xs flex items-center justify-center shrink-0 border border-blue-200">
+                          <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 font-bold font-mono text-xs flex items-center justify-center shrink-0 border border-blue-200 dark:border-blue-800">
                             {item.responsiblePerson
                               .split(' ')
                               .map((n) => n[0])
@@ -1086,22 +1086,22 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
                               .slice(0, 2)}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="font-black text-xs text-slate-900 flex items-center gap-1.5">
+                            <div className="font-black text-xs text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
                               <span className="truncate">{item.responsiblePerson}</span>
-                              <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-blue-50 text-blue-700 border border-blue-200 shrink-0">
+                              <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 shrink-0">
                                 {item.responsibleRole}
                               </span>
                             </div>
-                            <div className="text-[10px] text-slate-500 font-mono truncate">
+                            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono truncate">
                               Dept: {item.department}
                             </div>
                           </div>
                         </div>
 
                         {/* Required Action Instructions */}
-                        <div className="p-2 bg-slate-50 border border-slate-200 rounded text-[11px] text-slate-800 leading-snug">
-                          <span className="font-bold text-slate-900 block mb-0.5 flex items-center gap-1">
-                            <Clock className="w-3 h-3 text-amber-600" />
+                        <div className="p-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded text-[11px] text-slate-800 dark:text-slate-200 leading-snug">
+                          <span className="font-bold text-slate-900 dark:text-slate-100 block mb-0.5 flex items-center gap-1">
+                            <Clock className="w-3 h-3 text-amber-600 dark:text-amber-400" />
                             Required Action:
                           </span>
                           {item.actionRequired}
@@ -1122,9 +1122,9 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
                             type="button"
                             onClick={() => setGateModalItem(item)}
                             title="Audit how this holding point talks to the 18 Quality Release Gates"
-                            className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded font-semibold text-xs flex items-center gap-1 transition-colors"
+                            className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 rounded font-semibold text-xs flex items-center gap-1 transition-colors"
                           >
-                            <ShieldCheck className="w-3.5 h-3.5 text-lime-600" />
+                            <ShieldCheck className="w-3.5 h-3.5 text-lime-600 dark:text-lime-400" />
                             <span>Gate Audit</span>
                           </button>
                         </div>
@@ -1174,42 +1174,42 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
           title={`Quality Release Gate Communicator — ${gateModalItem.partNumber}`}
           maxWidth="2xl"
         >
-          <div className="space-y-4 text-xs text-slate-800">
+          <div className="space-y-4 text-xs text-slate-800 dark:text-slate-200">
             {/* Component Summary Card */}
-            <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+            <div className="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                 <div>
-                  <span className="text-[10px] text-slate-500 font-mono block">PART NUMBER</span>
-                  <strong className="font-mono text-slate-900">{gateModalItem.partNumber}</strong>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono block">PART NUMBER</span>
+                  <strong className="font-mono text-slate-900 dark:text-slate-100">{gateModalItem.partNumber}</strong>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-500 font-mono block">DRAWING INFO</span>
-                  <strong className="font-mono text-blue-700">{gateModalItem.drawingInfo}</strong>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono block">DRAWING INFO</span>
+                  <strong className="font-mono text-blue-700 dark:text-blue-400">{gateModalItem.drawingInfo}</strong>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-500 font-mono block">MACHINE SERIAL</span>
-                  <strong className="font-mono text-slate-900">{gateModalItem.machineSerial}</strong>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono block">MACHINE SERIAL</span>
+                  <strong className="font-mono text-slate-900 dark:text-slate-100">{gateModalItem.machineSerial}</strong>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-500 font-mono block">RESPONSIBLE PERSON</span>
-                  <strong className="text-slate-900">{gateModalItem.responsiblePerson}</strong>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono block">RESPONSIBLE PERSON</span>
+                  <strong className="text-slate-900 dark:text-slate-100">{gateModalItem.responsiblePerson}</strong>
                 </div>
               </div>
             </div>
 
             {/* Blocked Gate Direct Communication */}
-            <div className="p-3 bg-rose-50 border border-rose-300 rounded-lg">
+            <div className="p-3 bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-900/60 rounded-lg">
               <div className="flex items-start gap-2.5">
-                <ShieldAlert className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+                <ShieldAlert className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
                 <div>
-                  <div className="font-black text-rose-900 text-xs flex items-center gap-2">
+                  <div className="font-black text-rose-900 dark:text-rose-200 text-xs flex items-center gap-2">
                     <span>Direct Release Block on Gate {gateModalItem.blockedGateNumber}:</span>
                     <span className="font-mono">{gateModalItem.blockedGateName}</span>
                   </div>
-                  <p className="text-rose-800 text-xs mt-1 leading-relaxed">
+                  <p className="text-rose-800 dark:text-rose-300 text-xs mt-1 leading-relaxed">
                     {gateModalItem.gateImpactSummary}
                   </p>
-                  <div className="mt-2 text-[11px] font-mono text-rose-700 bg-rose-100/70 p-2 rounded">
+                  <div className="mt-2 text-[11px] font-mono text-rose-700 dark:text-rose-300 bg-rose-100/70 dark:bg-rose-900/30 p-2 rounded">
                     <strong>Mandatory Clearance Action:</strong> {gateModalItem.actionRequired}
                   </div>
                 </div>
@@ -1219,51 +1219,51 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
             {/* 18-Point Gate Evaluation Status for this component */}
             {modalEvaluation && (
               <div>
-                <div className="flex items-center justify-between pb-1 mb-2 border-b border-slate-200">
-                  <span className="font-bold text-slate-800 font-mono text-xs flex items-center gap-1.5">
-                    <ShieldCheck className="w-4 h-4 text-blue-600" />
+                <div className="flex items-center justify-between pb-1 mb-2 border-b border-slate-200 dark:border-slate-800">
+                  <span className="font-bold text-slate-800 dark:text-slate-200 font-mono text-xs flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                     Live 18-Point Quality Release Gate Checklist:
                   </span>
                   <span
                     className={`px-2 py-0.5 rounded font-mono font-bold text-xs ${
                       modalEvaluation.canRelease
-                        ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                        : 'bg-rose-100 text-rose-800 border border-rose-300'
+                        ? 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700'
+                        : 'bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-700'
                     }`}
                   >
                     {modalEvaluation.checks.filter((c) => c.passed).length} of 18 Gates Passed
                   </span>
                 </div>
 
-                <div className="max-h-60 overflow-y-auto space-y-1 divide-y divide-slate-100 border border-slate-200 rounded-lg p-2 bg-slate-50">
+                <div className="max-h-60 overflow-y-auto space-y-1 divide-y divide-slate-100 dark:divide-slate-800 border border-slate-200 dark:border-slate-800 rounded-lg p-2 bg-slate-50 dark:bg-slate-950">
                   {modalEvaluation.checks.map((check) => {
                     const isTargetGate = check.gateNumber === gateModalItem.blockedGateNumber;
                     return (
                       <div
                         key={check.gateNumber}
                         className={`pt-1.5 pb-1 px-1 flex items-start justify-between gap-2 ${
-                          isTargetGate ? 'bg-amber-100/70 rounded p-1.5 font-semibold' : ''
+                          isTargetGate ? 'bg-amber-100/70 dark:bg-amber-950/50 rounded p-1.5 font-semibold' : ''
                         }`}
                       >
                         <div className="flex items-start gap-1.5">
                           {check.passed ? (
-                            <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                            <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                           ) : (
-                            <XCircle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
+                            <XCircle className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
                           )}
                           <div>
-                            <span className="font-mono font-bold text-[11px] text-slate-900">
+                            <span className="font-mono font-bold text-[11px] text-slate-900 dark:text-slate-100">
                               QG-{String(check.gateNumber).padStart(2, '0')}: {check.requirement}
                             </span>
-                            <div className="text-[10px] text-slate-600">{check.details}</div>
+                            <div className="text-[10px] text-slate-600 dark:text-slate-400">{check.details}</div>
                           </div>
                         </div>
 
                         <span
                           className={`px-1.5 py-0.2 rounded text-[9px] font-mono font-bold shrink-0 ${
                             check.passed
-                              ? 'bg-emerald-100 text-emerald-800'
-                              : 'bg-rose-100 text-rose-800'
+                              ? 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300'
+                              : 'bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-300'
                           }`}
                         >
                           {check.passed ? 'PASSED' : 'BLOCKED'}
@@ -1276,11 +1276,11 @@ export const DashboardLimeLine: React.FC<DashboardLimeLineProps> = ({ setActiveT
             )}
 
             {/* Modal Actions */}
-            <div className="flex items-center justify-between pt-3 border-t border-slate-200">
+            <div className="flex items-center justify-between pt-3 border-t border-slate-200 dark:border-slate-800">
               <button
                 type="button"
                 onClick={() => setGateModalItem(null)}
-                className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded font-semibold text-xs"
+                className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded font-semibold text-xs transition-colors"
               >
                 Close Audit
               </button>

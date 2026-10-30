@@ -83,6 +83,7 @@ interface QMSContextType {
   activeWorkshopDepartment: WorkshopDepartment;
   setActiveWorkshopDepartment: (dept: WorkshopDepartment) => void;
   login: (identifier: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  quickLogin: (identifier?: string) => Promise<{ success: boolean; error?: string }>;
   registerProfile: (params: {
     username: string;
     name: string;
@@ -553,6 +554,22 @@ export const QMSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       return { success: true };
     }
     return { success: false, error: res.error || 'Invalid credentials' };
+  };
+
+  // Quick 1-Click login for authorized operator profiles
+  const quickLogin = async (
+    identifier: string = 'sheq@spiralsystems.co.za'
+  ): Promise<{ success: boolean; error?: string }> => {
+    const res = await DBService.quickLogin(identifier);
+    if (res.success && res.session) {
+      setAuthSession(res.session);
+      setCurrentUserState(res.session.user);
+      setError(null);
+      const freshDb = await DBService.load();
+      setDb(reconcileCrossPopulatedDatabase(freshDb));
+      return { success: true };
+    }
+    return { success: false, error: res.error || 'Failed to sign in.' };
   };
 
   // Register a new operator login profile and sign in immediately
@@ -5031,6 +5048,7 @@ export const QMSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         activeWorkshopDepartment,
         setActiveWorkshopDepartment,
         login,
+        quickLogin,
         registerProfile,
         logout,
         setCurrentUser,

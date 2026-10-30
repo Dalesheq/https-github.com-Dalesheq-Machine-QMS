@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useQMS } from '../context/QMSContext';
+import { useTheme } from '../context/ThemeContext';
 import { UserRole } from '../types';
 import { WORKSHOP_DEPARTMENTS } from '../utils/departmentsData';
 import { Modal } from './Modal';
@@ -13,6 +14,8 @@ import {
   KeyRound,
   AlertCircle,
   UserPlus,
+  Sun,
+  Moon,
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -35,6 +38,7 @@ export const Header: React.FC<HeaderProps> = ({
     logout,
     isSyncing,
   } = useQMS();
+  const { theme, toggleTheme } = useTheme();
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -58,21 +62,21 @@ export const Header: React.FC<HeaderProps> = ({
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
       case 'MACHINIST':
-        return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+        return 'bg-amber-500/15 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border-amber-500/30 dark:border-amber-500/40';
       case 'INSPECTOR':
-        return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+        return 'bg-emerald-500/15 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/30 dark:border-emerald-500/40';
       case 'MACHINE_MANAGER':
-        return 'bg-blue-500/20 text-blue-300 border-blue-500/40';
+        return 'bg-blue-500/15 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-500/30 dark:border-blue-500/40';
       case 'ENGINEERING':
-        return 'bg-purple-500/20 text-purple-300 border-purple-500/40';
+        return 'bg-purple-500/15 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border-purple-500/30 dark:border-purple-500/40';
       case 'HSEQ':
-        return 'bg-teal-500/20 text-teal-300 border-teal-500/40';
+        return 'bg-teal-500/15 dark:bg-teal-500/20 text-teal-700 dark:text-teal-300 border-teal-500/30 dark:border-teal-500/40';
       case 'ADMINISTRATOR':
-        return 'bg-rose-500/20 text-rose-300 border-rose-500/40';
+        return 'bg-rose-500/15 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 border-rose-500/30 dark:border-rose-500/40';
       case 'MANAGEMENT':
-        return 'bg-indigo-500/25 text-indigo-300 border-indigo-400/50 font-bold';
+        return 'bg-indigo-500/20 dark:bg-indigo-500/25 text-indigo-700 dark:text-indigo-300 border-indigo-400/40 dark:border-indigo-400/50 font-bold';
       default:
-        return 'bg-slate-700 text-slate-300 border-slate-600';
+        return 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-600';
     }
   };
 
@@ -136,7 +140,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-md">
+    <header className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 sticky top-0 z-30 shadow-xs dark:shadow-md transition-colors">
       <div className="px-6 py-3 flex flex-wrap items-center justify-between gap-4">
         {/* Left: Brand Identity */}
         <div className="flex items-center gap-3">
@@ -145,36 +149,36 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-lg font-black tracking-wider uppercase font-mono">
+              <h1 className="text-lg font-black tracking-wider uppercase font-mono text-slate-900 dark:text-white">
                 MACHINE QMS
               </h1>
-              <span className="px-2 py-0.5 text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/40 rounded font-mono font-bold">
+              <span className="px-2 py-0.5 text-[10px] bg-blue-50 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-500/40 rounded font-mono font-bold">
                 STANDALONE REV 2.4
               </span>
-              <span className="px-2 py-0.5 text-[10px] rounded font-mono font-bold flex items-center gap-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+              <span className="px-2 py-0.5 text-[10px] rounded font-mono font-bold flex items-center gap-1 bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/40">
                 <Lock className="w-2.5 h-2.5" />
                 PRODUCTION AUTH
               </span>
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Manufacturing Quality &amp; Component Traceability System
             </p>
           </div>
         </div>
 
-        {/* Right: Quick Actions & Authenticated Session */}
+        {/* Right: Quick Actions, Theme Toggle & Authenticated Session */}
         <div className="flex items-center gap-3">
           <div className="hidden xl:flex items-center gap-2 mr-2">
             <button
               onClick={onNavigateToSearch}
-              className="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-md transition-colors"
+              className="px-3 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-md transition-colors cursor-pointer"
             >
               Traceability Search
             </button>
             {['MACHINIST', 'MACHINE_MANAGER', 'ADMINISTRATOR'].includes(currentUser.role) && (
               <button
                 onClick={onOpenCreateRecord}
-                className="px-3 py-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-md transition-colors shadow-xs"
+                className="px-3 py-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-md transition-colors shadow-xs cursor-pointer"
               >
                 + New Manufacturing Record
               </button>
@@ -182,7 +186,7 @@ export const Header: React.FC<HeaderProps> = ({
             {['MACHINE_MANAGER', 'ENGINEERING', 'ADMINISTRATOR'].includes(currentUser.role) && (
               <button
                 onClick={onOpenCreateMachine}
-                className="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-md transition-colors"
+                className="px-3 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-md transition-colors cursor-pointer"
               >
                 + Register Machine
               </button>
@@ -190,26 +194,47 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Sync Status */}
-          <div className="hidden md:flex items-center gap-1.5 text-xs text-slate-400 border-r border-slate-800 pr-3">
-            <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-blue-400' : 'text-emerald-400'}`} />
+          <div className="hidden md:flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 border-r border-slate-200 dark:border-slate-800 pr-3">
+            <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-blue-500' : 'text-emerald-500'}`} />
             <span className="font-mono text-[11px]">
               {isSyncing ? 'SYNCING...' : 'SERVER SYNCED'}
             </span>
           </div>
 
+          {/* Global Theme Toggle Button */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 transition-colors shadow-2xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {theme === 'light' ? (
+              <>
+                <Moon className="w-4 h-4 text-slate-700" />
+                <span className="text-xs font-medium font-mono hidden sm:inline">Dark</span>
+              </>
+            ) : (
+              <>
+                <Sun className="w-4 h-4 text-amber-400" />
+                <span className="text-xs font-medium font-mono hidden sm:inline">Light</span>
+              </>
+            )}
+          </button>
+
           {/* Authenticated Operator Session Menu */}
           <div className="relative">
             <button
               onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-              className="flex items-center gap-2.5 bg-slate-800 hover:bg-slate-750 border border-slate-700 px-3 py-1.5 rounded-lg transition-colors text-left"
+              className="flex items-center gap-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-lg transition-colors text-left cursor-pointer"
             >
-              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+              <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs font-bold text-white leading-none">
+                  <span className="text-xs font-bold text-slate-900 dark:text-white leading-none">
                     {currentUser.name}
                   </span>
-                  <span className="text-[10px] font-mono text-slate-400">
+                  <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400">
                     ({currentUser.id})
                   </span>
                 </div>
@@ -221,7 +246,7 @@ export const Header: React.FC<HeaderProps> = ({
                   >
                     {currentUser.role}
                   </span>
-                  <span className="text-[9px] font-mono text-emerald-400">
+                  <span className="text-[9px] font-mono text-emerald-600 dark:text-emerald-400">
                     ● AUTHENTICATED
                   </span>
                 </div>
@@ -235,28 +260,28 @@ export const Header: React.FC<HeaderProps> = ({
                   className="fixed inset-0 z-40"
                   onClick={() => setIsUserMenuOpen(false)}
                 />
-                <div className="absolute right-0 mt-2 w-80 bg-slate-900 border border-slate-700 rounded-lg shadow-2xl z-50 overflow-hidden">
-                  <div className="px-4 py-3 bg-slate-950 border-b border-slate-800">
+                <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg shadow-2xl z-50 overflow-hidden">
+                  <div className="px-4 py-3 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
                     <div className="flex items-center justify-between">
-                      <p className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">
+                      <p className="text-[11px] font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400 font-bold">
                         Authenticated Session
                       </p>
-                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
                         TOKEN VERIFIED
                       </span>
                     </div>
-                    <div className="mt-2 text-xs font-mono text-slate-300 space-y-0.5">
+                    <div className="mt-2 text-xs font-mono text-slate-700 dark:text-slate-300 space-y-0.5">
                       <div>
-                        User: <strong className="text-white">{currentUser.name}</strong> ({currentUser.id})
+                        User: <strong className="text-slate-900 dark:text-white">{currentUser.name}</strong> ({currentUser.id})
                       </div>
                       <div>
-                        Role: <strong className="text-blue-300">{currentUser.role}</strong>
+                        Role: <strong className="text-blue-600 dark:text-blue-300">{currentUser.role}</strong>
                       </div>
                       <div>
-                        Dept: <span className="text-slate-400">{currentUser.department}</span>
+                        Dept: <span className="text-slate-500 dark:text-slate-400">{currentUser.department}</span>
                       </div>
                       {authSession && (
-                        <div className="text-[10px] text-slate-500">
+                        <div className="text-[10px] text-slate-400 dark:text-slate-500">
                           Expires: {new Date(authSession.expiresAt).toLocaleTimeString()}
                         </div>
                       )}
@@ -264,7 +289,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="p-2.5 bg-slate-950 flex flex-col gap-2">
+                  <div className="p-2.5 bg-slate-50 dark:bg-slate-950 flex flex-col gap-2">
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={() => {
@@ -273,7 +298,7 @@ export const Header: React.FC<HeaderProps> = ({
                           setModalMode('SIGN_IN');
                           setIsLoginModalOpen(true);
                         }}
-                        className="px-3 py-2 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center justify-center gap-1.5"
+                        className="px-3 py-2 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center justify-center gap-1.5 cursor-pointer"
                       >
                         <KeyRound className="w-3.5 h-3.5" />
                         Sign In Another
@@ -285,7 +310,7 @@ export const Header: React.FC<HeaderProps> = ({
                           setModalMode('CREATE_PROFILE');
                           setIsLoginModalOpen(true);
                         }}
-                        className="px-3 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded flex items-center justify-center gap-1.5"
+                        className="px-3 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded flex items-center justify-center gap-1.5 cursor-pointer"
                       >
                         <UserPlus className="w-3.5 h-3.5" />
                         Create Profile
@@ -297,7 +322,7 @@ export const Header: React.FC<HeaderProps> = ({
                           setIsUserMenuOpen(false);
                           await logout();
                         }}
-                        className="w-full px-3 py-2 text-xs font-bold bg-rose-950 hover:bg-rose-900 text-rose-200 border border-rose-800 rounded flex items-center justify-center gap-1.5"
+                        className="w-full px-3 py-2 text-xs font-bold bg-rose-50 hover:bg-rose-100 dark:bg-rose-950 dark:hover:bg-rose-900 text-rose-700 dark:text-rose-200 border border-rose-200 dark:border-rose-800 rounded flex items-center justify-center gap-1.5 cursor-pointer"
                       >
                         <LogOut className="w-3.5 h-3.5" />
                         Logout Current Session
@@ -322,18 +347,18 @@ export const Header: React.FC<HeaderProps> = ({
         }
         maxWidth="md"
       >
-        <div className="space-y-4 text-xs text-slate-800">
-          <div className="grid grid-cols-2 border border-slate-200 rounded-lg overflow-hidden bg-slate-100 font-bold">
+        <div className="space-y-4 text-xs text-slate-800 dark:text-slate-200">
+          <div className="grid grid-cols-2 border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800 font-bold">
             <button
               type="button"
               onClick={() => {
                 setLoginError(null);
                 setModalMode('SIGN_IN');
               }}
-              className={`py-2 px-3 flex items-center justify-center gap-1.5 ${
+              className={`py-2 px-3 flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
                 modalMode === 'SIGN_IN'
                   ? 'bg-blue-600 text-white'
-                  : 'text-slate-600 hover:text-slate-900'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               <KeyRound className="w-3.5 h-3.5" />
@@ -345,10 +370,10 @@ export const Header: React.FC<HeaderProps> = ({
                 setLoginError(null);
                 setModalMode('CREATE_PROFILE');
               }}
-              className={`py-2 px-3 flex items-center justify-center gap-1.5 ${
+              className={`py-2 px-3 flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
                 modalMode === 'CREATE_PROFILE'
                   ? 'bg-emerald-600 text-white'
-                  : 'text-slate-600 hover:text-slate-900'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               <UserPlus className="w-3.5 h-3.5" />
@@ -357,7 +382,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {loginError && (
-            <div className="p-3 bg-rose-50 border border-rose-300 text-rose-900 rounded-lg flex items-start gap-2 font-semibold">
+            <div className="p-3 bg-rose-50 dark:bg-rose-950/50 border border-rose-300 dark:border-rose-800 text-rose-900 dark:text-rose-200 rounded-lg flex items-start gap-2 font-semibold">
               <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
               <span>{loginError}</span>
             </div>
@@ -366,7 +391,7 @@ export const Header: React.FC<HeaderProps> = ({
           {modalMode === 'SIGN_IN' ? (
             <form onSubmit={handleLoginSubmit} className="space-y-4">
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Username or Email Address *
                 </label>
                 <input
@@ -375,34 +400,34 @@ export const Header: React.FC<HeaderProps> = ({
                   value={loginIdentifier}
                   onChange={(e) => setLoginIdentifier(e.target.value)}
                   placeholder="e.g. sarah.connor, dave.vance, admin.qms"
-                  className="w-full px-3 py-2 border border-slate-300 rounded font-mono"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded font-mono bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Password *</label>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Password *</label>
                 <input
                   type="password"
                   required
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
                   placeholder="Enter operator password"
-                  className="w-full px-3 py-2 border border-slate-300 rounded font-mono"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded font-mono bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-200">
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
                 <button
                   type="button"
                   onClick={() => setIsLoginModalOpen(false)}
-                  className="px-4 py-2 border border-slate-300 rounded font-semibold text-slate-700 hover:bg-slate-100"
+                  className="px-4 py-2 border border-slate-300 dark:border-slate-700 rounded font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isLoggingIn}
-                  className="px-5 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded font-bold flex items-center gap-1.5"
+                  className="px-5 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded font-bold flex items-center gap-1.5 cursor-pointer"
                 >
                   <KeyRound className="w-3.5 h-3.5" />
                   {isLoggingIn ? 'Signing In...' : 'Sign In & Verify Token'}
@@ -413,61 +438,61 @@ export const Header: React.FC<HeaderProps> = ({
             <form onSubmit={handleCreateProfileSubmit} className="space-y-3">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Full Name *</label>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Full Name *</label>
                   <input
                     type="text"
                     required
                     value={regForm.name}
                     onChange={(e) => setRegForm({ ...regForm, name: e.target.value })}
                     placeholder="e.g. Alex Mercer"
-                    className="w-full px-3 py-2 border border-slate-300 rounded"
+                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Username *</label>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Username *</label>
                   <input
                     type="text"
                     required
                     value={regForm.username}
                     onChange={(e) => setRegForm({ ...regForm, username: e.target.value })}
                     placeholder="e.g. alex.mercer"
-                    className="w-full px-3 py-2 border border-slate-300 rounded font-mono"
+                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded font-mono bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Work Email *</label>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Work Email *</label>
                 <input
                   type="email"
                   required
                   value={regForm.email}
                   onChange={(e) => setRegForm({ ...regForm, email: e.target.value })}
                   placeholder="e.g. name@spiralsystems.co.za"
-                  className="w-full px-3 py-2 border border-slate-300 rounded font-mono"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded font-mono bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Role *</label>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Role *</label>
                   <select
                     value={regForm.role}
                     onChange={(e) => setRegForm({ ...regForm, role: e.target.value as UserRole })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded font-bold bg-white"
+                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded font-bold bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                   >
                     <option value="MACHINIST">MACHINIST (Workshop Operator)</option>
                   </select>
-                  <p className="text-[10px] text-slate-500 mt-0.5">
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
                     Privileged roles require Administrator provisioning.
                   </p>
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Department *</label>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Department *</label>
                   <select
                     value={regForm.department}
                     onChange={(e) => setRegForm({ ...regForm, department: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded bg-white text-xs"
+                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs"
                   >
                     {WORKSHOP_DEPARTMENTS.map((dept) => (
                       <option key={dept.id} value={dept.name}>
@@ -480,7 +505,7 @@ export const Header: React.FC<HeaderProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
                     Password (min 6 chars) *
                   </label>
                   <input
@@ -490,11 +515,11 @@ export const Header: React.FC<HeaderProps> = ({
                     value={regForm.password}
                     onChange={(e) => setRegForm({ ...regForm, password: e.target.value })}
                     placeholder="Create password"
-                    className="w-full px-3 py-2 border border-slate-300 rounded font-mono"
+                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded font-mono bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Confirm Password *</label>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Confirm Password *</label>
                   <input
                     type="password"
                     required
@@ -502,23 +527,23 @@ export const Header: React.FC<HeaderProps> = ({
                     value={regForm.confirmPassword}
                     onChange={(e) => setRegForm({ ...regForm, confirmPassword: e.target.value })}
                     placeholder="Confirm password"
-                    className="w-full px-3 py-2 border border-slate-300 rounded font-mono"
+                    className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded font-mono bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                   />
                 </div>
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-slate-200">
+              <div className="flex justify-end gap-2 pt-3 border-t border-slate-200 dark:border-slate-800">
                 <button
                   type="button"
                   onClick={() => setIsLoginModalOpen(false)}
-                  className="px-4 py-2 border border-slate-300 rounded font-semibold text-slate-700 hover:bg-slate-100"
+                  className="px-4 py-2 border border-slate-300 dark:border-slate-700 rounded font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isLoggingIn}
-                  className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white rounded font-bold flex items-center gap-1.5"
+                  className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white rounded font-bold flex items-center gap-1.5 cursor-pointer"
                 >
                   <UserPlus className="w-3.5 h-3.5" />
                   {isLoggingIn ? 'Creating Profile...' : 'Create Profile & Sign In'}

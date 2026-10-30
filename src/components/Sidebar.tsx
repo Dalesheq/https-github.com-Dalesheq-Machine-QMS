@@ -295,60 +295,60 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
       ];
 
   return (
-    <aside className="w-64 bg-slate-950 text-slate-300 border-r border-slate-800 flex flex-col shrink-0 min-h-[calc(100vh-53px)]">
+    <aside className="w-64 bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 min-h-[calc(100vh-53px)] transition-colors">
       {/* Top Department Workflow Switcher or Executive Scope */}
       {isManagement ? (
-        <div className="p-3 border-b border-slate-800/80 bg-slate-900/80">
-          <div className="flex items-center justify-between text-[10px] uppercase font-mono tracking-widest text-slate-400">
-            <span className="flex items-center gap-1.5 font-bold text-indigo-400">
-              <ShieldCheck className="w-3.5 h-3.5 text-indigo-400" />
+        <div className="p-3 border-b border-slate-200 dark:border-slate-800/80 bg-slate-100/70 dark:bg-slate-900/80">
+          <div className="flex items-center justify-between text-[10px] uppercase font-mono tracking-widest text-slate-500 dark:text-slate-400">
+            <span className="flex items-center gap-1.5 font-bold text-indigo-600 dark:text-indigo-400">
+              <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
               EXECUTIVE OVERSIGHT
             </span>
-            <span className="px-1.5 py-0.5 text-[9px] rounded font-mono font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">
+            <span className="px-1.5 py-0.5 text-[9px] rounded font-mono font-bold bg-indigo-50 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/40">
               LEAST PRIVILEGE
             </span>
           </div>
-          <div className="mt-2 p-2 rounded-lg bg-slate-950/80 border border-slate-800">
-            <div className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">
+          <div className="mt-2 p-2 rounded-lg bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800">
+            <div className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Access Scope
             </div>
-            <div className="text-xs font-bold text-slate-100 mt-0.5">
+            <div className="text-xs font-bold text-slate-900 dark:text-slate-100 mt-0.5">
               Factory-Wide Read-Only
             </div>
-            <div className="text-[10px] text-slate-400 mt-1 leading-tight">
+            <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 leading-tight">
               Production data entry &amp; administration strictly restricted.
             </div>
           </div>
         </div>
       ) : (
-        <div className="p-3 border-b border-slate-800/80 bg-slate-900/80 relative">
-          <div className="flex items-center justify-between text-[10px] uppercase font-mono tracking-widest text-slate-400">
+        <div className="p-3 border-b border-slate-200 dark:border-slate-800/80 bg-slate-100/70 dark:bg-slate-900/80 relative">
+          <div className="flex items-center justify-between text-[10px] uppercase font-mono tracking-widest text-slate-500 dark:text-slate-400">
             <span className="flex items-center gap-1.5 font-bold">
-              <Building2 className="w-3.5 h-3.5 text-blue-400" />
+              <Building2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
               WORKSHOP DEPT WORKFLOW
             </span>
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Workflow Synced" />
+            <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" title="Workflow Synced" />
           </div>
 
         <button
           type="button"
           onClick={() => setIsDeptMenuOpen(!isDeptMenuOpen)}
-          className="w-full mt-2 p-2 rounded-lg bg-slate-950/80 hover:bg-slate-950 border border-slate-800 flex items-center justify-between transition-all group text-left"
+          className="w-full mt-2 p-2 rounded-lg bg-white dark:bg-slate-950/80 hover:bg-slate-100 dark:hover:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-between transition-all group text-left cursor-pointer"
           title="Switch Active Department Workflow View"
         >
           <div className="min-w-0 pr-1">
-            <div className="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1">
+            <div className="text-[10px] font-mono font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider flex items-center gap-1">
               <span>[{currentDeptObj?.code || 'ALL'}]</span>
-              <span className="text-slate-400 font-sans">
+              <span className="text-slate-500 dark:text-slate-400 font-sans">
                 {activeWorkshopDepartment === 'ALL' ? 'Factory-Wide Scope' : 'Active Department'}
               </span>
             </div>
-            <div className="text-xs font-bold text-slate-100 truncate mt-0.5">
+            <div className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate mt-0.5">
               {currentDeptObj?.name || 'All Manufacturing Depts'}
             </div>
           </div>
           <ChevronDown
-            className={`w-4 h-4 text-slate-400 group-hover:text-white shrink-0 transition-transform ${
+            className={`w-4 h-4 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-white shrink-0 transition-transform ${
               isDeptMenuOpen ? 'rotate-180' : ''
             }`}
           />
@@ -361,10 +361,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
               className="fixed inset-0 z-40"
               onClick={() => setIsDeptMenuOpen(false)}
             />
-            <div className="absolute left-2 right-2 top-full mt-1.5 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-50 overflow-hidden max-h-80 overflow-y-auto text-xs divide-y divide-slate-800">
-              <div className="p-2 bg-slate-950 text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+            <div className="absolute left-2 right-2 top-full mt-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl z-50 overflow-hidden max-h-80 overflow-y-auto text-xs divide-y divide-slate-100 dark:divide-slate-800">
+              <div className="p-2 bg-slate-50 dark:bg-slate-950 text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center justify-between">
                 <span>Select Department Workflow</span>
-                <span className="text-blue-400">{WORKSHOP_DEPARTMENTS.length} Depts</span>
+                <span className="text-blue-600 dark:text-blue-400">{WORKSHOP_DEPARTMENTS.length} Depts</span>
               </div>
 
               <button
@@ -373,22 +373,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
                   setActiveWorkshopDepartment('ALL');
                   setIsDeptMenuOpen(false);
                 }}
-                className={`w-full p-2.5 flex items-center justify-between text-left transition-colors ${
+                className={`w-full p-2.5 flex items-center justify-between text-left transition-colors cursor-pointer ${
                   activeWorkshopDepartment === 'ALL'
                     ? 'bg-blue-600 text-white font-bold'
-                    : 'text-slate-200 hover:bg-slate-800'
+                    : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
               >
                 <div>
                   <div className="font-bold flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-amber-300" />
                     <span>All Workshop Departments (Full Scope)</span>
                   </div>
-                  <div className={`text-[10px] mt-0.5 ${activeWorkshopDepartment === 'ALL' ? 'text-blue-100' : 'text-slate-400'}`}>
+                  <div className={`text-[10px] mt-0.5 ${activeWorkshopDepartment === 'ALL' ? 'text-blue-100' : 'text-slate-500 dark:text-slate-400'}`}>
                     Includes all factory processes, sheets &amp; release gates
                   </div>
                 </div>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-black/30">ALL</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-black/10 dark:bg-black/30">ALL</span>
               </button>
 
               {WORKSHOP_DEPARTMENTS.map((dept) => {
@@ -401,21 +401,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
                       setActiveWorkshopDepartment(dept.id);
                       setIsDeptMenuOpen(false);
                     }}
-                    className={`w-full p-2.5 flex items-center justify-between text-left transition-colors ${
+                    className={`w-full p-2.5 flex items-center justify-between text-left transition-colors cursor-pointer ${
                       isSelected
                         ? 'bg-blue-600 text-white font-bold'
-                        : 'text-slate-200 hover:bg-slate-800'
+                        : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
                     }`}
                   >
                     <div className="min-w-0 pr-2">
                       <div className="font-bold truncate">{dept.name}</div>
-                      <div className={`text-[10px] truncate mt-0.5 ${isSelected ? 'text-blue-100' : 'text-slate-400'}`}>
+                      <div className={`text-[10px] truncate mt-0.5 ${isSelected ? 'text-blue-100' : 'text-slate-500 dark:text-slate-400'}`}>
                         {dept.description}
                       </div>
                     </div>
                     <span
                       className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded shrink-0 ${
-                        isSelected ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-300'
+                        isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
                       }`}
                     >
                       {dept.code}
@@ -433,7 +433,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
     <nav className="flex-1 p-2 space-y-4 overflow-y-auto text-xs">
         {navItems.map((section, idx) => (
           <div key={idx} className="space-y-1">
-            <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-500 font-mono">
+            <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 font-mono">
               {section.group}
             </div>
             {section.items.map((item) => {
@@ -445,22 +445,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`w-full flex items-center justify-between px-2.5 py-2 rounded-md transition-all text-left group ${
+                  className={`w-full flex items-center justify-between px-2.5 py-2 rounded-md transition-all text-left group cursor-pointer ${
                     isActive
                       ? 'bg-blue-600 text-white font-semibold shadow-xs'
-                      : 'hover:bg-slate-900 text-slate-300 hover:text-white'
+                      : 'hover:bg-slate-200/70 dark:hover:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     <Icon
                       className={`w-4 h-4 shrink-0 ${
-                        isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-400'
+                        isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400'
                       }`}
                     />
                     <div className="truncate">
                       <div className="truncate">{item.label}</div>
                       {item.subtext && !isActive && (
-                        <div className="text-[10px] text-slate-500 truncate leading-tight">
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate leading-tight">
                           {item.subtext}
                         </div>
                       )}
@@ -472,7 +472,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
                       className={`text-[10px] font-mono px-1.5 py-0.2 rounded border font-medium shrink-0 ml-1 ${
                         isActive
                           ? 'bg-white/20 text-white border-white/30'
-                          : item.badgeColor || 'bg-slate-800 text-slate-300 border-slate-700'
+                          : item.badgeColor || 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700'
                       }`}
                     >
                       {item.badge}
@@ -486,11 +486,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
       </nav>
 
       {/* Bottom Quality Golden Rule Footnote */}
-      <div className="p-3 border-t border-slate-800/80 bg-slate-900/40 text-[10px] text-slate-400 space-y-1">
-        <div className="font-bold text-slate-300 uppercase tracking-wider font-mono">
+      <div className="p-3 border-t border-slate-200 dark:border-slate-800/80 bg-slate-100/70 dark:bg-slate-900/40 text-[10px] text-slate-600 dark:text-slate-400 space-y-1">
+        <div className="font-bold text-slate-800 dark:text-slate-300 uppercase tracking-wider font-mono">
           MANDATORY QUALITY RULES:
         </div>
-        <p className="leading-tight text-slate-400">
+        <p className="leading-tight text-slate-500 dark:text-slate-400">
           • NO INSPECTION = NO RELEASE
           <br />
           • NO TRACEABILITY = NO RELEASE

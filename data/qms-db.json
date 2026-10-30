@@ -6193,6 +6193,51 @@
   "componentFitments": [],
   "auditLogs": [
     {
+      "id": "AUD-1793277701934-19ld7",
+      "timestamp": "2026-10-29T12:41:41.934Z",
+      "userId": "USR-008",
+      "user": "Basil De Swardt",
+      "role": "ADMINISTRATOR",
+      "action": "USER_LOGIN_QUICK",
+      "recordType": "AUTH",
+      "recordId": "USR-008",
+      "details": {
+        "username": "sheq",
+        "email": "sheq@spiralsystems.co.za",
+        "role": "ADMINISTRATOR"
+      }
+    },
+    {
+      "id": "AUD-1793277696958-53757",
+      "timestamp": "2026-10-29T12:41:36.958Z",
+      "userId": "USR-008",
+      "user": "Basil De Swardt",
+      "role": "ADMINISTRATOR",
+      "action": "USER_LOGIN",
+      "recordType": "AUTH",
+      "recordId": "USR-008",
+      "details": {
+        "username": "sheq",
+        "email": "sheq@spiralsystems.co.za",
+        "role": "ADMINISTRATOR"
+      }
+    },
+    {
+      "id": "AUD-1793277692104-wrp3e",
+      "timestamp": "2026-10-29T12:41:32.104Z",
+      "userId": "USR-008",
+      "user": "Basil De Swardt",
+      "role": "ADMINISTRATOR",
+      "action": "USER_LOGIN_QUICK",
+      "recordType": "AUTH",
+      "recordId": "USR-008",
+      "details": {
+        "username": "sheq",
+        "email": "sheq@spiralsystems.co.za",
+        "role": "ADMINISTRATOR"
+      }
+    },
+    {
       "id": "AUD-INIT-001",
       "timestamp": "2026-10-25T23:30:00Z",
       "userId": "USR-008",

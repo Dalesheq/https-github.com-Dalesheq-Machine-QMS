@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 import { QMSProvider, useQMS } from './context/QMSContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { Header } from './components/Header';
 import { Sidebar, ActiveTab } from './components/Sidebar';
 import { DashboardModule } from './modules/DashboardModule';
@@ -38,12 +39,12 @@ import {
 } from 'lucide-react';
 
 function StandaloneLoginScreen() {
-  const { login, registerProfile } = useQMS();
+  const { login, quickLogin, registerProfile } = useQMS();
   const [mode, setMode] = useState<'SIGN_IN' | 'CREATE_PROFILE'>('SIGN_IN');
 
   // Sign In state
-  const [identifier, setIdentifier] = useState('');
-  const [password, setPassword] = useState('');
+  const [identifier, setIdentifier] = useState('sheq@spiralsystems.co.za');
+  const [password, setPassword] = useState('SpiralQMS2026!');
 
   // Create Profile state
   const [regForm, setRegForm] = useState({
@@ -58,6 +59,24 @@ function StandaloneLoginScreen() {
 
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [quickLoadingRole, setQuickLoadingRole] = useState<string | null>(null);
+
+  const handleQuickSignIn = async (userEmail: string, roleLabel: string) => {
+    setError(null);
+    setQuickLoadingRole(roleLabel);
+    try {
+      const res = await quickLogin(userEmail);
+      if (!res.success) {
+        // Fallback to manual login with standard password
+        const manualRes = await login(userEmail, 'SpiralQMS2026!');
+        if (!manualRes.success) {
+          setError(res.error || manualRes.error || 'Failed to sign in.');
+        }
+      }
+    } finally {
+      setQuickLoadingRole(null);
+    }
+  };
 
   const handleSignInSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,8 +124,8 @@ function StandaloneLoginScreen() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center p-4 font-sans text-slate-900">
-      <div className="w-full max-w-xl bg-white rounded-xl shadow-2xl border border-slate-700 overflow-hidden">
+    <div className="min-h-screen bg-slate-900 dark:bg-slate-950 flex flex-col justify-center items-center p-4 font-sans text-slate-900 dark:text-slate-100">
+      <div className="w-full max-w-xl bg-white dark:bg-slate-900 rounded-xl shadow-2xl border border-slate-300 dark:border-slate-800 overflow-hidden">
         <div className="bg-slate-950 text-white p-6 border-b border-slate-800">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-blue-600 rounded-lg text-white">
@@ -122,28 +141,137 @@ function StandaloneLoginScreen() {
                 </span>
               </div>
               <p className="text-xs text-slate-400 mt-0.5">
-                Manufacturing Quality &amp; Component Traceability System
+                Spiral Systems &amp; Dale Automation • Manufacturing Quality System
               </p>
             </div>
           </div>
         </div>
 
+        {/* 1-Click Fast Sign-In Selector */}
+        <div className="p-4 bg-slate-50 dark:bg-slate-950/60 border-b border-slate-200 dark:border-slate-800">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+              1-Click Fast Access (Select Role)
+            </span>
+            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">Instant Session</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <button
+              type="button"
+              disabled={Boolean(quickLoadingRole)}
+              onClick={() => handleQuickSignIn('sheq@spiralsystems.co.za', 'Basil (Admin)')}
+              className="p-2.5 text-left rounded-lg border-2 border-blue-500 bg-blue-50/80 dark:bg-blue-950/40 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-all text-xs group relative shadow-xs cursor-pointer"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-blue-950 dark:text-blue-100 group-hover:text-blue-700 dark:group-hover:text-blue-300">
+                  Basil De Swardt
+                </span>
+                <span className="px-1.5 py-0.5 text-[9px] font-black bg-blue-600 text-white rounded">
+                  SHEQ / ADMIN
+                </span>
+              </div>
+              <p className="text-[11px] text-blue-800 dark:text-blue-300 font-mono mt-0.5">
+                sheq@spiralsystems.co.za
+              </p>
+              {quickLoadingRole === 'Basil (Admin)' && (
+                <div className="absolute inset-0 bg-blue-600/20 backdrop-blur-[1px] flex items-center justify-center rounded-lg">
+                  <Loader2 className="w-4 h-4 text-blue-700 animate-spin" />
+                </div>
+              )}
+            </button>
+
+            <button
+              type="button"
+              disabled={Boolean(quickLoadingRole)}
+              onClick={() => handleQuickSignIn('sarah.connor@spiralsystems.co.za', 'Sarah (Inspector)')}
+              className="p-2.5 text-left rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 transition-all text-xs group relative shadow-xs cursor-pointer"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-700 dark:group-hover:text-blue-400">
+                  Sarah Connor
+                </span>
+                <span className="px-1.5 py-0.5 text-[9px] font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 rounded border border-amber-300 dark:border-amber-800">
+                  INSPECTOR
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">
+                sarah.connor@spiralsystems.co.za
+              </p>
+              {quickLoadingRole === 'Sarah (Inspector)' && (
+                <div className="absolute inset-0 bg-slate-900/10 backdrop-blur-[1px] flex items-center justify-center rounded-lg">
+                  <Loader2 className="w-4 h-4 text-blue-700 animate-spin" />
+                </div>
+              )}
+            </button>
+
+            <button
+              type="button"
+              disabled={Boolean(quickLoadingRole)}
+              onClick={() => handleQuickSignIn('peter.ndlovu@spiralsystems.co.za', 'Peter (Manager)')}
+              className="p-2.5 text-left rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 transition-all text-xs group relative shadow-xs cursor-pointer"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-700 dark:group-hover:text-blue-400">
+                  Peter Ndlovu
+                </span>
+                <span className="px-1.5 py-0.5 text-[9px] font-bold bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 rounded border border-purple-300 dark:border-purple-800">
+                  MACHINE MGR
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">
+                peter.ndlovu@spiralsystems.co.za
+              </p>
+              {quickLoadingRole === 'Peter (Manager)' && (
+                <div className="absolute inset-0 bg-slate-900/10 backdrop-blur-[1px] flex items-center justify-center rounded-lg">
+                  <Loader2 className="w-4 h-4 text-blue-700 animate-spin" />
+                </div>
+              )}
+            </button>
+
+            <button
+              type="button"
+              disabled={Boolean(quickLoadingRole)}
+              onClick={() => handleQuickSignIn('dave.vance@spiralsystems.co.za', 'Dave (Machinist)')}
+              className="p-2.5 text-left rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 transition-all text-xs group relative shadow-xs cursor-pointer"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-700 dark:group-hover:text-blue-400">
+                  Dave Vance
+                </span>
+                <span className="px-1.5 py-0.5 text-[9px] font-bold bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded border border-slate-300 dark:border-slate-600">
+                  MACHINIST
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">
+                dave.vance@spiralsystems.co.za
+              </p>
+              {quickLoadingRole === 'Dave (Machinist)' && (
+                <div className="absolute inset-0 bg-slate-900/10 backdrop-blur-[1px] flex items-center justify-center rounded-lg">
+                  <Loader2 className="w-4 h-4 text-blue-700 animate-spin" />
+                </div>
+              )}
+            </button>
+          </div>
+        </div>
+
         {/* Mode Switcher Tabs */}
-        <div className="grid grid-cols-2 border-b border-slate-200 bg-slate-100 text-xs font-bold">
+        <div className="grid grid-cols-2 border-b border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800 text-xs font-bold">
           <button
             type="button"
             onClick={() => {
               setError(null);
               setMode('SIGN_IN');
             }}
-            className={`py-3 px-4 flex items-center justify-center gap-2 border-b-2 transition-colors ${
+            className={`py-3 px-4 flex items-center justify-center gap-2 border-b-2 transition-colors cursor-pointer ${
               mode === 'SIGN_IN'
-                ? 'bg-white border-blue-600 text-blue-700'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-white dark:bg-slate-900 border-blue-600 text-blue-700 dark:text-blue-400'
+                : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <KeyRound className="w-4 h-4" />
-            Sign In
+            Standard Sign In
           </button>
           <button
             type="button"
@@ -151,10 +279,10 @@ function StandaloneLoginScreen() {
               setError(null);
               setMode('CREATE_PROFILE');
             }}
-            className={`py-3 px-4 flex items-center justify-center gap-2 border-b-2 transition-colors ${
+            className={`py-3 px-4 flex items-center justify-center gap-2 border-b-2 transition-colors cursor-pointer ${
               mode === 'CREATE_PROFILE'
-                ? 'bg-white border-blue-600 text-blue-700'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-white dark:bg-slate-900 border-blue-600 text-blue-700 dark:text-blue-400'
+                : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <UserPlus className="w-4 h-4" />
@@ -164,91 +292,63 @@ function StandaloneLoginScreen() {
 
         {mode === 'SIGN_IN' ? (
           <form onSubmit={handleSignInSubmit} className="p-6 space-y-4 text-xs">
-            <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg flex items-start gap-2.5 text-slate-700">
+            <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-2.5 text-blue-950">
               <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
-              <div>
-                <strong className="text-slate-900 block">Mandatory Operator Authentication</strong>
-                Sign in with your Machine Department username or email and password, or click{' '}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setError(null);
-                    setMode('CREATE_PROFILE');
-                  }}
-                  className="text-blue-700 font-bold underline"
-                >
-                  Create Login Profile
-                </button>{' '}
-                to register a new profile.
+              <div className="text-[11px]">
+                <strong className="block text-blue-900">Operator Sign-In</strong>
+                Initial credentials for seed accounts: Password is{' '}
+                <code className="px-1.5 py-0.5 bg-blue-200/80 rounded font-mono font-bold text-blue-900">
+                  SpiralQMS2026!
+                </code>
               </div>
             </div>
 
             {error && (
-              <div className="p-3 bg-rose-50 border border-rose-300 text-rose-900 rounded-lg flex items-start gap-2 font-semibold">
+              <div className="p-3 bg-rose-50 dark:bg-rose-950/50 border border-rose-300 dark:border-rose-800 text-rose-900 dark:text-rose-200 rounded-lg flex items-start gap-2 font-semibold">
                 <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
             )}
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">
+              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
                 Username or Email Address *
               </label>
               <input
                 type="text"
                 required
-                autoFocus
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
-                placeholder="e.g. sarah.connor, dave.vance, admin.qms"
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg font-mono text-slate-900 bg-white focus:outline-hidden focus:ring-2 focus:ring-blue-600"
+                placeholder="e.g. sheq@spiralsystems.co.za or sarah.connor"
+                className="w-full px-3 py-2.5 border border-slate-300 dark:border-slate-700 rounded-lg font-mono text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Password *</label>
+              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Password *</label>
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter operator password"
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg font-mono text-slate-900 bg-white focus:outline-hidden focus:ring-2 focus:ring-blue-600"
+                className="w-full px-3 py-2.5 border border-slate-300 dark:border-slate-700 rounded-lg font-mono text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 focus:outline-hidden focus:ring-2 focus:ring-blue-600"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold rounded-lg shadow-xs flex items-center justify-center gap-2 transition-colors"
+              className="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-bold rounded-lg shadow-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
             >
               <KeyRound className="w-4 h-4" />
               {isSubmitting ? 'Verifying Credentials...' : 'Sign In to MACHINE QMS'}
             </button>
-
-            <div className="pt-3 border-t border-slate-200 text-[11px] text-slate-500 font-mono space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-slate-700 uppercase text-[10px]">
-                  Authorized Production Accounts:
-                </span>
-                <span className="text-[10px] text-slate-500 font-sans">
-                  Individual credential verification required
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[10px]">
-                <span>• johan.kruger (MACHINIST)</span>
-                <span>• sarah.connor (INSPECTOR)</span>
-                <span>• peter.ndlovu (MACHINE_MANAGER)</span>
-                <span>• elena.rostova (ENGINEERING)</span>
-                <span>• marcus.chen (HSEQ)</span>
-                <span>• sheq (ADMINISTRATOR)</span>
-              </div>
-            </div>
           </form>
         ) : (
           <form onSubmit={handleCreateProfileSubmit} className="p-6 space-y-3.5 text-xs">
-            <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-2.5 text-blue-900">
-              <UserPlus className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+            <div className="p-3 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-lg flex items-start gap-2.5 text-blue-900 dark:text-blue-200">
+              <UserPlus className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
               <div>
                 <strong className="block">Create Operator Login Profile</strong>
                 Registers a new immutable User ID (<code className="font-mono">USR-XXX</code>) with salted password hashing and signs you in immediately.
@@ -256,7 +356,7 @@ function StandaloneLoginScreen() {
             </div>
 
             {error && (
-              <div className="p-3 bg-rose-50 border border-rose-300 text-rose-900 rounded-lg flex items-start gap-2 font-semibold">
+              <div className="p-3 bg-rose-50 dark:bg-rose-950/50 border border-rose-300 dark:border-rose-800 text-rose-900 dark:text-rose-200 rounded-lg flex items-start gap-2 font-semibold">
                 <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
@@ -264,44 +364,44 @@ function StandaloneLoginScreen() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Full Name *</label>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Full Name *</label>
                 <input
                   type="text"
                   required
                   value={regForm.name}
                   onChange={(e) => setRegForm({ ...regForm, name: e.target.value })}
                   placeholder="e.g. Alex Mercer"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-900 bg-white"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800"
                 />
               </div>
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Username *</label>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Username *</label>
                 <input
                   type="text"
                   required
                   value={regForm.username}
                   onChange={(e) => setRegForm({ ...regForm, username: e.target.value })}
                   placeholder="e.g. alex.mercer"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono text-slate-900 bg-white"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg font-mono text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Work Email Address *</label>
+              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Work Email Address *</label>
               <input
                 type="email"
                 required
                 value={regForm.email}
                 onChange={(e) => setRegForm({ ...regForm, email: e.target.value })}
                 placeholder="e.g. name@spiralsystems.co.za"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono text-slate-900 bg-white"
+                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg font-mono text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Department Role *
                 </label>
                 <select
@@ -323,7 +423,7 @@ function StandaloneLoginScreen() {
                       department: defaultDept[role] || regForm.department,
                     });
                   }}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-bold text-slate-900 bg-white"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg font-bold text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800"
                 >
                   <option value="ADMINISTRATOR">ADMINISTRATOR (System Admin & QMS Governance)</option>
                   <option value="MACHINE_MANAGER">MACHINE_MANAGER (Machine Shop / Production Lead)</option>
@@ -333,7 +433,7 @@ function StandaloneLoginScreen() {
                   <option value="MACHINIST">MACHINIST (Workshop Operator / Bay Machinist)</option>
                   <option value="MANAGEMENT">MANAGEMENT (Executive Oversight & Reporting)</option>
                 </select>
-                <p className="text-[10px] text-blue-700 font-medium mt-1">
+                <p className="text-[10px] text-blue-700 dark:text-blue-400 font-medium mt-1">
                   {regForm.role === 'ADMINISTRATOR' && 'Full governance authority: users, permissions, drawings, and system configuration.'}
                   {regForm.role === 'MACHINE_MANAGER' && 'Production lead: machine builds, scheduling, BOMs, and inspection templates.'}
                   {regForm.role === 'INSPECTOR' && 'Quality authority: dimensional inspection, holding points, CMM, NCRs, and FAT release.'}
@@ -344,11 +444,11 @@ function StandaloneLoginScreen() {
                 </p>
               </div>
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Assigned Department / Bay *</label>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Assigned Department / Bay *</label>
                 <select
                   value={regForm.department}
                   onChange={(e) => setRegForm({ ...regForm, department: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg text-slate-900 bg-white font-medium"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 font-medium"
                 >
                   {WORKSHOP_DEPARTMENTS.map((dept) => (
                     <option key={dept.id} value={dept.name}>
@@ -356,7 +456,7 @@ function StandaloneLoginScreen() {
                     </option>
                   ))}
                 </select>
-                <p className="text-[10px] text-slate-500 mt-1">
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
                   Links profile to department inspection holding points and job allocation.
                 </p>
               </div>
@@ -364,7 +464,7 @@ function StandaloneLoginScreen() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
                   Password (min 6 chars) *
                 </label>
                 <input
@@ -374,11 +474,11 @@ function StandaloneLoginScreen() {
                   value={regForm.password}
                   onChange={(e) => setRegForm({ ...regForm, password: e.target.value })}
                   placeholder="Create password"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono text-slate-900 bg-white"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg font-mono text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800"
                 />
               </div>
               <div>
-                <label className="block font-bold text-slate-700 mb-1">Confirm Password *</label>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Confirm Password *</label>
                 <input
                   type="password"
                   required
@@ -386,7 +486,7 @@ function StandaloneLoginScreen() {
                   value={regForm.confirmPassword}
                   onChange={(e) => setRegForm({ ...regForm, confirmPassword: e.target.value })}
                   placeholder="Confirm password"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg font-mono text-slate-900 bg-white"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg font-mono text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800"
                 />
               </div>
             </div>
@@ -394,7 +494,7 @@ function StandaloneLoginScreen() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold rounded-lg shadow-xs flex items-center justify-center gap-2 transition-colors"
+              className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold rounded-lg shadow-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
             >
               <UserPlus className="w-4 h-4" />
               {isSubmitting ? 'Creating Profile...' : 'Create Login Profile & Sign In'}
@@ -464,7 +564,7 @@ function AppContent() {
     : activeTab;
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-100 text-slate-900 font-sans">
+    <div className="min-h-screen flex flex-col bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors">
       <Header
         onNavigateToSearch={() => {
           if (isManagement) {
@@ -491,7 +591,7 @@ function AppContent() {
       <div className="flex flex-1 overflow-hidden">
         <Sidebar activeTab={effectiveTab} setActiveTab={setActiveTab} />
 
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto p-6 bg-slate-100 dark:bg-slate-950">
           <div className="max-w-7xl mx-auto">
             {effectiveTab === 'dashboard' && (
               <DashboardModule
@@ -576,8 +676,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <QMSProvider>
-      <AppContent />
-    </QMSProvider>
+    <ThemeProvider>
+      <QMSProvider>
+        <AppContent />
+      </QMSProvider>
+    </ThemeProvider>
   );
 }

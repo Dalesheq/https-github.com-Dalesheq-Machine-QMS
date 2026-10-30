@@ -17,7 +17,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'sm' })
       case 'READY_FOR_RELEASE':
       case 'COMPLETED':
       case 'DELIVERED':
-        return 'bg-emerald-100 text-emerald-900 border-emerald-300';
+        return 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-900 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700/70';
 
       case 'ACCEPTED_BY_APPROVED_DEVIATION':
       case 'ACCEPTED_BY_DEVIATION':
@@ -26,7 +26,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'sm' })
       case 'USE_AS_IS':
       case 'CONCESSION_ACCEPTED':
       case 'REWORK_TO_REDLINE':
-        return 'bg-amber-100 text-amber-900 border-amber-400 font-bold';
+        return 'bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 border-amber-400 dark:border-amber-700/70 font-bold';
 
       case 'IN_PRODUCTION':
       case 'IN_PROGRESS':
@@ -43,7 +43,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'sm' })
       case 'SUB_ASSEMBLY':
       case 'FINAL_ASSEMBLY':
       case 'TESTING':
-        return 'bg-amber-100 text-amber-900 border-amber-300';
+        return 'bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 border-amber-300 dark:border-amber-700/70';
 
       case 'HOLD':
       case 'QUALITY_HOLD':
@@ -58,7 +58,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'sm' })
       case 'BLOCKED':
       case 'INCOMPLETE':
       case 'INACTIVE':
-        return 'bg-rose-100 text-rose-900 border-rose-300';
+        return 'bg-rose-100 dark:bg-rose-950/80 text-rose-900 dark:text-rose-300 border-rose-300 dark:border-rose-700/70';
 
       case 'DRAFT':
       case 'PLANNED':
@@ -66,7 +66,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'sm' })
       case 'NOT_STARTED':
       case 'SUPERSEDED':
       default:
-        return 'bg-slate-100 text-slate-700 border-slate-300';
+        return 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700';
     }
   };
 
@@ -82,3 +82,4 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'sm' })
     </span>
   );
 };
+
