@@ -41,7 +41,8 @@ export type ActiveTab =
   | 'reports'
   | 'users'
   | 'settings'
-  | 'audit-trail';
+  | 'audit-trail'
+  | 'ai-intelligence';
 
 interface SidebarProps {
   activeTab: ActiveTab;
@@ -290,6 +291,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
               badge: null,
               subtext: 'Machine types, Backup, DB',
             },
+            ...(currentUser?.role === 'ADMINISTRATOR'
+              ? [
+                  {
+                    id: 'ai-intelligence' as ActiveTab,
+                    label: '15. AI Intelligence',
+                    icon: Cpu,
+                    badge: 'ACTIVE',
+                    badgeColor: 'bg-indigo-100 text-indigo-900 border-indigo-300 font-bold',
+                    subtext: 'Background Auto-Pilot',
+                  },
+                ]
+              : []),
           ],
         },
       ];

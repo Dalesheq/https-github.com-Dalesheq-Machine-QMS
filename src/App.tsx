@@ -25,6 +25,7 @@ import { NCRsModule } from './modules/NCRsModule';
 import { DeviationsModule } from './modules/DeviationsModule';
 import { QualityReleaseModule } from './modules/QualityReleaseModule';
 import { ReportsModule } from './modules/ReportsModule';
+import { AIManufacturingIntelligenceModule } from './modules/AIManufacturingIntelligenceModule';
 import { TraceabilityTagModal } from './components/TraceabilityTagModal';
 import { ManufacturingRecord, UserRole } from './types';
 import { WORKSHOP_DEPARTMENTS } from './utils/departmentsData';
@@ -586,6 +587,11 @@ function AppContent() {
             setIsCreateMachineModalOpen(true);
           }
         }}
+        onNavigateToAiIntelligence={() => {
+          if (!isManagement) {
+            setActiveTab('ai-intelligence');
+          }
+        }}
       />
 
       <div className="flex flex-1 overflow-hidden">
@@ -660,6 +666,10 @@ function AppContent() {
             {!isManagement && activeTab === 'users' && <UsersModule />}
 
             {!isManagement && activeTab === 'settings' && <SystemSettingsModule />}
+
+            {!isManagement && activeTab === 'ai-intelligence' && (
+              <AIManufacturingIntelligenceModule onNavigateToTab={setActiveTab} />
+            )}
           </div>
         </main>
       </div>

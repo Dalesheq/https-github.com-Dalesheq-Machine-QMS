@@ -16,18 +16,21 @@ import {
   UserPlus,
   Sun,
   Moon,
+  Cpu,
 } from 'lucide-react';
 
 interface HeaderProps {
   onNavigateToSearch: () => void;
   onOpenCreateRecord: () => void;
   onOpenCreateMachine: () => void;
+  onNavigateToAiIntelligence?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   onNavigateToSearch,
   onOpenCreateRecord,
   onOpenCreateMachine,
+  onNavigateToAiIntelligence,
 }) => {
   const {
     currentUser,
@@ -316,6 +319,19 @@ export const Header: React.FC<HeaderProps> = ({
                         Create Profile
                       </button>
                     </div>
+
+                    {currentUser.role === 'ADMINISTRATOR' && onNavigateToAiIntelligence && (
+                      <button
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          onNavigateToAiIntelligence();
+                        }}
+                        className="w-full px-3 py-2 text-xs font-bold bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/70 dark:hover:bg-indigo-900 text-indigo-700 dark:text-indigo-200 border border-indigo-200 dark:border-indigo-800 rounded flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <Cpu className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                        AI Background Console
+                      </button>
+                    )}
                     {isAuthenticated && (
                       <button
                         onClick={async () => {

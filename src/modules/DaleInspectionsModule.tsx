@@ -21,6 +21,7 @@ import {
   generateProjectMachineInspectionPool,
   ManufacturedPartContext,
 } from '../utils/daleInspectionTemplates';
+import { AIIntelligenceService } from '../services/aiIntelligenceService';
 import { Modal } from '../components/Modal';
 import {
   ClipboardCheck,
@@ -499,8 +500,26 @@ export const DaleInspectionsModule: React.FC<DaleInspectionsModuleProps> = ({
   // Submit New Inspection Sheet
   const handleCreateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const defaultPoints = getDefaultDalePoints(newForm.processType);
+    let finalPoints = getDefaultDalePoints(newForm.processType);
     const def = getDaleProcessDefinition(newForm.processType);
+
+    // AI Background Enrichment: Request tailored manufacturing checklist
+    try {
+      const aiRes = await AIIntelligenceService.populateChecklistForPart({
+        projectNumber: newForm.projectNumber.trim(),
+        machineSerial: newForm.partOrSerialNo.trim() || newForm.machineOrAssembly.trim(),
+        partNumber: newForm.partOrSerialNo.trim(),
+        partDescription: newForm.partDescription.trim() || newForm.partName.trim(),
+        processType: newForm.processType,
+        drawingNumber: newForm.drawingNumber.trim(),
+        drawingRevision: newForm.drawingRevision.trim(),
+      });
+      if (aiRes.success && aiRes.points && aiRes.points.length >= 6) {
+        finalPoints = aiRes.points;
+      }
+    } catch {
+      // Graceful fallback to defaultPoints
+    }
 
     const res = await createDaleInspection({
       sheetNumber: '',
@@ -515,7 +534,7 @@ export const DaleInspectionsModule: React.FC<DaleInspectionsModuleProps> = ({
       partDescription: newForm.partDescription.trim(),
       inspector: newForm.inspector.trim(),
       inspectionDate: newForm.inspectionDate,
-      points: defaultPoints, // Always starts with result: null (open-ended!)
+      points: finalPoints, // Tailored by background AI or standard template
       comments: '',
       ncrReference: 'None',
       correctiveAction: '',

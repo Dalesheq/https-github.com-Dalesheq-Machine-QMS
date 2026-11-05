@@ -4,6 +4,8 @@ import path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+dotenv.config();
 import { GoogleGenAI, Type } from '@google/genai';
 import {
   INITIAL_DATABASE,
@@ -23,6 +25,14 @@ import type {
   AuthSession,
   FileAttachmentMetadata,
 } from './src/types.ts';
+import {
+  identifyDrawingAndParts,
+  populateChecklistForPart,
+  runAutoPopulateDatabase,
+  runManufacturingAudit,
+  getAiTelemetryStatus,
+  setAiAutomationPolicy,
+} from './src/server/aiService.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -2611,6 +2621,85 @@ app.get('/api/db/export', (req, res) => {
   res.send(JSON.stringify(data, null, 2));
 });
 
+// ==========================================
+// 6. AI MANUFACTURING INTELLIGENCE ENDPOINTS
+// ==========================================
+
+// Telemetry & Status (Available to Admin)
+app.get('/api/ai/status', (_req, res) => {
+  const status = getAiTelemetryStatus();
+  res.json(status);
+});
+
+// Identify Drawing & Parts List (BOM)
+app.post('/api/ai/identify-drawing-parts', async (req, res) => {
+  try {
+    const result = await identifyDrawingAndParts(req.body || {});
+    const db = loadDatabase();
+    const existingDwg = db.drawings.find(
+      (d) => d.drawingNumber.toLowerCase() === result.drawingNumber.toLowerCase()
+    );
+    if (existingDwg) {
+      if (!existingDwg.partsList || existingDwg.partsList.length === 0) {
+        existingDwg.partsList = result.partsList;
+        saveDatabase(db);
+      }
+    }
+    res.json({ success: true, data: result });
+  } catch (err: any) {
+    console.error('Error in /api/ai/identify-drawing-parts:', err);
+    res.status(500).json({ success: false, error: err?.message || 'Failed to identify drawing parts.' });
+  }
+});
+
+// Smart Checklist Population per Project, Machine, and Part
+app.post('/api/ai/populate-checklist', async (req, res) => {
+  try {
+    const result = await populateChecklistForPart(req.body || {});
+    res.json({
+      success: true,
+      points: result.points,
+      processTitle: result.processTitle,
+      guidanceNotes: result.guidanceNotes,
+      source: result.source,
+    });
+  } catch (err: any) {
+    console.error('Error in /api/ai/populate-checklist:', err);
+    res.status(500).json({ success: false, error: err?.message || 'Failed to populate checklist.' });
+  }
+});
+
+// Autonomous Plant-Wide Background Sweep (Admin or Background Worker)
+app.post('/api/ai/auto-populate-all-missing', async (_req, res) => {
+  try {
+    const db = loadDatabase();
+    const result = await runAutoPopulateDatabase(db);
+    saveDatabase(db);
+    res.json(result);
+  } catch (err: any) {
+    console.error('Error in /api/ai/auto-populate-all-missing:', err);
+    res.status(500).json({ success: false, error: err?.message || 'Background auto-population sweep failed.' });
+  }
+});
+
+// Quality & Compliance Auditor
+app.post('/api/ai/audit-manufacturing', async (_req, res) => {
+  try {
+    const db = loadDatabase();
+    const result = await runManufacturingAudit(db);
+    res.json({ success: true, audit: result });
+  } catch (err: any) {
+    console.error('Error in /api/ai/audit-manufacturing:', err);
+    res.status(500).json({ success: false, error: err?.message || 'Manufacturing compliance audit failed.' });
+  }
+});
+
+// Configure Automation Policy
+app.post('/api/ai/toggle-automation', (req, res) => {
+  setAiAutomationPolicy(req.body || {});
+  res.json({ success: true });
+});
+
 app.get('/api/health', (_req, res) => {
   res.json({
     status: 'ok',
@@ -2644,6 +2733,27 @@ async function main() {
 
   app.listen(PORT, HOST, () => {
     console.log(`MACHINE QMS Server is running on http://${HOST}:${PORT}`);
+
+    // Autonomous AI Background Worker Startup
+    setTimeout(async () => {
+      try {
+        console.log('[AI Background Worker] Starting initial manufacturing intelligence sweep...');
+        const db = loadDatabase();
+        const sweepRes = await runAutoPopulateDatabase(db);
+        saveDatabase(db);
+        console.log('[AI Background Worker] Initial sweep complete:', sweepRes.summary);
+      } catch (workerErr: any) {
+        console.warn('[AI Background Worker] Background sweep notice:', workerErr?.message);
+      }
+    }, 4000);
+
+    // Periodic Background Audit Heartbeat (every 10 minutes)
+    setInterval(async () => {
+      try {
+        const db = loadDatabase();
+        await runManufacturingAudit(db);
+      } catch {}
+    }, 10 * 60 * 1000);
   });
 }
 

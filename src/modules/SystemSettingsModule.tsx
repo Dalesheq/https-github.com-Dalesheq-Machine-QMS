@@ -9,7 +9,11 @@ import {
   Lock,
   AlertTriangle,
   Trash2,
+  Cpu,
+  RefreshCw,
+  Bot,
 } from 'lucide-react';
+import { AIIntelligenceService } from '../services/aiIntelligenceService';
 
 export const SystemSettingsModule: React.FC = () => {
   const {
@@ -231,6 +235,45 @@ export const SystemSettingsModule: React.FC = () => {
           </span>
         </div>
       </div>
+
+      {/* AI Background Auto-Pilot & Intelligence (Admin Only) */}
+      {isAdmin && (
+        <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-indigo-950 text-white rounded-lg p-5 shadow-xs space-y-3 text-xs border border-indigo-900/60">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="flex h-2.5 w-2.5 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+                </span>
+                <h3 className="text-sm font-black text-white flex items-center gap-2 uppercase font-mono tracking-wider">
+                  <Cpu className="w-4 h-4 text-indigo-400" />
+                  AI Manufacturing Intelligence &amp; Background Auto-Pilot
+                </h3>
+              </div>
+              <p className="text-slate-300 mt-1 max-w-2xl leading-relaxed">
+                Autonomous background worker continuously populates precision manufacturing checklists, decomposes CAD drawings, and audits open NCRs against the 18-Point Quality Release Gate. Invisible to regular operators.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={async () => {
+                setStatusMessage('Executing plant-wide AI background intelligence sweep...');
+                const res = await AIIntelligenceService.runAutoPopulateAll();
+                if (res.success) {
+                  setStatusMessage(res.summary || 'AI background sweep complete.');
+                } else {
+                  setErrorMessage(res.error || 'AI sweep failed.');
+                }
+              }}
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded font-bold inline-flex items-center gap-2 shrink-0 shadow-md cursor-pointer"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              Run Plant AI Sweep
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Database Backup, Restore & Reset (Admin Restricted) */}
       <div className="bg-white border border-slate-200 rounded-lg p-5 shadow-xs space-y-4 text-xs">
