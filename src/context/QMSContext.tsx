@@ -470,6 +470,18 @@ interface QMSContextType {
       | 'auditLogs'
       | 'ALL_DATA'
   ) => Promise<{ success: boolean; error?: string }>;
+  startNewProjectAndMachine: (payload: {
+    projectNumber: string;
+    projectName: string;
+    customer: string;
+    machineType: string;
+    machineSerialNumber: string;
+    assemblyStatus?: Machine['assemblyStatus'];
+    startDate?: string;
+    targetCompletionDate?: string;
+    notes?: string;
+  }) => Promise<{ success: boolean; error?: string }>;
+  clearAllManufacturingData: () => Promise<{ success: boolean; error?: string }>;
 
   // Cross-Reference Navigation between Registers
   crossNavTarget: CrossNavigationTarget | null;
@@ -2754,6 +2766,18 @@ export const QMSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       nextDb.auditLogs = [];
     }
 
+    if (collection === 'ALL_DATA') {
+      delSet.add('LIST_CLEARED:ALL_DATA');
+      delSet.add('LIST_CLEARED:DALE_INSPECTIONS');
+      delSet.add('LIST_CLEARED:ATTACHMENTS');
+      delSet.add('LIST_CLEARED:FITMENTS');
+      nextDb.daleInspections = [];
+      nextDb.attachments = [];
+      nextDb.componentFitments = [];
+      nextDb.cleanSlate = true;
+      nextDb.wipeEpoch = Date.now();
+    }
+
     nextDb.deletedRecordKeys = Array.from(delSet);
 
     const action = collection === 'ALL_DATA' ? 'ADMIN_CLEAR_ALL_DATA' : 'ADMIN_CLEAR_LIST';
@@ -2763,6 +2787,103 @@ export const QMSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       details: { clearedCollection: collection },
     });
     return { success: res.ok, error: res.error };
+  };
+
+  const clearAllManufacturingData = async (): Promise<{ success: boolean; error?: string }> => {
+    if (currentUser.role !== 'ADMINISTRATOR') {
+      return { success: false, error: 'Only Administrators can execute a clean slate reset.' };
+    }
+    const res = await DBService.cleanSlateReset();
+    if (res.success && res.data) {
+      setDb(reconcileCrossPopulatedDatabase(res.data));
+      setLastSynced(new Date());
+      return { success: true };
+    }
+    return clearCollectionList('ALL_DATA');
+  };
+
+  const startNewProjectAndMachine = async (payload: {
+    projectNumber: string;
+    projectName: string;
+    customer: string;
+    machineType: string;
+    machineSerialNumber: string;
+    assemblyStatus?: Machine['assemblyStatus'];
+    startDate?: string;
+    targetCompletionDate?: string;
+    notes?: string;
+  }): Promise<{ success: boolean; error?: string }> => {
+    const pNum = payload.projectNumber.trim().toUpperCase();
+    const sNum = payload.machineSerialNumber.trim().toUpperCase();
+
+    if (!pNum) return { success: false, error: 'Project Number is required.' };
+    if (!sNum) return { success: false, error: 'Machine Serial Number is required.' };
+
+    const newProject: Project = {
+      id: `PRJ-${Date.now().toString().slice(-6)}`,
+      projectNumber: pNum,
+      projectName: payload.projectName.trim() || `${payload.machineType} Build`,
+      customer: payload.customer.trim() || 'Internal Production',
+      machineType: payload.machineType || 'DIVIDER',
+      projectStatus: 'ACTIVE',
+      startDate: payload.startDate || new Date().toISOString().split('T')[0],
+      targetCompletionDate: payload.targetCompletionDate || '2026-12-31',
+      createdBy: currentUser.name,
+      associatedSerialNumbers: [sNum],
+      machineSerialNumbers: [sNum],
+      allocatedDrawingNumbers: [],
+      allocatedPartNumbers: [],
+      notes: payload.notes || `Primary project initialized with Machine ${sNum}`,
+    };
+
+    const newMachine: Machine = {
+      id: `MCH-${Date.now().toString().slice(-6)}`,
+      serialNumber: sNum,
+      machineType: payload.machineType || 'DIVIDER',
+      customer: payload.customer.trim() || 'Internal Production',
+      projectNumber: pNum,
+      projectName: payload.projectName.trim() || `${payload.machineType} Build`,
+      manufacturingStatus: 'IN_PRODUCTION',
+      assemblyStatus: payload.assemblyStatus || 'NOT_STARTED',
+      dateCreated: new Date().toISOString(),
+      createdBy: currentUser.name,
+      allocatedDrawingNumbers: [],
+      allocatedPartNumbers: [],
+      notes: payload.notes || `Machine unit paired with Project ${pNum}`,
+    };
+
+    // Remove tombstones for this new project and machine
+    const delSet = new Set(db.deletedRecordKeys || []);
+    delSet.delete('LIST_CLEARED:ALL_DATA');
+    delSet.delete('LIST_CLEARED:PROJECTS');
+    delSet.delete('LIST_CLEARED:MACHINES');
+    delSet.delete(`PROJECT:${newProject.id.toUpperCase()}`);
+    delSet.delete(`PROJECT:${pNum}`);
+    delSet.delete(`MACHINE:${newMachine.id.toUpperCase()}`);
+    delSet.delete(`MACHINE:${sNum}`);
+
+    const newDb: QMSDatabase = {
+      ...db,
+      projects: [newProject, ...(db.projects || []).filter(p => p.projectNumber !== pNum)],
+      machines: [newMachine, ...(db.machines || []).filter(m => m.serialNumber !== sNum)],
+      cleanSlate: false,
+      deletedRecordKeys: Array.from(delSet),
+    };
+
+    const res = await commitDbChange(newDb, 'CREATE_PROJECT', {
+      recordType: 'PROJECT',
+      recordId: pNum,
+      details: {
+        createdProject: newProject,
+        createdMachine: newMachine,
+        reason: 'Initialized new project and linked machine in single atomic workflow.',
+      },
+    });
+
+    if (!res.ok) {
+      return { success: false, error: res.error || 'Failed to create project and machine.' };
+    }
+    return { success: true };
   };
 
   // 14. Import Database JSON (Strictly ADMINISTRATOR only; non-destructively merges so zero users or past records are lost)
@@ -5124,6 +5245,8 @@ export const QMSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         deleteRelease,
         deleteUser,
         clearCollectionList,
+        startNewProjectAndMachine,
+        clearAllManufacturingData,
         crossNavTarget,
         navigateToCrossRef,
         clearCrossNavTarget,

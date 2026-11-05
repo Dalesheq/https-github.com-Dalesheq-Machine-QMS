@@ -30,8 +30,18 @@ import {
 } from '../utils/crossReference.ts';
 import { INITIAL_INSPECTION_TEMPLATES } from '../data/inspectionTemplatesData.ts';
 
-const LOCAL_STORAGE_KEY = 'SPIRAL_MACHINE_QMS_DB_V2';
+const LOCAL_STORAGE_KEY = 'SPIRAL_MACHINE_QMS_DB_V3';
 const AUTH_SESSION_STORAGE_KEY = 'SPIRAL_MACHINE_QMS_AUTH_SESSION_V1';
+
+// Automatically purge legacy local storage snapshots so old projects/machines are never resurrected
+try {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    localStorage.removeItem('SPIRAL_MACHINE_QMS_DB_V2');
+    localStorage.removeItem('SPIRAL_MACHINE_QMS_DB_V1');
+  }
+} catch {
+  // ignore
+}
 
 export interface QualityReleaseCheck {
   id: string;
@@ -372,8 +382,24 @@ export const INITIAL_DATABASE: QMSDatabase = {
     traceabilityCounter: 1,
     machineTypes: ["DIVIDER", "ROUNDER", "PROOFER", "MOULDER", "CONVEYOR", "SPIRAL FREEZER", "OTHER"],
   },
-  lastUpdated: "2026-10-25T23:30:00Z",
-  deletedRecordKeys: [],
+  lastUpdated: new Date().toISOString(),
+  cleanSlate: true,
+  wipeEpoch: 1793862146198,
+  deletedRecordKeys: [
+    'LIST_CLEARED:ALL_DATA',
+    'LIST_CLEARED:PROJECTS',
+    'LIST_CLEARED:MACHINES',
+    'LIST_CLEARED:COMPONENTS',
+    'LIST_CLEARED:DRAWINGS',
+    'LIST_CLEARED:MFG',
+    'LIST_CLEARED:INSPECTIONS',
+    'LIST_CLEARED:DALE_INSPECTIONS',
+    'LIST_CLEARED:NCRS',
+    'LIST_CLEARED:DEVIATIONS',
+    'LIST_CLEARED:RELEASES',
+    'LIST_CLEARED:ATTACHMENTS',
+    'LIST_CLEARED:FITMENTS',
+  ],
 };
 
 // ==========================================
@@ -1538,8 +1564,20 @@ export class DBService {
         const json = await res.json();
         const serverData = (json.data || json) as QMSDatabase;
         if (serverData && serverData.machines && serverData.manufacturingRecords) {
-          // Non-destructively merge Server DB + Browser Vault DB + Seed DB so zero past data or users are ever lost!
-          const mergedDb = mergeQMSDatabases(serverData, localVaultDb, INITIAL_DATABASE);
+          const serverWipe = serverData.wipeEpoch || 0;
+          const localWipe = localVaultDb.wipeEpoch || 0;
+          let vaultToUse = localVaultDb;
+          if (serverWipe > localWipe) {
+            vaultToUse = {
+              ...INITIAL_DATABASE,
+              users: localVaultDb.users,
+              wipeEpoch: serverWipe,
+              cleanSlate: true,
+            };
+            void saveMetaToIdb('FULL_DB_SNAPSHOT', vaultToUse);
+          }
+          // Non-destructively merge Server DB + Browser Vault DB + Seed DB
+          const mergedDb = mergeQMSDatabases(serverData, vaultToUse, INITIAL_DATABASE);
           safePersistDbToLocalStorage(mergedDb);
 
           // Also gather local credential vault & custom attachment blobs so server has full parity after any update
@@ -1641,6 +1679,27 @@ export class DBService {
 
     safePersistDbToLocalStorage(db);
     return { ok: true };
+  }
+
+  static async cleanSlateReset(): Promise<{ success: boolean; data?: QMSDatabase; error?: string }> {
+    try {
+      const res = await fetch('/api/db/clean-slate', {
+        method: 'POST',
+        headers: this.getAuthHeaders(),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && json.data) {
+          memoryDbSnapshot = json.data;
+          safePersistDbToLocalStorage(json.data);
+          await saveMetaToIdb('FULL_DB_SNAPSHOT', json.data);
+          return { success: true, data: json.data };
+        }
+      }
+    } catch (e: any) {
+      console.error('Failed calling /api/db/clean-slate', e);
+    }
+    return { success: false, error: 'Failed to execute clean slate reset.' };
   }
 
   static resolveAttachmentPreviewUrl(att: FileAttachmentMetadata): string {

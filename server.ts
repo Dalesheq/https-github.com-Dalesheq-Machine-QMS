@@ -1991,9 +1991,31 @@ app.post('/api/db/sync-merge', (req, res) => {
 
   const { clientDb, clientCreds, attachmentBlobs } = req.body || {};
   const existingDb = loadDatabase();
+  const serverWipe = existingDb.wipeEpoch || 0;
+  const clientWipe = clientDb?.wipeEpoch || 0;
+  let clientDbToMerge = clientDb;
+  if (clientDb && serverWipe > clientWipe) {
+    clientDbToMerge = {
+      ...clientDb,
+      machines: [],
+      projects: [],
+      components: [],
+      drawings: [],
+      manufacturingRecords: [],
+      inspections: [],
+      daleInspections: [],
+      ncrs: [],
+      deviations: [],
+      releases: [],
+      attachments: [],
+      wipeEpoch: serverWipe,
+      cleanSlate: true,
+    };
+  }
+
   const merged =
-    clientDb && typeof clientDb === 'object'
-      ? mergeQMSDatabases(clientDb, existingDb, INITIAL_DATABASE)
+    clientDbToMerge && typeof clientDbToMerge === 'object'
+      ? mergeQMSDatabases(clientDbToMerge, existingDb, INITIAL_DATABASE)
       : existingDb;
 
 
@@ -2022,6 +2044,86 @@ app.post('/api/db/sync-merge', (req, res) => {
 
   saveDatabase(merged);
   return res.json({ success: true, data: merged });
+});
+
+// Endpoint to completely clear all projects, machines, and manufacturing data for clean slate (Admin only)
+app.post('/api/db/clean-slate', (req, res) => {
+  const session = getSessionFromRequest(req);
+  if (!session) {
+    return res.status(401).json({ success: false, error: 'Authentication required.' });
+  }
+  if (session.user.role !== 'ADMINISTRATOR') {
+    return res.status(403).json({ success: false, error: 'Only Administrators can execute clean slate reset.' });
+  }
+
+  const existingDb = loadDatabase();
+  const nowEpoch = Date.now();
+  const cleanDb: QMSDatabase = {
+    ...INITIAL_DATABASE,
+    users: existingDb.users,
+    calibrationInstruments: existingDb.calibrationInstruments || INITIAL_CALIBRATION_INSTRUMENTS,
+    inspectionTemplates: existingDb.inspectionTemplates || INITIAL_INSPECTION_TEMPLATES,
+    machines: [],
+    projects: [],
+    components: [],
+    drawings: [],
+    manufacturingRecords: [],
+    inspections: [],
+    daleInspections: [],
+    ncrs: [],
+    deviations: [],
+    releases: [],
+    attachments: [],
+    componentFitments: [],
+    cleanSlate: true,
+    wipeEpoch: nowEpoch,
+    lastUpdated: new Date().toISOString(),
+    deletedRecordKeys: [
+      'LIST_CLEARED:ALL_DATA',
+      'LIST_CLEARED:PROJECTS',
+      'LIST_CLEARED:MACHINES',
+      'LIST_CLEARED:COMPONENTS',
+      'LIST_CLEARED:DRAWINGS',
+      'LIST_CLEARED:MFG',
+      'LIST_CLEARED:INSPECTIONS',
+      'LIST_CLEARED:DALE_INSPECTIONS',
+      'LIST_CLEARED:NCRS',
+      'LIST_CLEARED:DEVIATIONS',
+      'LIST_CLEARED:RELEASES',
+      'LIST_CLEARED:ATTACHMENTS',
+      'LIST_CLEARED:FITMENTS',
+    ],
+    auditLogs: [
+      {
+        id: `AUD-CLEAN-${nowEpoch}`,
+        timestamp: new Date().toISOString(),
+        userId: session.user.id,
+        user: session.user.name,
+        role: session.user.role,
+        action: 'DATABASE_CLEARED_CLEAN_SLATE',
+        recordType: 'DATABASE',
+        recordId: 'CLEAN_SLATE_RESET',
+        details: {
+          reason: 'Administrator cleared all projects, machines, and manufacturing data for fresh project setup.',
+        },
+      },
+      ...(existingDb.auditLogs || []).slice(0, 100),
+    ],
+  };
+
+  saveDatabase(cleanDb);
+
+  logAudit({
+    userId: session.user.id,
+    user: session.user.name,
+    role: session.user.role,
+    action: 'DATABASE_CLEARED_CLEAN_SLATE',
+    recordType: 'DATABASE',
+    recordId: 'CLEAN_SLATE_RESET',
+    details: { reason: 'Cleared all projects and machines for fresh project setup.' },
+  });
+
+  return res.json({ success: true, data: cleanDb });
 });
 
 // Save database with strict server-side authentication, RBAC, collection isolation, and release-gate validation

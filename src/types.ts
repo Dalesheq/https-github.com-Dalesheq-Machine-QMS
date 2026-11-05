@@ -821,4 +821,6 @@ export interface QMSDatabase {
   settings: SystemSettings;
   lastUpdated: string;
   deletedRecordKeys?: string[];
+  wipeEpoch?: number;
+  cleanSlate?: boolean;
 }

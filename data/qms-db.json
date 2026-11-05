@@ -6193,6 +6193,19 @@
   "componentFitments": [],
   "auditLogs": [
     {
+      "id": "AUD-CLEAN-1793862146198",
+      "timestamp": "2026-11-05T07:02:26.198Z",
+      "userId": "USR-008",
+      "user": "Basil De Swardt",
+      "role": "ADMINISTRATOR",
+      "action": "DATABASE_CLEARED_CLEAN_SLATE",
+      "recordType": "DATABASE",
+      "recordId": "CLEAN_SLATE_RESET",
+      "details": {
+        "reason": "User requested clean slate: cleared all projects, machines, components, drawings, inspections, and NCR records. Ready for new project & machine setup."
+      }
+    },
+    {
       "id": "AUD-1793277701934-19ld7",
       "timestamp": "2026-10-29T12:41:41.934Z",
       "userId": "USR-008",
@@ -6271,6 +6284,22 @@
       "OTHER"
     ]
   },
-  "lastUpdated": "2026-10-26T06:33:12.708Z",
-  "deletedRecordKeys": []
+  "lastUpdated": "2026-11-05T07:02:26.198Z",
+  "deletedRecordKeys": [
+    "LIST_CLEARED:ALL_DATA",
+    "LIST_CLEARED:PROJECTS",
+    "LIST_CLEARED:MACHINES",
+    "LIST_CLEARED:COMPONENTS",
+    "LIST_CLEARED:DRAWINGS",
+    "LIST_CLEARED:MFG",
+    "LIST_CLEARED:INSPECTIONS",
+    "LIST_CLEARED:DALE_INSPECTIONS",
+    "LIST_CLEARED:NCRS",
+    "LIST_CLEARED:DEVIATIONS",
+    "LIST_CLEARED:RELEASES",
+    "LIST_CLEARED:ATTACHMENTS",
+    "LIST_CLEARED:FITMENTS"
+  ],
+  "cleanSlate": true,
+  "wipeEpoch": 1793862146198
 }

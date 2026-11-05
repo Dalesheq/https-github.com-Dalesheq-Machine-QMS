@@ -172,25 +172,68 @@ export function reconcileCrossPopulatedDatabase(db: QMSDatabase): QMSDatabase {
   const deletedSet = new Set((db.deletedRecordKeys || []).map(norm));
 
   const isProjectDeleted = (id?: string, pNum?: string) =>
+    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
     deletedSet.has('LIST_CLEARED:PROJECTS') ||
     (Boolean(id) && deletedSet.has(`PROJECT:${norm(id)}`)) ||
     (Boolean(pNum) && deletedSet.has(`PROJECT:${norm(pNum)}`));
 
   const isMachineDeleted = (id?: string, sn?: string) =>
+    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
     deletedSet.has('LIST_CLEARED:MACHINES') ||
     (Boolean(id) && deletedSet.has(`MACHINE:${norm(id)}`)) ||
     (Boolean(sn) && deletedSet.has(`MACHINE:${norm(sn)}`));
 
   const isComponentDeleted = (id?: string, pn?: string) =>
+    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
     deletedSet.has('LIST_CLEARED:COMPONENTS') ||
     (Boolean(id) && deletedSet.has(`COMPONENT:${norm(id)}`)) ||
     (Boolean(pn) && deletedSet.has(`COMPONENT:${norm(pn)}`));
 
   const isDrawingDeleted = (id?: string, dwgNo?: string, rev?: string) =>
+    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
     deletedSet.has('LIST_CLEARED:DRAWINGS') ||
     (Boolean(id) && deletedSet.has(`DRAWING:${norm(id)}`)) ||
     (Boolean(dwgNo) && deletedSet.has(`DRAWING:${norm(dwgNo)}`)) ||
     (Boolean(dwgNo) && Boolean(rev) && deletedSet.has(`DRAWING:${norm(dwgNo)}::${norm(rev)}`));
+
+  const isMfgDeleted = (id?: string, tr?: string) =>
+    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
+    deletedSet.has('LIST_CLEARED:MFG') ||
+    (Boolean(id) && deletedSet.has(`MFG:${norm(id)}`)) ||
+    (Boolean(tr) && deletedSet.has(`MFG:${norm(tr)}`));
+
+  const isInspDeleted = (id?: string) =>
+    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
+    deletedSet.has('LIST_CLEARED:INSPECTIONS') ||
+    (Boolean(id) && deletedSet.has(`INSP:${norm(id)}`));
+
+  const isDaleDeleted = (id?: string) =>
+    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
+    deletedSet.has('LIST_CLEARED:DALE_INSPECTIONS') ||
+    (Boolean(id) && deletedSet.has(`DALE_INSP:${norm(id)}`));
+
+  const isNcrDeleted = (id?: string, num?: string) =>
+    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
+    deletedSet.has('LIST_CLEARED:NCRS') ||
+    (Boolean(id) && deletedSet.has(`NCR:${norm(id)}`)) ||
+    (Boolean(num) && deletedSet.has(`NCR:${norm(num)}`));
+
+  const isDevDeleted = (id?: string, num?: string) =>
+    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
+    deletedSet.has('LIST_CLEARED:DEVIATIONS') ||
+    (Boolean(id) && deletedSet.has(`DEV:${norm(id)}`)) ||
+    (Boolean(num) && deletedSet.has(`DEV:${norm(num)}`));
+
+  const isRelDeleted = (id?: string, code?: string) =>
+    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
+    deletedSet.has('LIST_CLEARED:RELEASES') ||
+    (Boolean(id) && deletedSet.has(`REL:${norm(id)}`)) ||
+    (Boolean(code) && deletedSet.has(`REL:${norm(code)}`));
+
+  const isAttDeleted = (id?: string) =>
+    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
+    deletedSet.has('LIST_CLEARED:ATTACHMENTS') ||
+    (Boolean(id) && deletedSet.has(`ATT:${norm(id)}`));
 
   const projects: Project[] = (db.projects || [])
     .filter((p) => p && !isProjectDeleted(p.id, p.projectNumber))
@@ -684,12 +727,47 @@ export function reconcileCrossPopulatedDatabase(db: QMSDatabase): QMSDatabase {
     });
   });
 
+  const manufacturingRecords = (db.manufacturingRecords || []).filter(
+    (r) => r && !isMfgDeleted(r.id, r.traceabilityNumber)
+  );
+
+  const inspections = (db.inspections || []).filter(
+    (i) => i && !isInspDeleted(i.id)
+  );
+
+  const daleInspections = (db.daleInspections || []).filter(
+    (d) => d && !isDaleDeleted(d.id)
+  );
+
+  const ncrs = (db.ncrs || []).filter(
+    (n) => n && !isNcrDeleted(n.id, n.ncrNumber)
+  );
+
+  const deviations = (db.deviations || []).filter(
+    (dv) => dv && !isDevDeleted(dv.id, dv.deviationNumber)
+  );
+
+  const releases = (db.releases || []).filter(
+    (rl) => rl && !isRelDeleted(rl.id, rl.releaseId)
+  );
+
+  const attachments = (db.attachments || []).filter(
+    (att) => att && !isAttDeleted(att.fileId)
+  );
+
   return {
     ...db,
     projects,
     machines,
     components,
     drawings,
+    manufacturingRecords,
+    inspections,
+    daleInspections,
+    ncrs,
+    deviations,
+    releases,
+    attachments,
   };
 }
 
@@ -1021,6 +1099,10 @@ export function mergeQMSDatabases(
     return out;
   };
 
+  const epochA = dbA?.wipeEpoch || 0;
+  const epochB = dbB?.wipeEpoch || 0;
+  const maxWipeEpoch = Math.max(epochA, epochB);
+
   // Combine deletedRecordKeys from both snapshots, removing any key that was explicitly re-added in the newer primary DB
   const primaryActiveKeys = new Set<string>();
   if (timeA !== timeB && primary) {
@@ -1031,17 +1113,14 @@ export function mergeQMSDatabases(
     (primary.projects || []).forEach((p) => {
       if (p?.id) primaryActiveKeys.add(`PROJECT:${norm(p.id)}`);
       if (p?.projectNumber) primaryActiveKeys.add(`PROJECT:${norm(p.projectNumber)}`);
-      primaryActiveKeys.add('LIST_CLEARED:PROJECTS');
     });
     (primary.machines || []).forEach((m) => {
       if (m?.id) primaryActiveKeys.add(`MACHINE:${norm(m.id)}`);
       if (m?.serialNumber) primaryActiveKeys.add(`MACHINE:${norm(m.serialNumber)}`);
-      primaryActiveKeys.add('LIST_CLEARED:MACHINES');
     });
     (primary.components || []).forEach((c) => {
       if (c?.id) primaryActiveKeys.add(`COMPONENT:${norm(c.id)}`);
       if (c?.partNumber) primaryActiveKeys.add(`COMPONENT:${norm(c.partNumber)}`);
-      primaryActiveKeys.add('LIST_CLEARED:COMPONENTS');
     });
     (primary.drawings || []).forEach((d) => {
       if (d?.id) primaryActiveKeys.add(`DRAWING:${norm(d.id)}`);
@@ -1049,31 +1128,25 @@ export function mergeQMSDatabases(
         primaryActiveKeys.add(`DRAWING:${norm(d.drawingNumber)}`);
         primaryActiveKeys.add(`DRAWING:${norm(d.drawingNumber)}::${norm(d.revision || '0')}`);
       }
-      primaryActiveKeys.add('LIST_CLEARED:DRAWINGS');
     });
     (primary.manufacturingRecords || []).forEach((r) => {
       if (r?.id) primaryActiveKeys.add(`MFG:${norm(r.id)}`);
       if (r?.traceabilityNumber) primaryActiveKeys.add(`MFG:${norm(r.traceabilityNumber)}`);
-      primaryActiveKeys.add('LIST_CLEARED:MFG');
     });
     (primary.inspections || []).forEach((i) => {
       if (i?.id) primaryActiveKeys.add(`INSP:${norm(i.id)}`);
-      primaryActiveKeys.add('LIST_CLEARED:INSPECTIONS');
     });
     (primary.ncrs || []).forEach((n) => {
       if (n?.id) primaryActiveKeys.add(`NCR:${norm(n.id)}`);
       if (n?.ncrNumber) primaryActiveKeys.add(`NCR:${norm(n.ncrNumber)}`);
-      primaryActiveKeys.add('LIST_CLEARED:NCRS');
     });
     (primary.deviations || []).forEach((dv) => {
       if (dv?.id) primaryActiveKeys.add(`DEV:${norm(dv.id)}`);
       if (dv?.deviationNumber) primaryActiveKeys.add(`DEV:${norm(dv.deviationNumber)}`);
-      primaryActiveKeys.add('LIST_CLEARED:DEVIATIONS');
     });
     (primary.releases || []).forEach((rl) => {
       if (rl?.id) primaryActiveKeys.add(`REL:${norm(rl.id)}`);
       if (rl?.releaseId) primaryActiveKeys.add(`REL:${norm(rl.releaseId)}`);
-      primaryActiveKeys.add('LIST_CLEARED:RELEASES');
     });
   }
 
@@ -1081,13 +1154,44 @@ export function mergeQMSDatabases(
   const combinedDeletedKeys = uniqStr(primary?.deletedRecordKeys, secondary?.deletedRecordKeys).filter(
     (k) => {
       const nk = norm(k);
+      if (nk.startsWith('list_cleared:')) return true;
       if (primaryDelSet.has(nk)) return true;
       return !primaryActiveKeys.has(nk);
     }
   );
   const deletedSet = new Set(combinedDeletedKeys.map(norm));
 
-  const sources = [primary, secondary, seedDb].filter(Boolean) as Partial<QMSDatabase>[];
+  // If a source is strictly older than maxWipeEpoch, sanitize its entity arrays so wiped records never resurrect
+  const sanitizeSource = (src?: Partial<QMSDatabase> | null): Partial<QMSDatabase> => {
+    if (!src) return {};
+    const srcEpoch = src.wipeEpoch || 0;
+    const srcTime = src.lastUpdated ? new Date(src.lastUpdated).getTime() : 0;
+    if (maxWipeEpoch > 0 && srcEpoch < maxWipeEpoch && srcTime < maxWipeEpoch) {
+      // Discard cleared collections from pre-wipe snapshot
+      return {
+        users: src.users,
+        settings: src.settings,
+        calibrationInstruments: src.calibrationInstruments,
+        inspectionTemplates: src.inspectionTemplates,
+        auditLogs: src.auditLogs,
+        deletedRecordKeys: src.deletedRecordKeys,
+        machines: [],
+        projects: [],
+        components: [],
+        drawings: [],
+        manufacturingRecords: [],
+        inspections: [],
+        daleInspections: [],
+        ncrs: [],
+        deviations: [],
+        releases: [],
+        attachments: [],
+      };
+    }
+    return src;
+  };
+
+  const sources = [sanitizeSource(primary), sanitizeSource(secondary), sanitizeSource(seedDb)].filter(Boolean) as Partial<QMSDatabase>[];
 
   // 1. Merge Users (by id, username, or email)
   const users: QMSDatabase['users'] = [];
