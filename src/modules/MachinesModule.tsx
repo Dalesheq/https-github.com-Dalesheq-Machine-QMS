@@ -6,6 +6,7 @@ import { getMachineCrossReferences } from '../utils/crossReference';
 import { StatusBadge } from '../components/StatusBadge';
 import { Modal } from '../components/Modal';
 import { MachineBomImportModal } from '../components/MachineBomImportModal';
+import { StartProjectAndMachineModal } from '../components/StartProjectAndMachineModal';
 import {
   Cpu,
   Plus,
@@ -24,6 +25,7 @@ import {
   Layers,
   Trash2,
   Boxes,
+  Sparkles,
 } from 'lucide-react';
 
 interface ParsedMachineRow {
@@ -122,6 +124,7 @@ export const MachinesModule: React.FC<MachinesModuleProps> = ({
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [isMachineBomModalOpen, setIsMachineBomModalOpen] = useState(false);
   const [bomTargetMachine, setBomTargetMachine] = useState<Machine | null>(null);
+  const [isStartProjectModalOpen, setIsStartProjectModalOpen] = useState(false);
   const [pasteText, setPasteText] = useState('');
   const [parsedRows, setParsedRows] = useState<ParsedMachineRow[]>([]);
   const [importMessage, setImportMessage] = useState<{
@@ -451,6 +454,14 @@ export const MachinesModule: React.FC<MachinesModuleProps> = ({
           </button>
 
           <button
+            onClick={() => setIsStartProjectModalOpen(true)}
+            className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs font-bold flex items-center gap-2 shadow-xs transition-colors"
+          >
+            <Sparkles className="w-4 h-4" />
+            + Start Project &amp; Machine
+          </button>
+
+          <button
             onClick={() => setIsCreateModalOpen(true)}
             className="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold flex items-center gap-2 shadow-xs transition-colors"
           >
@@ -560,12 +571,32 @@ export const MachinesModule: React.FC<MachinesModuleProps> = ({
               {filteredMachines.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center text-slate-500 font-sans">
-                    <div className="max-w-md mx-auto space-y-2">
+                    <div className="max-w-md mx-auto space-y-3">
                       <Cpu className="w-8 h-8 text-slate-300 mx-auto" />
-                      <p className="font-bold text-slate-700">No Machines in Register</p>
-                      <p className="text-xs text-slate-500">
-                        The quality register is clean (blank slate). Click "+ Register Machine" or "Import Machines &amp; BOM (Excel)" to load your new machines and assemblies.
-                      </p>
+                      <div>
+                        <p className="font-bold text-slate-800">Clean Slate: No Machines in Register</p>
+                        <p className="text-xs text-slate-500 mt-1">
+                          All previous machine records have been cleared. Ready to start fresh with a new project and machine.
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+                        <button
+                          type="button"
+                          onClick={() => setIsStartProjectModalOpen(true)}
+                          className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs font-bold inline-flex items-center gap-1.5 shadow-xs"
+                        >
+                          <Sparkles className="w-3.5 h-3.5" />
+                          Start New Project &amp; Machine
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setIsCreateModalOpen(true)}
+                          className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-xs font-semibold inline-flex items-center gap-1.5"
+                        >
+                          <Plus className="w-3.5 h-3.5" />
+                          Register Machine Only
+                        </button>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -1453,6 +1484,11 @@ export const MachinesModule: React.FC<MachinesModuleProps> = ({
         isOpen={isMachineBomModalOpen}
         onClose={() => setIsMachineBomModalOpen(false)}
         preselectedMachineSerial={bomTargetMachine?.serialNumber}
+      />
+
+      <StartProjectAndMachineModal
+        isOpen={isStartProjectModalOpen}
+        onClose={() => setIsStartProjectModalOpen(false)}
       />
     </div>
   );

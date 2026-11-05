@@ -22,6 +22,7 @@ export const SystemSettingsModule: React.FC = () => {
     resetToDefaultData,
     importDatabaseJson,
     clearCollectionList,
+    clearAllManufacturingData,
   } = useQMS();
 
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
@@ -95,14 +96,17 @@ export const SystemSettingsModule: React.FC = () => {
   ) => {
     setErrorMessage(null);
     setStatusMessage(null);
-    const res = await clearCollectionList(collectionKey);
+    const res =
+      collectionKey === 'ALL_DATA'
+        ? await clearAllManufacturingData()
+        : await clearCollectionList(collectionKey);
     setConfirmClearTarget(null);
     if (!res.success) {
       setErrorMessage(res.error || `Failed to clear ${label}.`);
     } else {
       setStatusMessage(
         collectionKey === 'ALL_DATA'
-          ? 'All QMS register lists have been permanently cleared (User Login Accounts preserved).'
+          ? 'All QMS register lists have been permanently cleared (Clean Slate active, User Login Accounts preserved).'
           : `${label} list has been permanently cleared by Administrator.`
       );
     }

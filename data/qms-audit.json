@@ -1,5 +1,18 @@
 [
   {
+    "id": "AUD-1793888591096-kyzp3",
+    "timestamp": "2026-11-05T14:23:11.096Z",
+    "userId": "USR-008",
+    "user": "Basil De Swardt",
+    "role": "ADMINISTRATOR",
+    "action": "DATABASE_CLEARED_CLEAN_SLATE",
+    "recordType": "DATABASE",
+    "recordId": "CLEAN_SLATE_RESET",
+    "details": {
+      "reason": "Cleared all projects and machines for fresh project setup."
+    }
+  },
+  {
     "id": "AUD-1793277701934-19ld7",
     "timestamp": "2026-10-29T12:41:41.934Z",
     "userId": "USR-008",

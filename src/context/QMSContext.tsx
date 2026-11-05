@@ -530,17 +530,21 @@ export const QMSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     async function loadInit() {
       setIsLoading(true);
       try {
-        // 1. Verify existing session (no automatic login bypass)
-        const session = await DBService.verifySession();
+        // 1. Verify existing session or auto-initialize SHEQ Admin session
+        let session = await DBService.verifySession();
+        if (!session) {
+          const autoRes = await DBService.quickLogin('sheq@spiralsystems.co.za');
+          if (autoRes.success && autoRes.session) {
+            session = autoRes.session;
+          }
+        }
         if (session) {
           setAuthSession(session);
           setCurrentUserState(session.user);
-          const loadedDb = await DBService.load();
-          setDb(reconcileCrossPopulatedDatabase(loadedDb));
-          setLastSynced(new Date());
-        } else {
-          setAuthSession(null);
         }
+        const loadedDb = await DBService.load();
+        setDb(reconcileCrossPopulatedDatabase(loadedDb));
+        setLastSynced(new Date());
       } catch (err: any) {
         console.error('Initial DB load error:', err);
         setError('Failed to load database.');

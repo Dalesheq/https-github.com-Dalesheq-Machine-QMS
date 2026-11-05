@@ -5,6 +5,7 @@ import { ActiveTab } from '../components/Sidebar';
 import { DashboardLimeLine } from '../components/DashboardLimeLine';
 import { Modal } from '../components/Modal';
 import { generateExecutiveFleetSummaryPdf } from '../utils/pdfGenerator';
+import { StartProjectAndMachineModal } from '../components/StartProjectAndMachineModal';
 import {
   Cpu,
   Boxes,
@@ -61,6 +62,7 @@ export const DashboardModule: React.FC<DashboardModuleProps> = ({
   const [activeViewMode, setActiveViewMode] = useState<'EXECUTIVE' | 'OPERATIONS'>(
     isManagement ? 'EXECUTIVE' : 'OPERATIONS'
   );
+  const [isStartProjectModalOpen, setIsStartProjectModalOpen] = useState(false);
 
   // ----------------------------------------------------
   // METRICS COMPUTATION (Domain & Audit Compliant)
@@ -654,6 +656,15 @@ export const DashboardModule: React.FC<DashboardModuleProps> = ({
             <Download className="w-3.5 h-3.5 text-indigo-400" />
             <span className="hidden sm:inline">Export PDF</span>
           </button>
+          {!isManagement && (
+            <button
+              onClick={() => setIsStartProjectModalOpen(true)}
+              className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+            >
+              <PlusCircle className="w-4 h-4 text-emerald-100" />
+              <span>+ New Project &amp; Machine</span>
+            </button>
+          )}
           <button
             onClick={() => window.print()}
             className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors"
@@ -663,6 +674,41 @@ export const DashboardModule: React.FC<DashboardModuleProps> = ({
           </button>
         </div>
       </div>
+
+      {/* ---------------------------------------------------- */}
+      {/* CLEAN SLATE ONBOARDING BANNER (Zero Projects/Machines) */}
+      {/* ---------------------------------------------------- */}
+      {(!db.projects || db.projects.length === 0) && (!db.machines || db.machines.length === 0) && (
+        <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 border border-blue-500/40 rounded-xl p-6 text-white shadow-md">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-start gap-3.5">
+              <div className="w-12 h-12 rounded-xl bg-blue-500/20 border border-blue-400/40 flex items-center justify-center shrink-0">
+                <FolderKanban className="w-6 h-6 text-blue-300" />
+              </div>
+              <div>
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-500/30 text-blue-200 border border-blue-400/30 uppercase tracking-wider">
+                  Clean Slate Ready
+                </span>
+                <h3 className="text-lg font-black tracking-tight mt-1">
+                  Ready to Start Your New Project &amp; Machine
+                </h3>
+                <p className="text-xs text-blue-100/90 max-w-xl mt-0.5 leading-relaxed">
+                  All previous sample projects, machines, and checklists have been cleared. Click below to launch your project contract and initialize your first machine build with automated ISO 9001 quality holding points.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsStartProjectModalOpen(true)}
+              className="px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-md hover:shadow-lg transition-all shrink-0 cursor-pointer"
+            >
+              <PlusCircle className="w-4 h-4" />
+              <span>Start New Project &amp; Machine</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ---------------------------------------------------- */}
       {/* SUMMARY KPI CARDS (Immediate Management Visibility)  */}
@@ -1301,6 +1347,15 @@ export const DashboardModule: React.FC<DashboardModuleProps> = ({
           </div>
         </Modal>
       )}
+
+      {/* Start New Project & Machine Modal */}
+      <StartProjectAndMachineModal
+        isOpen={isStartProjectModalOpen}
+        onClose={() => setIsStartProjectModalOpen(false)}
+        onSuccess={(pNum, sNum) => {
+          setActiveTab('projects');
+        }}
+      />
     </div>
   );
 };

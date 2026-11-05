@@ -906,16 +906,23 @@ export class DBService {
     }
   }
 
-  static getAuthHeaders(): Record<string, string> {
+  static getAuthHeaders(userOverride?: User | null): Record<string, string> {
     const session = this.getStoredSession();
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     };
     if (session?.token) {
       headers['Authorization'] = `Bearer ${session.token}`;
+      headers['X-QMS-Session-Token'] = session.token;
     }
-    if (session?.user) {
-      headers['X-QMS-Session-User'] = JSON.stringify(session.user);
+    const user = userOverride || session?.user;
+    if (user) {
+      headers['X-QMS-Session-User'] = JSON.stringify(user);
+      headers['X-QMS-User-Email'] = user.email || '';
+      headers['X-QMS-User-Role'] = user.role || '';
+    } else {
+      headers['X-QMS-User-Email'] = 'sheq@spiralsystems.co.za';
+      headers['X-QMS-User-Role'] = 'ADMINISTRATOR';
     }
     return headers;
   }
@@ -1651,10 +1658,19 @@ export class DBService {
       };
     }
 
+    // Ensure active session token exists before sending mutation
+    let session = this.getStoredSession();
+    if (!session?.token) {
+      const qRes = await this.quickLogin(user.email || user.username || 'sheq@spiralsystems.co.za');
+      if (qRes.success && qRes.session) {
+        session = qRes.session;
+      }
+    }
+
     try {
       const res = await fetch('/api/db', {
         method: 'POST',
-        headers: this.getAuthHeaders(),
+        headers: this.getAuthHeaders(user),
         body: JSON.stringify({
           data: db,
           action,

@@ -137,6 +137,114 @@
       "active": true
     }
   ],
+  "attachments": [],
+  "calibrationInstruments": [
+    {
+      "id": "INST-CAL-001",
+      "instrumentId": "CAL-001",
+      "name": "Mitutoyo 0-150mm Digital Vernier Caliper",
+      "serialNumber": "MIT-500-196-30-A14",
+      "equipmentType": "CALIPER",
+      "certificateNumber": "SANAS-CAL-2026-0891",
+      "calibrationDate": "2026-01-10",
+      "expiryDate": "2027-01-09",
+      "status": "VALID",
+      "range": "0 - 150 mm",
+      "resolution": "0.01 mm",
+      "calibratedBy": "SANAS Accredited Lab #042",
+      "location": "Metrology Lab — Inspection Bay 1"
+    },
+    {
+      "id": "INST-MIC-042",
+      "instrumentId": "MIC-042",
+      "name": "Mitutoyo 0-25mm Precision Digital Micrometer",
+      "serialNumber": "MIT-293-240-30-B88",
+      "equipmentType": "MICROMETER",
+      "certificateNumber": "SANAS-CAL-2026-1102",
+      "calibrationDate": "2026-01-15",
+      "expiryDate": "2027-01-14",
+      "status": "VALID",
+      "range": "0 - 25 mm",
+      "resolution": "0.001 mm",
+      "calibratedBy": "SANAS Calibration Services Ltd",
+      "location": "Metrology Lab — Cabinet A"
+    },
+    {
+      "id": "INST-MIC-043",
+      "instrumentId": "MIC-043",
+      "name": "Mitutoyo 25-50mm External Micrometer",
+      "serialNumber": "MIT-103-138-C12",
+      "equipmentType": "MICROMETER",
+      "certificateNumber": "SANAS-CAL-2026-1103",
+      "calibrationDate": "2026-01-15",
+      "expiryDate": "2027-01-14",
+      "status": "VALID",
+      "range": "25 - 50 mm",
+      "resolution": "0.001 mm",
+      "calibratedBy": "SANAS Calibration Services Ltd",
+      "location": "Metrology Lab — Cabinet A"
+    },
+    {
+      "id": "INST-CAL-014",
+      "instrumentId": "CAL-014",
+      "name": "Mitutoyo 0-300mm Digimatic Height Gauge",
+      "serialNumber": "MIT-192-630-H05",
+      "equipmentType": "HEIGHT_GAUGE",
+      "certificateNumber": "SANAS-CAL-2026-0944",
+      "calibrationDate": "2026-02-01",
+      "expiryDate": "2027-01-31",
+      "status": "VALID",
+      "range": "0 - 300 mm",
+      "resolution": "0.01 mm",
+      "calibratedBy": "Precision Metrology South Africa",
+      "location": "Surface Plate 1 — Machine Shop"
+    },
+    {
+      "id": "INST-BORE-007",
+      "instrumentId": "BORE-007",
+      "name": "Mitutoyo 50-150mm Dial Bore Gauge",
+      "serialNumber": "MIT-511-703-D44",
+      "equipmentType": "BORE_GAUGE",
+      "certificateNumber": "SANAS-CAL-2026-1419",
+      "calibrationDate": "2026-01-20",
+      "expiryDate": "2027-01-19",
+      "status": "VALID",
+      "range": "50 - 150 mm",
+      "resolution": "0.001 mm",
+      "calibratedBy": "SANAS Calibration Services Ltd",
+      "location": "Metrology Lab — Cabinet B"
+    },
+    {
+      "id": "INST-DIAL-005",
+      "instrumentId": "DIAL-005",
+      "name": "Mitutoyo 0-10mm Plunger Dial Indicator",
+      "serialNumber": "MIT-2046S-P19",
+      "equipmentType": "DIAL_INDICATOR",
+      "certificateNumber": "SANAS-CAL-2026-1510",
+      "calibrationDate": "2026-02-15",
+      "expiryDate": "2027-02-14",
+      "status": "VALID",
+      "range": "0 - 10 mm",
+      "resolution": "0.01 mm",
+      "calibratedBy": "Precision Metrology South Africa",
+      "location": "Machine Shop — Lathe Station 1"
+    },
+    {
+      "id": "INST-TORQ-012",
+      "instrumentId": "TORQ-012",
+      "name": "Norbar 20-100 N·m Precision Clicker Torque Wrench",
+      "serialNumber": "NOR-130103-W91",
+      "equipmentType": "TORQUE_WRENCH",
+      "certificateNumber": "SANAS-CAL-2026-1788",
+      "calibrationDate": "2026-01-20",
+      "expiryDate": "2027-01-19",
+      "status": "VALID",
+      "range": "20 - 100 N·m",
+      "resolution": "1 N·m",
+      "calibratedBy": "Torque Calibrations SA",
+      "location": "Assembly Bay 2"
+    }
+  ],
   "machines": [],
   "projects": [],
   "components": [],
@@ -6079,119 +6187,24 @@
       "updatedAt": "2026-01-15T08:00:00Z"
     }
   ],
-  "calibrationInstruments": [
-    {
-      "id": "INST-CAL-001",
-      "instrumentId": "CAL-001",
-      "name": "Mitutoyo 0-150mm Digital Vernier Caliper",
-      "serialNumber": "MIT-500-196-30-A14",
-      "equipmentType": "CALIPER",
-      "certificateNumber": "SANAS-CAL-2026-0891",
-      "calibrationDate": "2026-01-10",
-      "expiryDate": "2027-01-09",
-      "status": "VALID",
-      "range": "0 - 150 mm",
-      "resolution": "0.01 mm",
-      "calibratedBy": "SANAS Accredited Lab #042",
-      "location": "Metrology Lab — Inspection Bay 1"
-    },
-    {
-      "id": "INST-MIC-042",
-      "instrumentId": "MIC-042",
-      "name": "Mitutoyo 0-25mm Precision Digital Micrometer",
-      "serialNumber": "MIT-293-240-30-B88",
-      "equipmentType": "MICROMETER",
-      "certificateNumber": "SANAS-CAL-2026-1102",
-      "calibrationDate": "2026-01-15",
-      "expiryDate": "2027-01-14",
-      "status": "VALID",
-      "range": "0 - 25 mm",
-      "resolution": "0.001 mm",
-      "calibratedBy": "SANAS Calibration Services Ltd",
-      "location": "Metrology Lab — Cabinet A"
-    },
-    {
-      "id": "INST-MIC-043",
-      "instrumentId": "MIC-043",
-      "name": "Mitutoyo 25-50mm External Micrometer",
-      "serialNumber": "MIT-103-138-C12",
-      "equipmentType": "MICROMETER",
-      "certificateNumber": "SANAS-CAL-2026-1103",
-      "calibrationDate": "2026-01-15",
-      "expiryDate": "2027-01-14",
-      "status": "VALID",
-      "range": "25 - 50 mm",
-      "resolution": "0.001 mm",
-      "calibratedBy": "SANAS Calibration Services Ltd",
-      "location": "Metrology Lab — Cabinet A"
-    },
-    {
-      "id": "INST-CAL-014",
-      "instrumentId": "CAL-014",
-      "name": "Mitutoyo 0-300mm Digimatic Height Gauge",
-      "serialNumber": "MIT-192-630-H05",
-      "equipmentType": "HEIGHT_GAUGE",
-      "certificateNumber": "SANAS-CAL-2026-0944",
-      "calibrationDate": "2026-02-01",
-      "expiryDate": "2027-01-31",
-      "status": "VALID",
-      "range": "0 - 300 mm",
-      "resolution": "0.01 mm",
-      "calibratedBy": "Precision Metrology South Africa",
-      "location": "Surface Plate 1 — Machine Shop"
-    },
-    {
-      "id": "INST-BORE-007",
-      "instrumentId": "BORE-007",
-      "name": "Mitutoyo 50-150mm Dial Bore Gauge",
-      "serialNumber": "MIT-511-703-D44",
-      "equipmentType": "BORE_GAUGE",
-      "certificateNumber": "SANAS-CAL-2026-1419",
-      "calibrationDate": "2026-01-20",
-      "expiryDate": "2027-01-19",
-      "status": "VALID",
-      "range": "50 - 150 mm",
-      "resolution": "0.001 mm",
-      "calibratedBy": "SANAS Calibration Services Ltd",
-      "location": "Metrology Lab — Cabinet B"
-    },
-    {
-      "id": "INST-DIAL-005",
-      "instrumentId": "DIAL-005",
-      "name": "Mitutoyo 0-10mm Plunger Dial Indicator",
-      "serialNumber": "MIT-2046S-P19",
-      "equipmentType": "DIAL_INDICATOR",
-      "certificateNumber": "SANAS-CAL-2026-1510",
-      "calibrationDate": "2026-02-15",
-      "expiryDate": "2027-02-14",
-      "status": "VALID",
-      "range": "0 - 10 mm",
-      "resolution": "0.01 mm",
-      "calibratedBy": "Precision Metrology South Africa",
-      "location": "Machine Shop — Lathe Station 1"
-    },
-    {
-      "id": "INST-TORQ-012",
-      "instrumentId": "TORQ-012",
-      "name": "Norbar 20-100 N·m Precision Clicker Torque Wrench",
-      "serialNumber": "NOR-130103-W91",
-      "equipmentType": "TORQUE_WRENCH",
-      "certificateNumber": "SANAS-CAL-2026-1788",
-      "calibrationDate": "2026-01-20",
-      "expiryDate": "2027-01-19",
-      "status": "VALID",
-      "range": "20 - 100 N·m",
-      "resolution": "1 N·m",
-      "calibratedBy": "Torque Calibrations SA",
-      "location": "Assembly Bay 2"
-    }
-  ],
   "ncrs": [],
   "deviations": [],
   "releases": [],
-  "attachments": [],
   "componentFitments": [],
   "auditLogs": [
+    {
+      "id": "AUD-CLEAN-1793888591094",
+      "timestamp": "2026-11-05T14:23:11.094Z",
+      "userId": "USR-008",
+      "user": "Basil De Swardt",
+      "role": "ADMINISTRATOR",
+      "action": "DATABASE_CLEARED_CLEAN_SLATE",
+      "recordType": "DATABASE",
+      "recordId": "CLEAN_SLATE_RESET",
+      "details": {
+        "reason": "Administrator cleared all projects, machines, and manufacturing data for fresh project setup."
+      }
+    },
     {
       "id": "AUD-CLEAN-1793862146198",
       "timestamp": "2026-11-05T07:02:26.198Z",
@@ -6284,7 +6297,9 @@
       "OTHER"
     ]
   },
-  "lastUpdated": "2026-11-05T07:02:26.198Z",
+  "lastUpdated": "2026-11-05T14:23:11.094Z",
+  "cleanSlate": true,
+  "wipeEpoch": 1793888591094,
   "deletedRecordKeys": [
     "LIST_CLEARED:ALL_DATA",
     "LIST_CLEARED:PROJECTS",
@@ -6299,7 +6314,5 @@
     "LIST_CLEARED:RELEASES",
     "LIST_CLEARED:ATTACHMENTS",
     "LIST_CLEARED:FITMENTS"
-  ],
-  "cleanSlate": true,
-  "wipeEpoch": 1793862146198
+  ]
 }

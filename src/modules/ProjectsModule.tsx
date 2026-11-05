@@ -5,6 +5,7 @@ import { Project, ProjectStatus } from '../types';
 import { getProjectCrossReferences } from '../utils/crossReference';
 import { StatusBadge } from '../components/StatusBadge';
 import { Modal } from '../components/Modal';
+import { StartProjectAndMachineModal } from '../components/StartProjectAndMachineModal';
 import {
   FolderKanban,
   Plus,
@@ -24,6 +25,7 @@ import {
   Link2,
   Edit3,
   Trash2,
+  Sparkles,
 } from 'lucide-react';
 
 interface ProjectsModuleProps {
@@ -84,6 +86,7 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({ onViewMachineCom
     text: string;
   } | null>(null);
   const [isImporting, setIsImporting] = useState(false);
+  const [isStartProjectModalOpen, setIsStartProjectModalOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     projectNumber: '',
@@ -691,6 +694,14 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({ onViewMachineCom
           </button>
 
           <button
+            onClick={() => setIsStartProjectModalOpen(true)}
+            className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs font-bold flex items-center gap-2 shadow-xs transition-colors"
+          >
+            <Sparkles className="w-4 h-4" />
+            + Start Project &amp; Machine
+          </button>
+
+          <button
             onClick={openCreateProjectModal}
             className="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold flex items-center gap-2 shadow-xs transition-colors"
           >
@@ -753,12 +764,30 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({ onViewMachineCom
 
       {/* Projects Grid with Complete Cross-References (Machines, Drawings, Parts, Mfg Records) */}
       {filteredProjects.length === 0 ? (
-        <div className="bg-white p-12 rounded-xl border border-slate-200 text-center space-y-3">
+        <div className="bg-white p-12 rounded-xl border border-slate-200 text-center space-y-4">
           <FolderKanban className="w-12 h-12 text-slate-300 mx-auto" />
-          <h3 className="font-bold text-base text-slate-800">No Projects in Register</h3>
-          <p className="text-xs text-slate-500 max-w-lg mx-auto">
-            The project register is clean (blank slate). Click "+ Register Project" or "Import Projects (Excel / CSV)" above to register your first customer project and link machines.
-          </p>
+          <div>
+            <h3 className="font-bold text-base text-slate-800">Clean Slate: No Projects in Register</h3>
+            <p className="text-xs text-slate-500 max-w-lg mx-auto mt-1">
+              All previous projects have been cleared. Ready to start fresh with a new project and machine.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <button
+              onClick={() => setIsStartProjectModalOpen(true)}
+              className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs font-bold flex items-center gap-2 shadow-xs transition-colors"
+            >
+              <Sparkles className="w-4 h-4" />
+              Start New Project &amp; Machine
+            </button>
+            <button
+              onClick={openCreateProjectModal}
+              className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              Register Project Manually
+            </button>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
@@ -1764,6 +1793,11 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({ onViewMachineCom
           </div>
         </div>
       </Modal>
+
+      <StartProjectAndMachineModal
+        isOpen={isStartProjectModalOpen}
+        onClose={() => setIsStartProjectModalOpen(false)}
+      />
     </div>
   );
 };
