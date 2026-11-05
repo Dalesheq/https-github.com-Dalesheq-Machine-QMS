@@ -172,68 +172,46 @@ export function reconcileCrossPopulatedDatabase(db: QMSDatabase): QMSDatabase {
   const deletedSet = new Set((db.deletedRecordKeys || []).map(norm));
 
   const isProjectDeleted = (id?: string, pNum?: string) =>
-    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
-    deletedSet.has('LIST_CLEARED:PROJECTS') ||
     (Boolean(id) && deletedSet.has(`PROJECT:${norm(id)}`)) ||
     (Boolean(pNum) && deletedSet.has(`PROJECT:${norm(pNum)}`));
 
   const isMachineDeleted = (id?: string, sn?: string) =>
-    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
-    deletedSet.has('LIST_CLEARED:MACHINES') ||
     (Boolean(id) && deletedSet.has(`MACHINE:${norm(id)}`)) ||
     (Boolean(sn) && deletedSet.has(`MACHINE:${norm(sn)}`));
 
   const isComponentDeleted = (id?: string, pn?: string) =>
-    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
-    deletedSet.has('LIST_CLEARED:COMPONENTS') ||
     (Boolean(id) && deletedSet.has(`COMPONENT:${norm(id)}`)) ||
     (Boolean(pn) && deletedSet.has(`COMPONENT:${norm(pn)}`));
 
   const isDrawingDeleted = (id?: string, dwgNo?: string, rev?: string) =>
-    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
-    deletedSet.has('LIST_CLEARED:DRAWINGS') ||
     (Boolean(id) && deletedSet.has(`DRAWING:${norm(id)}`)) ||
     (Boolean(dwgNo) && deletedSet.has(`DRAWING:${norm(dwgNo)}`)) ||
     (Boolean(dwgNo) && Boolean(rev) && deletedSet.has(`DRAWING:${norm(dwgNo)}::${norm(rev)}`));
 
   const isMfgDeleted = (id?: string, tr?: string) =>
-    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
-    deletedSet.has('LIST_CLEARED:MFG') ||
     (Boolean(id) && deletedSet.has(`MFG:${norm(id)}`)) ||
     (Boolean(tr) && deletedSet.has(`MFG:${norm(tr)}`));
 
   const isInspDeleted = (id?: string) =>
-    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
-    deletedSet.has('LIST_CLEARED:INSPECTIONS') ||
-    (Boolean(id) && deletedSet.has(`INSP:${norm(id)}`));
+    Boolean(id) && deletedSet.has(`INSP:${norm(id)}`);
 
   const isDaleDeleted = (id?: string) =>
-    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
-    deletedSet.has('LIST_CLEARED:DALE_INSPECTIONS') ||
-    (Boolean(id) && deletedSet.has(`DALE_INSP:${norm(id)}`));
+    Boolean(id) && deletedSet.has(`DALE_INSP:${norm(id)}`);
 
   const isNcrDeleted = (id?: string, num?: string) =>
-    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
-    deletedSet.has('LIST_CLEARED:NCRS') ||
     (Boolean(id) && deletedSet.has(`NCR:${norm(id)}`)) ||
     (Boolean(num) && deletedSet.has(`NCR:${norm(num)}`));
 
   const isDevDeleted = (id?: string, num?: string) =>
-    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
-    deletedSet.has('LIST_CLEARED:DEVIATIONS') ||
     (Boolean(id) && deletedSet.has(`DEV:${norm(id)}`)) ||
     (Boolean(num) && deletedSet.has(`DEV:${norm(num)}`));
 
   const isRelDeleted = (id?: string, code?: string) =>
-    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
-    deletedSet.has('LIST_CLEARED:RELEASES') ||
     (Boolean(id) && deletedSet.has(`REL:${norm(id)}`)) ||
     (Boolean(code) && deletedSet.has(`REL:${norm(code)}`));
 
   const isAttDeleted = (id?: string) =>
-    deletedSet.has('LIST_CLEARED:ALL_DATA') ||
-    deletedSet.has('LIST_CLEARED:ATTACHMENTS') ||
-    (Boolean(id) && deletedSet.has(`ATT:${norm(id)}`));
+    Boolean(id) && deletedSet.has(`ATT:${norm(id)}`);
 
   const projects: Project[] = (db.projects || [])
     .filter((p) => p && !isProjectDeleted(p.id, p.projectNumber))
@@ -1154,6 +1132,19 @@ export function mergeQMSDatabases(
   const combinedDeletedKeys = uniqStr(primary?.deletedRecordKeys, secondary?.deletedRecordKeys).filter(
     (k) => {
       const nk = norm(k);
+      if (nk === 'list_cleared:drawings' && (primary?.drawings?.length || 0) > 0) return false;
+      if (nk === 'list_cleared:components' && (primary?.components?.length || 0) > 0) return false;
+      if (nk === 'list_cleared:machines' && (primary?.machines?.length || 0) > 0) return false;
+      if (nk === 'list_cleared:projects' && (primary?.projects?.length || 0) > 0) return false;
+      if (
+        nk === 'list_cleared:all_data' &&
+        ((primary?.drawings?.length || 0) > 0 ||
+          (primary?.components?.length || 0) > 0 ||
+          (primary?.machines?.length || 0) > 0 ||
+          (primary?.projects?.length || 0) > 0)
+      ) {
+        return false;
+      }
       if (nk.startsWith('list_cleared:')) return true;
       if (primaryDelSet.has(nk)) return true;
       return !primaryActiveKeys.has(nk);

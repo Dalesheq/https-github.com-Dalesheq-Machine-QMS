@@ -146,6 +146,7 @@ export function parseMachineBomWorkbook(
   // 1) By hierarchical Item number (e.g. "3.1.1")
   // 2) By normalized Part Number (e.g. "T0559-058-719-00-00-002-01")
   const rowsByItemNo = new Map<string, Partial<ExtractedBomRow>>();
+  const rowsByPartNo = new Map<string, Partial<ExtractedBomRow>>();
   const extraByPartNo = new Map<
     string,
     {
@@ -211,25 +212,38 @@ export function parseMachineBomWorkbook(
       const nonEmptyCount = candidate.filter(Boolean).length;
       if (nonEmptyCount < 2) continue;
 
-      const hasPartOrDwg = candidate.some(
-        (h) =>
-          h.includes('part number') ||
-          h.includes('part numb') ||
-          h.includes('part no') ||
-          h.includes('drawing number') ||
-          h.includes('drawing / part') ||
-          h === 'filename'
-      );
-      const hasDescOrTypeOrItem = candidate.some(
-        (h) =>
-          h.includes('description') ||
-          h.includes('drawing title') ||
-          h.includes('component type') ||
-          h.includes('componen') ||
-          h === 'item' ||
-          h === 'hier:' ||
-          h === 'desig.'
-      );
+      const hasPartOrDwg = candidate.some((h) => {
+        const clean = h.replace(/[^a-z0-9]/g, '');
+        return (
+          clean.includes('part') ||
+          clean.includes('drawing') ||
+          clean.includes('dwg') ||
+          clean.includes('filename') ||
+          clean.includes('component') ||
+          clean === 'item' ||
+          clean === 'itemno' ||
+          clean === 'code' ||
+          clean === 'number' ||
+          clean === 'no'
+        );
+      });
+      const hasDescOrTypeOrItem = candidate.some((h) => {
+        const clean = h.replace(/[^a-z0-9]/g, '');
+        return (
+          clean.includes('desc') ||
+          clean.includes('title') ||
+          clean.includes('type') ||
+          clean.includes('compon') ||
+          clean.includes('name') ||
+          clean.includes('qty') ||
+          clean.includes('quantity') ||
+          clean.includes('material') ||
+          clean.includes('hier') ||
+          clean.includes('desig') ||
+          clean.includes('stock') ||
+          clean === 'item'
+        );
+      });
 
       if (hasPartOrDwg && hasDescOrTypeOrItem) {
         headerRowIdx = r;
@@ -247,6 +261,15 @@ export function parseMachineBomWorkbook(
       }
     }
 
+    // Fallback: if no header row found in first 25 rows, but row 0 has at least 2 cells, use row 0
+    if (headerRowIdx === -1 && matrix.length > 0) {
+      const row0 = matrix[0].map((c) => String(c ?? '').trim().toLowerCase().replace(/\s+/g, ' '));
+      if (row0.filter(Boolean).length >= 2) {
+        headerRowIdx = 0;
+        headerCols = row0;
+      }
+    }
+
     if (headerRowIdx === -1) continue;
 
     const findCol = (exactList: string[], partialList: string[]): number => {
@@ -255,31 +278,100 @@ export function parseMachineBomWorkbook(
       return headerCols.findIndex((h) => partialList.some((p) => h.includes(p)));
     };
 
-    const colItem = findCol(['item', 'item no'], ['item']);
-    const colFilename = findCol(['filename', 'file name'], ['filename', 'file name']);
+    const colItem = findCol(
+      ['item', 'item no', 'item_no', 'item number', 'item #', 'au no.', 'no.'],
+      ['item', 'no.']
+    );
+    const colFilename = findCol(['filename', 'file name', 'file_name', 'file'], ['filename', 'file name']);
     const colPartNumber = findCol(
-      ['part number', 'part numb', 'part no', 'drawing / part no', 'part number:'],
-      ['part number', 'part numb', 'part no', 'drawing / part']
+      [
+        'part number',
+        'part numb',
+        'part no',
+        'part no.',
+        'part #',
+        'part',
+        'part_number',
+        'part_no',
+        'partcode',
+        'drawing / part no',
+        'drawing/part no',
+        'drawing / part',
+        'drawing number',
+        'drawing no',
+        'drawing no.',
+        'dwg no',
+        'dwg no.',
+        'dwg',
+        'component',
+        'component no',
+        'component number',
+      ],
+      ['part', 'drawing', 'dwg', 'component']
     );
-    const colDrawingNumber = findCol(['drawing number', 'drawing no'], ['drawing number', 'drawing no']);
-    const colCompType = findCol(['component type', 'type', 'type:'], ['component type', 'componen', 'type']);
-    const colMaterial = findCol(['material', 'material:'], ['material']);
+    const colDrawingNumber = findCol(
+      [
+        'drawing number',
+        'drawing no',
+        'drawing no.',
+        'dwg no',
+        'dwg no.',
+        'dwg',
+        'drawing',
+        'drawing_number',
+        'drawing_no',
+      ],
+      ['drawing number', 'drawing no', 'dwg']
+    );
+    const colCompType = findCol(
+      ['component type', 'type', 'type:', 'comp type', 'category', 'assembly/part'],
+      ['component type', 'componen', 'type', 'category']
+    );
+    const colMaterial = findCol(
+      ['material', 'material:', 'mat', 'specification', 'spec', 'material spec'],
+      ['material', 'spec']
+    );
     const colDescription = findCol(
-      ['description', 'description:', 'drawing title'],
-      ['description', 'descriptior', 'drawing title']
+      [
+        'description',
+        'description:',
+        'drawing title',
+        'title',
+        'desc',
+        'component name',
+        'part description',
+        'item description',
+        'name',
+      ],
+      ['description', 'descript', 'drawing title', 'title', 'name']
     );
-    const colCostCenter = findCol(['cost center', 'cost cente', 'element code', 'element'], ['cost cent', 'element']);
+    const colCostCenter = findCol(
+      ['cost center', 'cost cente', 'cost centre', 'element code', 'element', 'cost_center'],
+      ['cost cent', 'element']
+    );
     const colStockNumber = findCol(
-      ['stock number', 'stock num', 'desig.', 'desig', 'designation'],
+      ['stock number', 'stock num', 'desig.', 'desig', 'designation', 'stock no', 'stock_number'],
       ['stock num', 'desig']
     );
-    const colItemQty = findCol(['item qty', 'qty', 'qty:'], ['item qty']);
-    const colTotalQty = findCol(['total qty', 'qty:', 'qty'], ['total qty', 'qty']);
-    const colRev = findCol(['rev', 'rev:', 'revision'], ['rev']);
-    const colFilePath = findCol(['file path', 'filepath'], ['file path', 'filepath']);
-    const colGrouping = findCol(['grouping', 'group', 'group:'], ['group']);
-    const colClassification = findCol(['classification'], ['classification']);
-    const colHier = findCol(['hier', 'hier:'], ['hier']);
+    const colItemQty = findCol(
+      ['item qty', 'qty', 'qty:', 'quantity', 'item quantity', 'pcs', 'count', 'amount'],
+      ['item qty', 'qty']
+    );
+    const colTotalQty = findCol(
+      ['total qty', 'total quantity', 'qty:', 'qty', 'quantity', 'total_qty', 'sht qty'],
+      ['total qty', 'qty', 'quantity']
+    );
+    const colRev = findCol(
+      ['rev', 'rev:', 'revision', 'revision:', 'version', 'rev no'],
+      ['rev', 'version']
+    );
+    const colFilePath = findCol(
+      ['file path', 'filepath', 'path', 'file_path'],
+      ['file path', 'filepath', 'path']
+    );
+    const colGrouping = findCol(['grouping', 'group', 'group:', 'group_name'], ['group']);
+    const colClassification = findCol(['classification', 'classify'], ['classification']);
+    const colHier = findCol(['hier', 'hier:', 'hierarchy', 'level', 'depth'], ['hier', 'level']);
 
     // Note: in Sheet 1, "Item" is col 0 and "Item QTY" is another column containing "item qty"
     const actualColItem =
@@ -347,86 +439,96 @@ export function parseMachineBomWorkbook(
         filePathsList.push(filePath);
       }
 
-      // Check if this sheet is a supplementary sheet (Sheet 2 Classification or Sheet 3 Progress)
-      const isPrimarySheetRow = Boolean(itemNo && (filename || colFilename !== -1));
+      // Record supplementary info into extraByPartNo for global cross-sheet enrichment
+      const prevExtra = extraByPartNo.get(resolvedPartNumber) || {};
+      extraByPartNo.set(resolvedPartNumber, {
+        totalQty: totalQty || itemQty || prevExtra.totalQty,
+        grouping:
+          grouping && grouping !== 'No Match' && grouping !== 'No Desc.'
+            ? grouping
+            : prevExtra.grouping,
+        hierarchyLevel: hier || prevExtra.hierarchyLevel,
+        classification: classification || prevExtra.classification,
+        description:
+          description && description !== 'NO DESCRIPTION' ? description : prevExtra.description,
+        material: material || prevExtra.material,
+        designation: stockNumber || prevExtra.designation,
+        costCenter: costCenter || prevExtra.costCenter,
+        revision: rev !== '' ? rev : prevExtra.revision,
+        componentType: rawCompType ? componentType : prevExtra.componentType,
+        filePath: filePath || prevExtra.filePath,
+      });
 
-      if (isPrimarySheetRow) {
-        const existing = rowsByItemNo.get(itemNo);
+      // Find existing item in orderedRawItems:
+      // 1) Match by itemNo if present
+      // 2) Match by resolvedPartNumber
+      let existing: Partial<ExtractedBomRow> | undefined;
+      if (itemNo && rowsByItemNo.has(itemNo)) {
+        existing = rowsByItemNo.get(itemNo);
+      } else if (rowsByPartNo.has(resolvedPartNumber)) {
+        existing = rowsByPartNo.get(resolvedPartNumber);
+      }
+
+      if (existing) {
+        // Merge enriched data from subsequent sheets
+        if (!existing.hierarchyLevel && hier) existing.hierarchyLevel = hier;
+        if (!existing.filename && filename) existing.filename = filename;
+        if (!existing.material && material) existing.material = material;
+        if (
+          (!existing.description || existing.description === resolvedPartNumber) &&
+          description &&
+          description !== 'NO DESCRIPTION'
+        ) {
+          existing.description = description;
+        }
+        if (!existing.costCenter && costCenter) existing.costCenter = costCenter;
+        if (!existing.designation && stockNumber) existing.designation = stockNumber;
+        if (!existing.grouping && grouping) existing.grouping = grouping;
+        if (!existing.classification && classification) existing.classification = classification;
+        if ((!existing.itemQty || existing.itemQty === '1') && itemQty) existing.itemQty = itemQty;
+        if ((!existing.totalQty || existing.totalQty === '1') && (totalQty || itemQty)) {
+          existing.totalQty = totalQty || itemQty;
+        }
+        if ((!existing.revision || existing.revision === '0') && rev !== '') existing.revision = rev;
+        if (!existing.filePath && filePath) existing.filePath = filePath;
+        if (!existing.parentDrawingNumber && explicitDwgNo) {
+          existing.parentDrawingNumber = explicitDwgNo.toUpperCase();
+        }
+        if (existing.componentType !== 'Assembly' && componentType === 'Assembly') {
+          existing.componentType = 'Assembly';
+        }
+        if (itemNo && !existing.itemNumber) {
+          existing.itemNumber = itemNo;
+          rowsByItemNo.set(itemNo, existing);
+        }
+      } else {
         const rowObj: Partial<ExtractedBomRow> = {
-          ...existing,
           rowIndex: r + 1,
-          itemNumber: itemNo,
-          hierarchyLevel: hier || existing?.hierarchyLevel || String(itemNo.split('.').length - 1),
-          filename: filename || existing?.filename || '',
+          itemNumber: itemNo || String(orderedRawItems.length + 1),
+          hierarchyLevel: hier || (itemNo ? String(itemNo.split('.').length - 1) : '0'),
+          filename: filename || '',
           partNumber: resolvedPartNumber,
-          rawPartNumber: rawPartNo || existing?.rawPartNumber || resolvedPartNumber,
+          rawPartNumber: rawPartNo || resolvedPartNumber,
           componentType,
-          material: material || existing?.material || '',
+          material: material || '',
           description:
             description && description !== 'NO DESCRIPTION'
               ? description
-              : existing?.description || cleanFn || resolvedPartNumber,
-          costCenter: costCenter || existing?.costCenter || '',
-          designation: stockNumber || existing?.designation || '',
-          grouping: grouping || existing?.grouping || '',
-          classification: classification || existing?.classification || '',
-          itemQty: itemQty || existing?.itemQty || totalQty || '1',
-          totalQty: totalQty || existing?.totalQty || itemQty || '1',
-          revision: rev !== '' ? rev : existing?.revision ?? '0',
-          filePath: filePath || existing?.filePath || '',
-          parentDrawingNumber: explicitDwgNo ? explicitDwgNo.toUpperCase() : existing?.parentDrawingNumber || '',
+              : cleanFn || resolvedPartNumber,
+          costCenter: costCenter || '',
+          designation: stockNumber || '',
+          grouping: grouping || '',
+          classification: classification || '',
+          itemQty: itemQty || totalQty || '1',
+          totalQty: totalQty || itemQty || '1',
+          revision: rev !== '' ? rev : '0',
+          filePath: filePath || '',
+          parentDrawingNumber: explicitDwgNo ? explicitDwgNo.toUpperCase() : '',
         };
-        rowsByItemNo.set(itemNo, rowObj);
-        if (!existing) {
-          orderedRawItems.push(rowObj);
-        }
-      } else {
-        // Supplementary sheet (like Sheet 3 Progress sheet or a flat table without Item column)
-        const prevExtra = extraByPartNo.get(resolvedPartNumber) || {};
-        extraByPartNo.set(resolvedPartNumber, {
-          totalQty: totalQty || itemQty || prevExtra.totalQty,
-          grouping:
-            grouping && grouping !== 'No Match' && grouping !== 'No Desc.'
-              ? grouping
-              : prevExtra.grouping,
-          hierarchyLevel: hier || prevExtra.hierarchyLevel,
-          classification: classification || prevExtra.classification,
-          description:
-            description && description !== 'NO DESCRIPTION' ? description : prevExtra.description,
-          material: material || prevExtra.material,
-          designation: stockNumber || prevExtra.designation,
-          costCenter: costCenter || prevExtra.costCenter,
-          revision: rev !== '' ? rev : prevExtra.revision,
-          componentType: rawCompType ? componentType : prevExtra.componentType,
-          filePath: filePath || prevExtra.filePath,
-        });
-
-        // Also if orderedRawItems is empty (e.g., user uploaded ONLY the Progress sheet or a flat sheet),
-        // add it to orderedRawItems so single-sheet uploads work identically!
-        if (rowsByItemNo.size === 0) {
-          orderedRawItems.push({
-            rowIndex: r + 1,
-            itemNumber: itemNo || String(orderedRawItems.length + 1),
-            hierarchyLevel: hier || '0',
-            filename: filename || '',
-            partNumber: resolvedPartNumber,
-            rawPartNumber: rawPartNo || resolvedPartNumber,
-            componentType,
-            material,
-            description:
-              description && description !== 'NO DESCRIPTION'
-                ? description
-                : cleanFn || resolvedPartNumber,
-            costCenter,
-            designation: stockNumber,
-            grouping,
-            classification,
-            itemQty: itemQty || totalQty || '1',
-            totalQty: totalQty || itemQty || '1',
-            revision: rev !== '' ? rev : '0',
-            filePath,
-            parentDrawingNumber: explicitDwgNo ? explicitDwgNo.toUpperCase() : '',
-          });
+        orderedRawItems.push(rowObj);
+        rowsByPartNo.set(resolvedPartNumber, rowObj);
+        if (itemNo) {
+          rowsByItemNo.set(itemNo, rowObj);
         }
       }
     }
@@ -589,19 +691,47 @@ export function parseMachineBomWorkbook(
       }
     }
 
-    const designation = (
-      raw.designation ||
-      (raw.costCenter === '030' ? 'B/O-EXT' : /^T\d{3,5}/i.test(pNo) ? 'MANUF-INT' : 'B/O-EXT')
-    )
-      .trim()
-      .toUpperCase();
+    const rawDesig = (raw.designation || '').trim().toUpperCase();
+    const rawClass = (raw.classification || '').trim().toLowerCase();
+    const descUpper = (raw.description || pNo).toUpperCase();
+    const pNoUpper = pNo.toUpperCase();
+
+    // Check if this part is an off-the-shelf commercial fastener or bought-out component
+    const isCommercialHardware =
+      raw.costCenter === '030' ||
+      rawDesig === 'B/O-EXT' ||
+      rawDesig === 'B/O' ||
+      rawDesig === 'BO-EXT' ||
+      rawDesig.startsWith('B/O') ||
+      rawDesig.includes('BOUGHT') ||
+      rawClass.includes('bought') ||
+      rawClass.includes('commercial') ||
+      /\b(DIN\s*\d+|ISO\s*\d+|WASHER|HEX\s*NUT|BEARING|CIRCLIP|O-RING|GREASE\s*NIPPLE)\b/.test(descUpper) ||
+      /\b(DIN\s*\d+|ISO\s*\d+)\b/.test(pNoUpper);
+
+    let designation = rawDesig;
+    if (!designation) {
+      if (isCommercialHardware) {
+        designation = 'B/O-EXT';
+      } else {
+        designation = 'MANUF-INT';
+      }
+    }
 
     const isManufactured =
-      designation.includes('MANUF') ||
-      designation === 'INFO' ||
-      (raw.classification || '').toLowerCase().includes('manufactured') ||
-      (raw.classification || '').toLowerCase().includes('informational') ||
-      (/^T\d{3,5}/i.test(pNo) && !designation.includes('B/O') && !designation.includes('BO-EXT'));
+      !isCommercialHardware &&
+      !designation.includes('B/O') &&
+      !designation.includes('BO-EXT') &&
+      !designation.includes('BOUGHT') &&
+      !designation.includes('COMMERCIAL') &&
+      (
+        designation.includes('MANUF') ||
+        designation === 'INFO' ||
+        compType === 'Assembly' ||
+        rawClass.includes('manufactured') ||
+        rawClass.includes('informational') ||
+        !rawClass
+      );
 
     const material = (
       raw.material || (compType === 'Assembly' ? 'ASSEMBLY / AS PER BOM' : 'AS PER DRAWING')
@@ -870,6 +1000,44 @@ export function buildMachineImportPayloads(
         detailEntry.partsList.push({
           id: `PT-DET-${row.rowIndex}`,
           itemNumber: row.itemNumber || '1',
+          quantity: row.totalQty || row.itemQty || '1',
+          partNumber: row.partNumber,
+          description: row.description,
+          material: row.material,
+          designation: row.designation,
+          orderNumber: row.grouping,
+          vendor: row.costCenter,
+        });
+      }
+    }
+  }
+
+  // 1b. Ensure a Master Machine General Assembly Drawing exists for this machine
+  const rootDwgNo = (
+    extracted.detectedRootAssemblyNumber ||
+    `${options.projectNumber}-${options.elementCode}-00-00-000-00`
+  ).trim().toUpperCase();
+  const rootDwgTitle =
+    extracted.detectedRootAssemblyTitle ||
+    `${options.machineType} GENERAL ASSEMBLY`;
+
+  const hasMasterDrawing = Array.from(drawingsMap.values()).some(
+    (d) => d.drawingNumber === rootDwgNo || d.drawingNumber === options.machineSerialNumber.toUpperCase()
+  );
+
+  if (!hasMasterDrawing && rowsToProcess.length > 0) {
+    const masterEntry = ensureDrawingEntry(
+      rootDwgNo,
+      '0',
+      rootDwgTitle,
+      '',
+      `Machine Master General Assembly for Serial: ${options.machineSerialNumber}`
+    );
+    for (const row of rowsToProcess) {
+      if (!masterEntry.partsList.some((p) => p.partNumber === row.partNumber)) {
+        masterEntry.partsList.push({
+          id: `PT-GA-${row.rowIndex}`,
+          itemNumber: row.itemNumber || String(masterEntry.partsList.length + 1),
           quantity: row.totalQty || row.itemQty || '1',
           partNumber: row.partNumber,
           description: row.description,

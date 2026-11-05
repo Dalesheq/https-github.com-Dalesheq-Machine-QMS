@@ -53,7 +53,7 @@ export const MachineBomImportModal: React.FC<MachineBomImportModalProps> = ({
   const [detailedBy, setDetailedBy] = useState('');
 
   // Import Scope Toggles
-  const [includeBoughtOut, setIncludeBoughtOut] = useState(false);
+  const [includeBoughtOut, setIncludeBoughtOut] = useState(true);
   const [createDetailDrawingsForParts, setCreateDetailDrawingsForParts] = useState(true);
 
   // Parsed Workbook State
@@ -131,7 +131,7 @@ export const MachineBomImportModal: React.FC<MachineBomImportModalProps> = ({
           ? selectedExistingSerial
           : `${autoProjNo}-${autoElem}`);
 
-      if (!preselectedMachineSerial && selectedMachineMode === 'NEW_OR_AUTO') {
+      if (!preselectedMachineSerial && (selectedMachineMode === 'NEW_OR_AUTO' || !machineSerialNumber)) {
         setMachineSerialNumber(autoSerial);
       }
       if (parsed.detectedMachineType) setMachineType(parsed.detectedMachineType);
@@ -514,23 +514,41 @@ export const MachineBomImportModal: React.FC<MachineBomImportModalProps> = ({
   ]);
 
   const handleExecuteImport = async () => {
-    if (!extractedData || !computedPayloads) return;
-    const targetSn =
-      selectedMachineMode === 'EXISTING' && selectedExistingSerial
+    if (!extractedData || !computedPayloads) {
+      alert('Please upload an Excel or CSV BOM workbook first.');
+      return;
+    }
+    const derivedSerial =
+      (selectedMachineMode === 'EXISTING' && selectedExistingSerial
         ? selectedExistingSerial
-        : machineSerialNumber.trim();
+        : machineSerialNumber.trim()) ||
+      (projectNumber.trim() ? `${projectNumber.trim()}-${elementCode.trim() || '719'}` : '') ||
+      (extractedData.detectedProjectNumber
+        ? `${extractedData.detectedProjectNumber}-${extractedData.detectedElementCode || '719'}`
+        : '') ||
+      'MCH-001';
 
-    if (!targetSn) return;
+    const targetSn = derivedSerial.trim().toUpperCase();
+
+    if (!targetSn) {
+      alert('Please enter or select a Machine Serial Number.');
+      return;
+    }
+
+    if (computedPayloads.drawings.length === 0 && computedPayloads.components.length === 0) {
+      alert('No drawings or components could be generated from this BOM. Please verify the uploaded file contains part numbers and descriptions.');
+      return;
+    }
 
     setIsImporting(true);
     setImportResult(null);
     try {
       const res = await importMachineBomPackage({
-        machineSerialNumber: targetSn.toUpperCase(),
+        machineSerialNumber: targetSn,
         machineType: machineType.trim().toUpperCase() || 'DIVIDER',
         customer: customer.trim() || 'Spiral Systems / Dale Automation',
         projectNumber: projectNumber.trim().toUpperCase() || 'T0559-058',
-        projectName: projectName.trim() || `${projectNumber} ${machineType}`,
+        projectName: projectName.trim() || `${projectNumber || 'T0559-058'} ${machineType || 'DIVIDER'}`,
         elementCode: elementCode.trim() || '719',
         modelledBy: modelledBy.trim(),
         detailedBy: detailedBy.trim(),
@@ -538,6 +556,21 @@ export const MachineBomImportModal: React.FC<MachineBomImportModalProps> = ({
         components: computedPayloads.components,
       });
       setImportResult(res);
+      if (!res.ok && res.error) {
+        alert(`BOM Import failed: ${res.error}`);
+      }
+    } catch (err: any) {
+      setImportResult({
+        ok: false,
+        drawingsImported: 0,
+        drawingsUpdated: 0,
+        componentsImported: 0,
+        componentsUpdated: 0,
+        machineSerialNumber: targetSn,
+        projectNumber: projectNumber.trim().toUpperCase() || 'T0559-058',
+        error: err?.message || 'Unexpected import failure',
+      });
+      alert(`BOM Import error: ${err?.message || 'Unexpected failure'}`);
     } finally {
       setIsImporting(false);
     }

@@ -678,8 +678,20 @@ export const QMSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       nextDeletedKeys = [];
     } else if (!['ADMIN_DELETE_RECORD', 'ADMIN_CLEAR_LIST', 'ADMIN_CLEAR_ALL_DATA'].includes(action)) {
       const activeTombstonesToRemove = new Set<string>();
+      if (
+        (newDb.projects?.length || 0) > 0 ||
+        (newDb.machines?.length || 0) > 0 ||
+        (newDb.drawings?.length || 0) > 0 ||
+        (newDb.components?.length || 0) > 0 ||
+        action === 'IMPORT_MACHINE_BOM_EXCEL'
+      ) {
+        activeTombstonesToRemove.add('LIST_CLEARED:ALL_DATA');
+        newDb.cleanSlate = false;
+      }
       if (action === 'CREATE_PROJECT' || action === 'UPDATE_PROJECT' || action === 'IMPORT_MACHINE_BOM_EXCEL') {
         activeTombstonesToRemove.add('LIST_CLEARED:PROJECTS');
+        activeTombstonesToRemove.add('LIST_CLEARED:ALL_DATA');
+        newDb.cleanSlate = false;
         (newDb.projects || []).forEach((p) => {
           activeTombstonesToRemove.add(`PROJECT:${(p.id || '').trim().toUpperCase()}`);
           activeTombstonesToRemove.add(`PROJECT:${(p.projectNumber || '').trim().toUpperCase()}`);
