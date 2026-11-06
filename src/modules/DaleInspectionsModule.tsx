@@ -357,6 +357,82 @@ export const DaleInspectionsModule: React.FC<DaleInspectionsModuleProps> = ({
     inspectionDate: new Date().toISOString().split('T')[0],
   });
 
+  // Checksheet Auto-Detection State
+  const [detectedChecksheetInfo, setDetectedChecksheetInfo] = useState<{
+    templateCode: string;
+    templateName: string;
+    processType: DaleProcessType;
+    confidence: number;
+    justification: string;
+    guidanceNotes?: string;
+  } | null>(null);
+  const [isDetectingChecksheet, setIsDetectingChecksheet] = useState(false);
+
+  // Trigger AI Checksheet Auto-Detection
+  const handleAutoDetectChecksheet = async (override?: {
+    partNumber?: string;
+    partDescription?: string;
+    drawingNumber?: string;
+    drawingRevision?: string;
+    category?: string;
+    material?: string;
+  }) => {
+    setIsDetectingChecksheet(true);
+    try {
+      const res = await AIIntelligenceService.detectChecksheetForPart({
+        partNumber: override?.partNumber ?? newForm.partOrSerialNo,
+        partDescription: override?.partDescription ?? (newForm.partDescription || newForm.partName),
+        machineType: newForm.machineOrAssembly,
+        machineSerial: newForm.partOrSerialNo,
+        drawingNumber: override?.drawingNumber ?? newForm.drawingNumber,
+        drawingRevision: override?.drawingRevision ?? newForm.drawingRevision,
+        projectNumber: newForm.projectNumber,
+        category: override?.category,
+        material: override?.material,
+      });
+      if (res.success && res.data) {
+        setDetectedChecksheetInfo({
+          templateCode: res.data.templateCode,
+          templateName: res.data.templateName,
+          processType: res.data.processType,
+          confidence: res.data.confidence,
+          justification: res.data.justification,
+          guidanceNotes: res.data.guidanceNotes,
+        });
+        setNewForm((prev) => ({
+          ...prev,
+          processType: res.data!.processType,
+        }));
+      }
+    } finally {
+      setIsDetectingChecksheet(false);
+    }
+  };
+
+  // Quick Select Component from Project & Auto-Detect Checksheet
+  const handleQuickSelectComponent = (partNo: string) => {
+    if (!partNo) return;
+    const match = currentContextManufacturedParts.find((p) => p.partNumber === partNo);
+    if (match) {
+      setNewForm((prev) => ({
+        ...prev,
+        partOrSerialNo: match.partNumber,
+        partName: match.description || match.partNumber,
+        partDescription: match.description || match.partNumber,
+        drawingNumber: match.drawingNumber || prev.drawingNumber,
+        drawingRevision: match.revision || prev.drawingRevision,
+      }));
+      handleAutoDetectChecksheet({
+        partNumber: match.partNumber,
+        partDescription: match.description,
+        drawingNumber: match.drawingNumber,
+        drawingRevision: match.revision,
+        category: match.category,
+        material: match.material,
+      });
+    }
+  };
+
   // Keep newForm synchronized when project changes
   useEffect(() => {
     if (selectedProject !== 'ALL') {
@@ -731,6 +807,29 @@ export const DaleInspectionsModule: React.FC<DaleInspectionsModuleProps> = ({
         const res = await updateDaleInspectionPoint(activeSheet.id, pointId, { photos: nextPhotos });
         if (!res.success && res.error) {
           setApprovalError(res.error);
+        } else {
+          // Autonomous background upload interpretation
+          AIIntelligenceService.interpretUpload({
+            base64Data,
+            mimeType: file.type || 'image/jpeg',
+            filename: file.name,
+            context: `Inspection sheet ${activeSheet.sheetNumber}, Part: ${activeSheet.partOrSerialNo} (${activeSheet.partName}), Point: ${targetPt?.description}`,
+          })
+            .then((interpRes) => {
+              if (interpRes.success && interpRes.data) {
+                const d = interpRes.data;
+                if (d.defectData && d.defectData.observedCondition) {
+                  const autoNote = `[AI Defect Audit: ${d.defectData.defectType} — ${d.defectData.observedCondition}. Severity: ${d.defectData.estimatedSeverity}. Disposition: ${d.defectData.proposedDisposition}]`;
+                  const curComment = targetPt?.comment || '';
+                  if (!curComment.includes('AI Defect Audit')) {
+                    updateDaleInspectionPoint(activeSheet.id, pointId, {
+                      comment: curComment ? `${curComment}\n${autoNote}` : autoNote,
+                    });
+                  }
+                }
+              }
+            })
+            .catch(() => {});
         }
       };
       reader.readAsDataURL(file);
@@ -2362,6 +2461,63 @@ export const DaleInspectionsModule: React.FC<DaleInspectionsModuleProps> = ({
           maxWidth="2xl"
         >
           <form onSubmit={handleCreateSubmit} className="space-y-4 text-xs">
+            {/* AI Auto-Detect Checksheet & Component Cross-Referencer */}
+            <div className="p-3 bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 rounded-lg space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-indigo-950 dark:text-indigo-200 text-xs flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                  AI Checksheet Auto-Detector &amp; Component Cross-Reference
+                </span>
+                {detectedChecksheetInfo && (
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 font-bold">
+                    {Math.round(detectedChecksheetInfo.confidence * 100)}% Match: {detectedChecksheetInfo.templateCode}
+                  </span>
+                )}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div className="sm:col-span-2">
+                  <select
+                    onChange={(e) => handleQuickSelectComponent(e.target.value)}
+                    className="w-full px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 border border-indigo-300 dark:border-indigo-700 rounded font-medium"
+                    defaultValue=""
+                  >
+                    <option value="" disabled>-- Quick-Pick Component from Project / Drawings --</option>
+                    {currentContextManufacturedParts.map((p) => (
+                      <option key={p.partNumber} value={p.partNumber}>
+                        {p.partNumber} — {p.description} (Dwg: {p.drawingNumber})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleAutoDetectChecksheet()}
+                  disabled={isDetectingChecksheet}
+                  className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white rounded font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition-colors"
+                >
+                  <Bot className={`w-3.5 h-3.5 ${isDetectingChecksheet ? 'animate-spin' : ''}`} />
+                  <span>{isDetectingChecksheet ? 'Detecting...' : 'Auto-Detect Checksheet'}</span>
+                </button>
+              </div>
+
+              {detectedChecksheetInfo && (
+                <div className="text-[11px] text-slate-700 dark:text-slate-300 bg-white/90 dark:bg-slate-900/90 p-2.5 rounded border border-indigo-200 dark:border-indigo-800 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-indigo-900 dark:text-indigo-200">
+                      Detected: {detectedChecksheetInfo.templateName}
+                    </span>
+                    <span className="font-mono text-[10px] bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-1.5 py-0.5 rounded">
+                      {detectedChecksheetInfo.templateCode}
+                    </span>
+                  </div>
+                  <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed">
+                    {detectedChecksheetInfo.justification}
+                  </p>
+                </div>
+              )}
+            </div>
+
             {/* Select Manufacturing Process */}
             <div>
               <label className="block font-bold text-slate-800 mb-1">

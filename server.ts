@@ -28,6 +28,8 @@ import type {
 import {
   identifyDrawingAndParts,
   populateChecklistForPart,
+  detectChecksheetForPart,
+  interpretUpload,
   runAutoPopulateDatabase,
   runManufacturingAudit,
   getAiTelemetryStatus,
@@ -2655,7 +2657,6 @@ CRITICAL EXTRACTION RULES (READ ONLY ACTUAL TEXT VISIBLE IN THE IMAGE):
             parts: [...imageParts, { text: promptText }],
           },
           config: {
-            temperature: 0.1,
             responseMimeType: 'application/json',
             responseSchema: {
               type: Type.OBJECT,
@@ -2742,6 +2743,27 @@ CRITICAL EXTRACTION RULES (READ ONLY ACTUAL TEXT VISIBLE IN THE IMAGE):
       });
     }
 
+    // Auto-detect required checksheet for this scanned drawing
+    try {
+      const checksheet = await detectChecksheetForPart({
+        drawingNumber: parsedResult.drawingNumber,
+        drawingRevision: parsedResult.revision,
+        drawingTitle: parsedResult.drawingTitle,
+        projectNumber: parsedResult.projectReference,
+        partNumber: parsedResult.drawingNumber,
+        partDescription: parsedResult.drawingTitle,
+      });
+      parsedResult.recommendedChecksheet = {
+        processType: checksheet.processType,
+        processTitle: checksheet.processTitle,
+        templateCode: checksheet.templateCode,
+        justification: checksheet.justification,
+        confidence: checksheet.confidence,
+      };
+    } catch (csErr) {
+      console.warn('Auto-detect checksheet on scan-image notice:', csErr);
+    }
+
     return res.json({ success: true, parsed: parsedResult });
   } catch (err: any) {
     console.error('Error in /api/drawings/scan-image:', err);
@@ -2776,7 +2798,7 @@ app.get('/api/ai/status', (_req, res) => {
   res.json(status);
 });
 
-// Identify Drawing & Parts List (BOM)
+// Identify Drawing & Parts List (BOM) & Auto-Populate Component Master
 app.post('/api/ai/identify-drawing-parts', async (req, res) => {
   try {
     const result = await identifyDrawingAndParts(req.body || {});
@@ -2787,13 +2809,67 @@ app.post('/api/ai/identify-drawing-parts', async (req, res) => {
     if (existingDwg) {
       if (!existingDwg.partsList || existingDwg.partsList.length === 0) {
         existingDwg.partsList = result.partsList;
-        saveDatabase(db);
       }
     }
+
+    // Cross-populate components into master register
+    if (!db.components) db.components = [];
+    const compPartNumbers = new Set((db.components || []).map((c) => (c.partNumber || '').toUpperCase()));
+
+    for (const p of result.partsList || []) {
+      const pNo = (p.partNumber || '').trim().toUpperCase();
+      if (pNo && !compPartNumbers.has(pNo)) {
+        compPartNumbers.add(pNo);
+        db.components.push({
+          id: `CMP-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
+          partNumber: pNo,
+          description: p.description || pNo,
+          category: p.designation || 'MANUF-INT',
+          machineTypes: existingDwg?.machineSerialNumbers || [],
+          criticalComponent: p.designation === 'MANUF-INT',
+          defaultDrawingNumber: result.drawingNumber,
+          currentDrawingRevision: result.revision || '0',
+          drawingNumber: result.drawingNumber,
+          materialSpecification: p.material || 'AS PER DRAWING',
+          traceabilityRequired: p.designation !== 'B/O-EXT',
+          permanentIdRequired: p.designation === 'MANUF-INT',
+          active: true,
+          createdDate: new Date().toISOString().split('T')[0],
+          projectNumbers: existingDwg?.projectNumbers || (result.projectReference ? [result.projectReference] : []),
+          machineSerialNumbers: existingDwg?.machineSerialNumbers || [],
+          quantityPerAssembly: p.quantity || '1',
+          notes: `Auto-populated & cross-referenced from Drawing ${result.drawingNumber}`,
+        });
+      }
+    }
+
+    saveDatabase(db);
     res.json({ success: true, data: result });
   } catch (err: any) {
     console.error('Error in /api/ai/identify-drawing-parts:', err);
     res.status(500).json({ success: false, error: err?.message || 'Failed to identify drawing parts.' });
+  }
+});
+
+// AI Checksheet Auto-Detection per Component / Machine / Drawing
+app.post('/api/ai/detect-checksheet', async (req, res) => {
+  try {
+    const result = await detectChecksheetForPart(req.body || {});
+    res.json({ success: true, data: result });
+  } catch (err: any) {
+    console.error('Error in /api/ai/detect-checksheet:', err);
+    res.status(500).json({ success: false, error: err?.message || 'Failed to detect checksheet.' });
+  }
+});
+
+// AI Intelligent Upload Interpreter
+app.post('/api/ai/interpret-upload', async (req, res) => {
+  try {
+    const result = await interpretUpload(req.body || {});
+    res.json({ success: true, data: result });
+  } catch (err: any) {
+    console.error('Error in /api/ai/interpret-upload:', err);
+    res.status(500).json({ success: false, error: err?.message || 'Failed to interpret upload.' });
   }
 });
 

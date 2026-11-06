@@ -1,0 +1,218 @@
+[
+  {
+    "id": "AI-LOG-1793954187656-3IR6",
+    "timestamp": "2026-11-06T08:36:27.656Z",
+    "action": "UPLOAD_INTERPRETATION",
+    "title": "Interpreted Upload: EN10204_3.1_Mill_Test_Cert_Heat_H48921_AISI316L.pdf (Domain Engine)",
+    "itemsProcessed": 1,
+    "details": "Identified as MATERIAL_TEST_CERTIFICATE_3_1. Recommended checksheet: 1. Fabrication & Welding (FAB-WELD).",
+    "source": "DOMAIN_INTELLIGENCE_ENGINE",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793954183969-6A06",
+    "timestamp": "2026-11-06T08:36:23.969Z",
+    "action": "UPLOAD_INTERPRETATION",
+    "title": "Interpreted Upload: T0559-058-719-00-02-00-rev0-Infeed_Chute.pdf (Domain Engine)",
+    "itemsProcessed": 1,
+    "details": "Identified as ENGINEERING_DRAWING. Recommended checksheet: 1. Fabrication & Welding (FAB-WELD).",
+    "source": "DOMAIN_INTELLIGENCE_ENGINE",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793954179773-NUS8",
+    "timestamp": "2026-11-06T08:36:19.773Z",
+    "action": "CHECKSHEET_DETECTION",
+    "title": "Auto-Detected Checksheet: 2. Machined Components (Domain Engine)",
+    "projectNumber": "T0559",
+    "partNumber": "719-00-02-006-01",
+    "itemsProcessed": 9,
+    "details": "Component \"MAIN DRIVE SHAFT WITH K5 BEARING JOURNALS\" classified as MACHINED_COMPONENTS (DIM-SHAFT). Confidence: 98%. Justification: Rotating drive shaft requiring precision bearing journal fits (k5/m6), total indicated runout (TIR < 0.015mm), and Ra < 0.8µm surface finish.",
+    "source": "DOMAIN_INTELLIGENCE_ENGINE",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793954179773-HKS4",
+    "timestamp": "2026-11-06T08:36:19.773Z",
+    "action": "CHECKLIST_POPULATION",
+    "title": "Populated 9 Checklist Points (Domain Engine)",
+    "projectNumber": "T0559",
+    "machineSerial": "SN-001",
+    "partNumber": "719-00-02-006-01",
+    "drawingNumber": "DWG-001",
+    "itemsProcessed": 9,
+    "details": "Generated 9 specific inspection points for 2. Machined Components on Main Drive Shaft with k5 bearing journals.",
+    "source": "DOMAIN_INTELLIGENCE_ENGINE",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793954177298-X8LR",
+    "timestamp": "2026-11-06T08:36:17.298Z",
+    "action": "BACKGROUND_SWEEP",
+    "title": "Completed Plant-Wide AI Background Sweep",
+    "itemsProcessed": 0,
+    "details": "Background Worker synchronized all records: 0 sheets populated with 0 points, 0 drawings decomposed, 0 components enriched.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793954022247-D8XH",
+    "timestamp": "2026-11-06T08:33:42.247Z",
+    "action": "COMPLIANCE_AUDIT",
+    "title": "AI Quality Audit: 0 Compliance Findings Diagnosed",
+    "itemsProcessed": 0,
+    "details": "Audited 0 machines. Open NCRs: 0. Unapproved Deviations: 0. Quality Readiness Score: 98%.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793953422247-SJ6B",
+    "timestamp": "2026-11-06T08:23:42.247Z",
+    "action": "COMPLIANCE_AUDIT",
+    "title": "AI Quality Audit: 0 Compliance Findings Diagnosed",
+    "itemsProcessed": 0,
+    "details": "Audited 0 machines. Open NCRs: 0. Unapproved Deviations: 0. Quality Readiness Score: 98%.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793952826247-A2XZ",
+    "timestamp": "2026-11-06T08:13:46.247Z",
+    "action": "BACKGROUND_SWEEP",
+    "title": "Completed Plant-Wide AI Background Sweep",
+    "itemsProcessed": 0,
+    "details": "Background Worker synchronized all records: 0 sheets populated with 0 points, 0 drawings decomposed, 0 components enriched.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793952476590-P59V",
+    "timestamp": "2026-11-06T08:07:56.590Z",
+    "action": "COMPLIANCE_AUDIT",
+    "title": "AI Quality Audit: 0 Compliance Findings Diagnosed",
+    "itemsProcessed": 0,
+    "details": "Audited 0 machines. Open NCRs: 0. Unapproved Deviations: 0. Quality Readiness Score: 98%.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793951880590-151W",
+    "timestamp": "2026-11-06T07:58:00.590Z",
+    "action": "BACKGROUND_SWEEP",
+    "title": "Completed Plant-Wide AI Background Sweep",
+    "itemsProcessed": 0,
+    "details": "Background Worker synchronized all records: 0 sheets populated with 0 points, 0 drawings decomposed, 0 components enriched.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793951605545-XPIV",
+    "timestamp": "2026-11-06T07:53:25.545Z",
+    "action": "COMPLIANCE_AUDIT",
+    "title": "AI Quality Audit: 0 Compliance Findings Diagnosed",
+    "itemsProcessed": 0,
+    "details": "Audited 0 machines. Open NCRs: 0. Unapproved Deviations: 0. Quality Readiness Score: 98%.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793951005543-LN0Z",
+    "timestamp": "2026-11-06T07:43:25.543Z",
+    "action": "COMPLIANCE_AUDIT",
+    "title": "AI Quality Audit: 0 Compliance Findings Diagnosed",
+    "itemsProcessed": 0,
+    "details": "Audited 0 machines. Open NCRs: 0. Unapproved Deviations: 0. Quality Readiness Score: 98%.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793950405542-9ZJT",
+    "timestamp": "2026-11-06T07:33:25.542Z",
+    "action": "COMPLIANCE_AUDIT",
+    "title": "AI Quality Audit: 0 Compliance Findings Diagnosed",
+    "itemsProcessed": 0,
+    "details": "Audited 0 machines. Open NCRs: 0. Unapproved Deviations: 0. Quality Readiness Score: 98%.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793949805541-GFPR",
+    "timestamp": "2026-11-06T07:23:25.541Z",
+    "action": "COMPLIANCE_AUDIT",
+    "title": "AI Quality Audit: 0 Compliance Findings Diagnosed",
+    "itemsProcessed": 0,
+    "details": "Audited 0 machines. Open NCRs: 0. Unapproved Deviations: 0. Quality Readiness Score: 98%.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793949205540-HPHG",
+    "timestamp": "2026-11-06T07:13:25.540Z",
+    "action": "COMPLIANCE_AUDIT",
+    "title": "AI Quality Audit: 0 Compliance Findings Diagnosed",
+    "itemsProcessed": 0,
+    "details": "Audited 0 machines. Open NCRs: 0. Unapproved Deviations: 0. Quality Readiness Score: 98%.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793948605537-1IJ6",
+    "timestamp": "2026-11-06T07:03:25.538Z",
+    "action": "COMPLIANCE_AUDIT",
+    "title": "AI Quality Audit: 0 Compliance Findings Diagnosed",
+    "itemsProcessed": 0,
+    "details": "Audited 0 machines. Open NCRs: 0. Unapproved Deviations: 0. Quality Readiness Score: 98%.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793948005537-NCMP",
+    "timestamp": "2026-11-06T06:53:25.537Z",
+    "action": "COMPLIANCE_AUDIT",
+    "title": "AI Quality Audit: 0 Compliance Findings Diagnosed",
+    "itemsProcessed": 0,
+    "details": "Audited 0 machines. Open NCRs: 0. Unapproved Deviations: 0. Quality Readiness Score: 98%.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793947405537-UPDS",
+    "timestamp": "2026-11-06T06:43:25.537Z",
+    "action": "COMPLIANCE_AUDIT",
+    "title": "AI Quality Audit: 0 Compliance Findings Diagnosed",
+    "itemsProcessed": 0,
+    "details": "Audited 0 machines. Open NCRs: 0. Unapproved Deviations: 0. Quality Readiness Score: 98%.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793946805537-V6PJ",
+    "timestamp": "2026-11-06T06:33:25.537Z",
+    "action": "COMPLIANCE_AUDIT",
+    "title": "AI Quality Audit: 0 Compliance Findings Diagnosed",
+    "itemsProcessed": 0,
+    "details": "Audited 0 machines. Open NCRs: 0. Unapproved Deviations: 0. Quality Readiness Score: 98%.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793946209535-AG7N",
+    "timestamp": "2026-11-06T06:23:29.535Z",
+    "action": "BACKGROUND_SWEEP",
+    "title": "Completed Plant-Wide AI Background Sweep",
+    "itemsProcessed": 0,
+    "details": "Background Worker synchronized all records: 0 sheets populated with 0 points, 0 drawings decomposed, 0 components enriched.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  },
+  {
+    "id": "AI-LOG-1793946101343-QLQS",
+    "timestamp": "2026-11-06T06:21:41.343Z",
+    "action": "BACKGROUND_SWEEP",
+    "title": "Completed Plant-Wide AI Background Sweep",
+    "itemsProcessed": 0,
+    "details": "Background Worker synchronized all records: 0 sheets populated with 0 points, 0 drawings decomposed, 0 components enriched.",
+    "source": "GEMINI_3_8_FLASH",
+    "success": true
+  }
+]
