@@ -6,6 +6,7 @@ import { getProjectCrossReferences } from '../utils/crossReference';
 import { StatusBadge } from '../components/StatusBadge';
 import { Modal } from '../components/Modal';
 import { StartProjectAndMachineModal } from '../components/StartProjectAndMachineModal';
+import { MachineBomImportModal } from '../components/MachineBomImportModal';
 import {
   FolderKanban,
   Plus,
@@ -87,6 +88,8 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({ onViewMachineCom
   } | null>(null);
   const [isImporting, setIsImporting] = useState(false);
   const [isStartProjectModalOpen, setIsStartProjectModalOpen] = useState(false);
+  const [isMachineBomModalOpen, setIsMachineBomModalOpen] = useState(false);
+  const [detectedBomWarning, setDetectedBomWarning] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     projectNumber: '',
@@ -437,6 +440,32 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({ onViewMachineCom
     if (nonEmpty.length === 0) return [];
 
     const firstRowCells = nonEmpty[0].map((c) => String(c ?? '').toLowerCase().trim());
+    const isCadBom =
+      firstRowCells.some(
+        (c) =>
+          c.includes('part number') ||
+          c.includes('part_number') ||
+          c.includes('part no') ||
+          c.includes('material') ||
+          c.includes('item no') ||
+          c.includes('item') ||
+          c.includes('qty') ||
+          c.includes('quantity') ||
+          c.includes('drawing no') ||
+          c.includes('drawing number')
+      ) &&
+      !firstRowCells.some(
+        (c) => c.includes('project number') || c.includes('project_number') || c.includes('customer')
+      );
+
+    if (isCadBom || (nonEmpty.length > 30 && !firstRowCells.some((c) => c.includes('project number')))) {
+      setDetectedBomWarning(
+        `Machine CAD BOM Detected (${nonEmpty.length - 1} component rows): This spreadsheet appears to be a CAD BOM or parts list for a machine, NOT a list of ${nonEmpty.length - 1} corporate projects. A single machine contains 1 Project with ${nonEmpty.length - 1} component parts. If you import this here, you will accidentally register ${nonEmpty.length - 1} separate project records for one machine! Please use the dedicated "Import Machine CAD BOM (.xlsx)" facility instead.`
+      );
+    } else {
+      setDetectedBomWarning(null);
+    }
+
     const hasHeader =
       firstRowCells.some((c) => c.includes('project number') || c.includes('project_number') || c === 'project') ||
       firstRowCells.some((c) => c.includes('customer'));
@@ -691,6 +720,15 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({ onViewMachineCom
           >
             <Upload className="w-3.5 h-3.5" />
             Import Excel / CSV
+          </button>
+
+          <button
+            onClick={() => setIsMachineBomModalOpen(true)}
+            className="px-3 py-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded text-xs font-bold flex items-center gap-1.5 shadow-xs transition-colors"
+            title="Upload a multi-sheet Machine CAD BOM & Progress Excel (.xlsx) to extract Machine, Project, Controlled Drawings and Parts"
+          >
+            <Upload className="w-3.5 h-3.5" />
+            Import Machine CAD BOM (.xlsx)
           </button>
 
           <button
@@ -1676,6 +1714,32 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({ onViewMachineCom
             </div>
           )}
 
+          {detectedBomWarning && (
+            <div className="p-4 bg-amber-50 border-2 border-amber-400 rounded-lg space-y-2">
+              <div className="flex items-center gap-2 text-amber-950 font-bold text-xs">
+                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                <span>CAD BOM File Detected (Not a Projects List!)</span>
+              </div>
+              <p className="text-[11px] text-amber-900 leading-relaxed">
+                {detectedBomWarning}
+              </p>
+              <div className="pt-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsImportModalOpen(false);
+                    setDetectedBomWarning(null);
+                    setIsMachineBomModalOpen(true);
+                  }}
+                  className="px-3.5 py-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded text-xs font-bold inline-flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
+                >
+                  <Upload className="w-3.5 h-3.5" />
+                  Open Machine CAD BOM Importer (.xlsx)
+                </button>
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block font-bold text-slate-700 mb-1">
@@ -1797,6 +1861,11 @@ export const ProjectsModule: React.FC<ProjectsModuleProps> = ({ onViewMachineCom
       <StartProjectAndMachineModal
         isOpen={isStartProjectModalOpen}
         onClose={() => setIsStartProjectModalOpen(false)}
+      />
+
+      <MachineBomImportModal
+        isOpen={isMachineBomModalOpen}
+        onClose={() => setIsMachineBomModalOpen(false)}
       />
     </div>
   );
