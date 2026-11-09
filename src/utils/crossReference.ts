@@ -1182,6 +1182,13 @@ export function mergeQMSDatabases(
     return src;
   };
 
+  // If primary database has active records (e.g. newly imported CAD BOM), clear stale bulk LIST_CLEARED tombstones
+  if ((primary?.machines?.length || 0) > 0) deletedSet.delete('LIST_CLEARED:MACHINES');
+  if ((primary?.projects?.length || 0) > 0) deletedSet.delete('LIST_CLEARED:PROJECTS');
+  if ((primary?.components?.length || 0) > 0) deletedSet.delete('LIST_CLEARED:COMPONENTS');
+  if ((primary?.drawings?.length || 0) > 0) deletedSet.delete('LIST_CLEARED:DRAWINGS');
+  if ((primary?.daleInspections?.length || 0) > 0) deletedSet.delete('LIST_CLEARED:DALE_INSPECTIONS');
+
   const sources = [sanitizeSource(primary), sanitizeSource(secondary), sanitizeSource(seedDb)].filter(Boolean) as Partial<QMSDatabase>[];
 
   // 1. Merge Users (by id, username, or email)

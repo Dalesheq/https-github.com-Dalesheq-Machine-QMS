@@ -383,23 +383,9 @@ export const INITIAL_DATABASE: QMSDatabase = {
     machineTypes: ["DIVIDER", "ROUNDER", "PROOFER", "MOULDER", "CONVEYOR", "SPIRAL FREEZER", "OTHER"],
   },
   lastUpdated: new Date().toISOString(),
-  cleanSlate: true,
-  wipeEpoch: 1793862146198,
-  deletedRecordKeys: [
-    'LIST_CLEARED:ALL_DATA',
-    'LIST_CLEARED:PROJECTS',
-    'LIST_CLEARED:MACHINES',
-    'LIST_CLEARED:COMPONENTS',
-    'LIST_CLEARED:DRAWINGS',
-    'LIST_CLEARED:MFG',
-    'LIST_CLEARED:INSPECTIONS',
-    'LIST_CLEARED:DALE_INSPECTIONS',
-    'LIST_CLEARED:NCRS',
-    'LIST_CLEARED:DEVIATIONS',
-    'LIST_CLEARED:RELEASES',
-    'LIST_CLEARED:ATTACHMENTS',
-    'LIST_CLEARED:FITMENTS',
-  ],
+  cleanSlate: false,
+  wipeEpoch: 0,
+  deletedRecordKeys: [],
 };
 
 // ==========================================

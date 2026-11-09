@@ -582,6 +582,17 @@ export const MachinesModule: React.FC<MachinesModuleProps> = ({
                       <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
                         <button
                           type="button"
+                          onClick={() => {
+                            setBomTargetMachine(null);
+                            setIsMachineBomModalOpen(true);
+                          }}
+                          className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs font-bold inline-flex items-center gap-1.5 shadow-xs"
+                        >
+                          <Upload className="w-3.5 h-3.5" />
+                          Import Machine CAD BOM (.xlsx)
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => setIsStartProjectModalOpen(true)}
                           className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs font-bold inline-flex items-center gap-1.5 shadow-xs"
                         >

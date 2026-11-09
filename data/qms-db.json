@@ -6297,22 +6297,8 @@
       "OTHER"
     ]
   },
-  "lastUpdated": "2026-11-05T14:23:11.094Z",
-  "cleanSlate": true,
-  "wipeEpoch": 1793888591094,
-  "deletedRecordKeys": [
-    "LIST_CLEARED:ALL_DATA",
-    "LIST_CLEARED:PROJECTS",
-    "LIST_CLEARED:MACHINES",
-    "LIST_CLEARED:COMPONENTS",
-    "LIST_CLEARED:DRAWINGS",
-    "LIST_CLEARED:MFG",
-    "LIST_CLEARED:INSPECTIONS",
-    "LIST_CLEARED:DALE_INSPECTIONS",
-    "LIST_CLEARED:NCRS",
-    "LIST_CLEARED:DEVIATIONS",
-    "LIST_CLEARED:RELEASES",
-    "LIST_CLEARED:ATTACHMENTS",
-    "LIST_CLEARED:FITMENTS"
-  ]
+  "lastUpdated": "2026-11-08T00:00:00.000Z",
+  "cleanSlate": false,
+  "wipeEpoch": 0,
+  "deletedRecordKeys": []
 }

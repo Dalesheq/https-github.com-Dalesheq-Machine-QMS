@@ -1840,8 +1840,15 @@ export const QMSProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       }
     });
 
+    const delKeys = (db.deletedRecordKeys || []).filter((k) => {
+      const up = k.toUpperCase();
+      return !up.includes(cleanSn.toUpperCase()) && !up.includes(cleanPNum.toUpperCase());
+    });
+
     const newDb: QMSDatabase = {
       ...db,
+      cleanSlate: false,
+      deletedRecordKeys: delKeys,
       machines: workingMachines,
       projects: workingProjects,
       drawings: workingDrawings,

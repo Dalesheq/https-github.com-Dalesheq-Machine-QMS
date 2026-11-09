@@ -4,7 +4,7 @@ import { useQMS } from '../context/QMSContext';
 import { Drawing, DrawingPartItem, DrawingStatus, FileAttachmentMetadata } from '../types';
 import { getDrawingCrossReferences } from '../utils/crossReference';
 import { DBService } from '../services/db';
-import { AIIntelligenceService } from '../services/aiIntelligenceService';
+
 import { parseEngineeringDrawingFile } from '../utils/pdfDrawingParser';
 import { StatusBadge } from '../components/StatusBadge';
 import { Modal } from '../components/Modal';
@@ -193,14 +193,7 @@ export const DrawingsModule: React.FC = () => {
     type: 'success' | 'info' | 'error';
     message: string;
   } | null>(null);
-  const [detectedDrawingChecksheet, setDetectedDrawingChecksheet] = useState<{
-    processType: string;
-    processTitle: string;
-    templateCode: string;
-    templateName?: string;
-    justification: string;
-    confidence: number;
-  } | null>(null);
+
 
   // View / Manage Parts & Version History Modal for an existing drawing
   const [viewingDrawing, setViewingDrawing] = useState<Drawing | null>(null);
@@ -500,21 +493,7 @@ export const DrawingsModule: React.FC = () => {
           });
         }
 
-        // Autonomous AI Checksheet Detection for this drawing
-        AIIntelligenceService.detectChecksheetForPart({
-          drawingNumber: parsed.drawingNumber || file.name,
-          drawingRevision: parsed.revision || '0',
-          drawingTitle: parsed.drawingTitle || file.name,
-          projectNumber: parsed.projectReference,
-          partNumber: parsed.drawingNumber,
-          partDescription: parsed.drawingTitle,
-        })
-          .then((cs) => {
-            if (cs.success && cs.data) {
-              setDetectedDrawingChecksheet(cs.data);
-            }
-          })
-          .catch(() => {});
+
 
         // Smart version detection: check if drawing already exists in register
         const detectedDwgNo = (parsed.drawingNumber || '').trim().toUpperCase();
@@ -2870,22 +2849,7 @@ export const DrawingsModule: React.FC = () => {
               </div>
             )}
 
-            {detectedDrawingChecksheet && (
-              <div className="p-3 bg-indigo-50/90 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                <div>
-                  <div className="font-bold text-indigo-950 dark:text-indigo-200 flex items-center gap-1.5 text-xs">
-                    <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                    <span>AI Auto-Detected Quality Checksheet: <strong>{detectedDrawingChecksheet.templateCode}</strong> ({detectedDrawingChecksheet.templateName || detectedDrawingChecksheet.processTitle})</span>
-                    <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-indigo-200/80 dark:bg-indigo-900 text-indigo-900 dark:text-indigo-200 font-bold">
-                      {Math.round(detectedDrawingChecksheet.confidence * 100)}% Match
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-indigo-900/90 dark:text-indigo-300/90 mt-0.5">
-                    {detectedDrawingChecksheet.justification}
-                  </p>
-                </div>
-              </div>
-            )}
+
 
             {existingDwgMatch && !editingDrawingId && (
               <div className="p-3 bg-amber-50 border border-amber-300 rounded-md flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
