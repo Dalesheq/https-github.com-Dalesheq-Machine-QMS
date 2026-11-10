@@ -30,6 +30,12 @@ import { TraceabilityTagModal } from './components/TraceabilityTagModal';
 import { ManufacturingRecord, UserRole } from './types';
 import { WORKSHOP_DEPARTMENTS } from './utils/departmentsData';
 import {
+  getRoleAllowedTabs,
+  isTabAllowed,
+  getSafeActiveTab,
+  getRoleConfig,
+} from './utils/rbac';
+import {
   Loader2,
   Layers,
   Lock,
@@ -557,38 +563,37 @@ function AppContent() {
     return <StandaloneLoginScreen />;
   }
 
-  const isManagement = currentUser?.role === 'MANAGEMENT';
-  const effectiveTab: ActiveTab = isManagement
-    ? activeTab === 'reports'
-      ? 'reports'
-      : 'dashboard'
-    : activeTab;
+  const roleConfig = getRoleConfig(currentUser?.role);
+  const allowedTabs = getRoleAllowedTabs(currentUser?.role);
+  const effectiveTab: ActiveTab = allowedTabs.includes(activeTab) ? activeTab : 'dashboard';
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors">
       <Header
         onNavigateToSearch={() => {
-          if (isManagement) {
-            setActiveTab('reports');
-          } else {
+          if (allowedTabs.includes('traceability-search')) {
             setTraceabilityQuery('');
             setActiveTab('traceability-search');
+          } else if (allowedTabs.includes('reports')) {
+            setActiveTab('reports');
+          } else {
+            setActiveTab('dashboard');
           }
         }}
         onOpenCreateRecord={() => {
-          if (!isManagement) {
+          if (roleConfig.canCreateManufacturingRecord && allowedTabs.includes('manufacturing')) {
             setActiveTab('manufacturing');
             setIsCreateRecordModalOpen(true);
           }
         }}
         onOpenCreateMachine={() => {
-          if (!isManagement) {
+          if (roleConfig.canCreateMachine && allowedTabs.includes('machines')) {
             setActiveTab('machines');
             setIsCreateMachineModalOpen(true);
           }
         }}
         onNavigateToAiIntelligence={() => {
-          if (!isManagement) {
+          if (roleConfig.canAccessAiIntelligence && allowedTabs.includes('ai-intelligence')) {
             setActiveTab('ai-intelligence');
           }
         }}
@@ -602,19 +607,19 @@ function AppContent() {
             {effectiveTab === 'dashboard' && (
               <DashboardModule
                 setActiveTab={setActiveTab}
-                onOpenCreateRecordModal={isManagement ? () => {} : () => {
+                onOpenCreateRecordModal={roleConfig.canCreateManufacturingRecord ? () => {
                   setActiveTab('manufacturing');
                   setIsCreateRecordModalOpen(true);
-                }}
-                onOpenCreateMachineModal={isManagement ? () => {} : () => {
+                } : () => {}}
+                onOpenCreateMachineModal={roleConfig.canCreateMachine ? () => {
                   setActiveTab('machines');
                   setIsCreateMachineModalOpen(true);
-                }}
+                } : () => {}}
                 onViewTraceabilityTag={handleViewTraceabilityTag}
               />
             )}
 
-            {activeTab === 'machines' && (
+            {effectiveTab === 'machines' && (
               <MachinesModule
                 onViewMachineComponents={handleViewMachineComponents}
                 isCreateModalOpen={isCreateMachineModalOpen}
@@ -622,15 +627,15 @@ function AppContent() {
               />
             )}
 
-            {activeTab === 'projects' && (
+            {effectiveTab === 'projects' && (
               <ProjectsModule onViewMachineComponents={handleViewMachineComponents} />
             )}
 
-            {!isManagement && activeTab === 'components' && <ComponentsModule />}
+            {effectiveTab === 'components' && <ComponentsModule />}
 
-            {!isManagement && activeTab === 'drawings' && <DrawingsModule />}
+            {effectiveTab === 'drawings' && <DrawingsModule />}
 
-            {!isManagement && activeTab === 'manufacturing' && (
+            {effectiveTab === 'manufacturing' && (
               <ManufacturingModule
                 onViewTraceabilityTag={handleViewTraceabilityTag}
                 isCreateModalOpen={isCreateRecordModalOpen}
@@ -638,21 +643,21 @@ function AppContent() {
               />
             )}
 
-            {(activeTab === 'dale-inspections' || activeTab === 'inspections') && (
+            {(effectiveTab === 'dale-inspections' || effectiveTab === 'inspections') && (
               <InspectionsModule />
             )}
 
-            {!isManagement && activeTab === 'inspection-templates' && (
+            {effectiveTab === 'inspection-templates' && (
               <InspectionTemplatesModule />
             )}
 
-            {activeTab === 'ncr' && <NCRsModule />}
+            {effectiveTab === 'ncr' && <NCRsModule />}
 
-            {activeTab === 'deviations' && <DeviationsModule />}
+            {effectiveTab === 'deviations' && <DeviationsModule />}
 
-            {activeTab === 'quality-release' && <QualityReleaseModule />}
+            {effectiveTab === 'quality-release' && <QualityReleaseModule />}
 
-            {activeTab === 'traceability-search' && (
+            {effectiveTab === 'traceability-search' && (
               <TraceabilitySearchModule
                 initialQuery={traceabilityQuery}
                 onViewTraceabilityTag={handleViewTraceabilityTag}
@@ -661,13 +666,13 @@ function AppContent() {
 
             {effectiveTab === 'reports' && <ReportsModule />}
 
-            {!isManagement && activeTab === 'audit-trail' && <AuditTrailModule />}
+            {effectiveTab === 'audit-trail' && <AuditTrailModule />}
 
-            {!isManagement && activeTab === 'users' && <UsersModule />}
+            {effectiveTab === 'users' && <UsersModule />}
 
-            {!isManagement && activeTab === 'settings' && <SystemSettingsModule />}
+            {effectiveTab === 'settings' && <SystemSettingsModule />}
 
-            {!isManagement && activeTab === 'ai-intelligence' && (
+            {effectiveTab === 'ai-intelligence' && (
               <AIManufacturingIntelligenceModule onNavigateToTab={setActiveTab} />
             )}
           </div>

@@ -3,6 +3,7 @@ import { useQMS } from '../context/QMSContext';
 import { useTheme } from '../context/ThemeContext';
 import { UserRole } from '../types';
 import { WORKSHOP_DEPARTMENTS } from '../utils/departmentsData';
+import { getRoleConfig } from '../utils/rbac';
 import { Modal } from './Modal';
 import {
   ShieldCheck,
@@ -171,30 +172,35 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right: Quick Actions, Theme Toggle & Authenticated Session */}
         <div className="flex items-center gap-3">
-          <div className="hidden xl:flex items-center gap-2 mr-2">
-            <button
-              onClick={onNavigateToSearch}
-              className="px-3 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-md transition-colors cursor-pointer"
-            >
-              Traceability Search
-            </button>
-            {['MACHINIST', 'MACHINE_MANAGER', 'ADMINISTRATOR'].includes(currentUser.role) && (
-              <button
-                onClick={onOpenCreateRecord}
-                className="px-3 py-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-md transition-colors shadow-xs cursor-pointer"
-              >
-                + New Manufacturing Record
-              </button>
-            )}
-            {['MACHINE_MANAGER', 'ENGINEERING', 'ADMINISTRATOR'].includes(currentUser.role) && (
-              <button
-                onClick={onOpenCreateMachine}
-                className="px-3 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-md transition-colors cursor-pointer"
-              >
-                + Register Machine
-              </button>
-            )}
-          </div>
+          {(() => {
+            const roleConfig = getRoleConfig(currentUser.role);
+            return (
+              <div className="hidden xl:flex items-center gap-2 mr-2">
+                <button
+                  onClick={onNavigateToSearch}
+                  className="px-3 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-md transition-colors cursor-pointer"
+                >
+                  {currentUser.role === 'MANAGEMENT' ? 'Reports & PDF Dossiers' : 'Traceability Search'}
+                </button>
+                {roleConfig.canCreateManufacturingRecord && (
+                  <button
+                    onClick={onOpenCreateRecord}
+                    className="px-3 py-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-md transition-colors shadow-xs cursor-pointer"
+                  >
+                    + New Manufacturing Record
+                  </button>
+                )}
+                {roleConfig.canCreateMachine && (
+                  <button
+                    onClick={onOpenCreateMachine}
+                    className="px-3 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-md transition-colors cursor-pointer"
+                  >
+                    + Register Machine
+                  </button>
+                )}
+              </div>
+            );
+          })()}
 
           {/* Sync Status */}
           <div className="hidden md:flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 border-r border-slate-200 dark:border-slate-800 pr-3">

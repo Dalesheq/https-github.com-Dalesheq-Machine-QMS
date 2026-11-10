@@ -228,6 +228,7 @@ export const DaleInspectionsModule: React.FC<DaleInspectionsModuleProps> = ({
   const [isDatabaseModalOpen, setIsDatabaseModalOpen] = useState(false);
   const [previewPhoto, setPreviewPhoto] = useState<{ url: string; title: string } | null>(null);
   const [viewingNcrNumber, setViewingNcrNumber] = useState<string | null>(null);
+  const canExecuteInspection = ['INSPECTOR', 'HSEQ', 'ADMINISTRATOR'].includes(currentUser.role);
 
   // Helper to retrieve manufactured parts for a given project / machine serial
   const getManufacturedPartsForMachine = (prjNumber: string, machineSerial: string): ManufacturedPartContext[] => {
@@ -762,6 +763,12 @@ export const DaleInspectionsModule: React.FC<DaleInspectionsModuleProps> = ({
   const handleSubmitChecklist = async (targetStatus: 'PASS' | 'FAIL' | 'PENDING') => {
     if (!activeSheet) return;
     setApprovalError(null);
+
+    if (!canExecuteInspection) {
+      setApprovalError('UNAUTHORIZED: Quality Inspector, HSEQ Officer, or Administrator credentials required to submit inspection sign-offs.');
+      return;
+    }
+
     const res = await submitDaleInspection(activeSheet.id, {
       targetStatus,
       inspectorComments: activeSheet.comments,
@@ -2204,36 +2211,43 @@ export const DaleInspectionsModule: React.FC<DaleInspectionsModuleProps> = ({
                     </div>
 
                     {/* Submit Actions */}
-                    <div className="flex flex-wrap items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => handleSubmitChecklist('PENDING')}
-                        className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-colors"
-                        title="Save current readings, comments, and photos in progress"
-                      >
-                        <span>Save In-Progress</span>
-                      </button>
+                    {canExecuteInspection ? (
+                      <div className="flex flex-wrap items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleSubmitChecklist('PENDING')}
+                          className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 rounded-lg font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                          title="Save current readings, comments, and photos in progress"
+                        >
+                          <span>Save In-Progress</span>
+                        </button>
 
-                      <button
-                        type="button"
-                        onClick={() => handleSubmitChecklist('PASS')}
-                        className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-lg font-bold text-xs flex items-center gap-1.5 shadow-2xs transition-colors"
-                        title="Submit checklist and sign off as PASS"
-                      >
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>Submit as PASS</span>
-                      </button>
+                        <button
+                          type="button"
+                          onClick={() => handleSubmitChecklist('PASS')}
+                          className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-lg font-bold text-xs flex items-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
+                          title="Submit checklist and sign off as PASS"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>Submit as PASS</span>
+                        </button>
 
-                      <button
-                        type="button"
-                        onClick={() => handleSubmitChecklist('FAIL')}
-                        className="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white rounded-lg font-bold text-xs flex items-center gap-1.5 shadow-2xs transition-colors"
-                        title="Submit checklist as FAIL / HOLD and confirm all separate NCRs"
-                      >
-                        <XCircle className="w-3.5 h-3.5" />
-                        <span>Submit as FAIL / HOLD</span>
-                      </button>
-                    </div>
+                        <button
+                          type="button"
+                          onClick={() => handleSubmitChecklist('FAIL')}
+                          className="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white rounded-lg font-bold text-xs flex items-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
+                          title="Submit checklist as FAIL / HOLD and confirm all separate NCRs"
+                        >
+                          <XCircle className="w-3.5 h-3.5" />
+                          <span>Submit as FAIL / HOLD</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-mono font-bold border border-slate-300 flex items-center gap-1.5">
+                        <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+                        <span>Quality Inspector Authority Required for Sign-Off</span>
+                      </div>
+                    )}
                   </div>
 
                   {approvalError && (

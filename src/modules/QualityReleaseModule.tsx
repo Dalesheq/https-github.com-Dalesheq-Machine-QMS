@@ -155,9 +155,19 @@ export const QualityReleaseModule: React.FC = () => {
     return evaluateQualityRelease(selectedRecord.id);
   }, [selectedRecord, evaluateQualityRelease, db, currentUser]);
 
+  const canExecuteRelease = currentUser.role === 'HSEQ' || currentUser.role === 'ADMINISTRATOR';
+
   const handleRelease = async () => {
     if (!selectedRecord) return;
     setFeedback(null);
+
+    if (!canExecuteRelease) {
+      setFeedback({
+        type: 'error',
+        message: 'UNAUTHORIZED: Only an authorized HSEQ Officer or QMS Administrator can execute final Quality Gate Release.',
+      });
+      return;
+    }
 
     const res = await executeQualityRelease(selectedRecord.id, releaseNotes);
     if (!res.success) {
@@ -841,19 +851,26 @@ export const QualityReleaseModule: React.FC = () => {
                     className="w-full px-3 py-2 border border-slate-300 rounded text-xs"
                   />
                   <div className="flex justify-end">
-                    <button
-                      onClick={handleRelease}
-                      className={`px-4 py-2 rounded text-xs font-bold flex items-center gap-2 shadow-xs transition-colors ${
-                        evaluation.canRelease
-                          ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                          : 'bg-rose-600 hover:bg-rose-700 text-white'
-                      }`}
-                    >
-                      <Award className="w-4 h-4" />
-                      {evaluation.canRelease
-                        ? `Execute Final Quality Release (${currentUser.name})`
-                        : 'Attempt Quality Release (Will Log Blocked Attempt)'}
-                    </button>
+                    {canExecuteRelease ? (
+                      <button
+                        onClick={handleRelease}
+                        className={`px-4 py-2 rounded text-xs font-bold flex items-center gap-2 shadow-xs transition-colors ${
+                          evaluation.canRelease
+                            ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                            : 'bg-rose-600 hover:bg-rose-700 text-white'
+                        }`}
+                      >
+                        <Award className="w-4 h-4" />
+                        {evaluation.canRelease
+                          ? `Execute Final Quality Release (${currentUser.name})`
+                          : 'Attempt Quality Release (Will Log Blocked Attempt)'}
+                      </button>
+                    ) : (
+                      <div className="px-3 py-2 bg-slate-100 text-slate-500 rounded text-xs font-mono font-bold border border-slate-300 flex items-center gap-2">
+                        <Lock className="w-3.5 h-3.5" />
+                        <span>HSEQ Officer / Administrator Authority Required for Release Sign-Off</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}

@@ -2099,75 +2099,84 @@ export const DrawingsModule: React.FC = () => {
               Import Drawings Excel / CSV
             </button>
 
-            <label className="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded text-xs font-semibold flex items-center gap-2 shadow-xs transition-colors cursor-pointer">
-              <Upload className="w-4 h-4" />
-              <span>Import via PDF</span>
-              <input
-                type="file"
-                accept=".pdf,application/pdf"
-                className="hidden"
-                onChange={async (e) => {
-                  const file = e.target.files?.[0] || null;
-                  resetDrawingModal();
-                  setIsNewModalOpen(true);
-                  if (file) {
-                    await handleDrawingFileImport(file);
-                  }
-                  e.target.value = '';
-                }}
-              />
-            </label>
+            {canManageDrawings ? (
+              <>
+                <label className="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded text-xs font-semibold flex items-center gap-2 shadow-xs transition-colors cursor-pointer">
+                  <Upload className="w-4 h-4" />
+                  <span>Import via PDF</span>
+                  <input
+                    type="file"
+                    accept=".pdf,application/pdf"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0] || null;
+                      resetDrawingModal();
+                      setIsNewModalOpen(true);
+                      if (file) {
+                        await handleDrawingFileImport(file);
+                      }
+                      e.target.value = '';
+                    }}
+                  />
+                </label>
 
-            <label
-              className="px-3.5 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded text-xs font-semibold flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
-              title="Select a revised CAD PDF to update an existing drawing version"
-            >
-              <Upload className="w-4 h-4" />
-              <span>{isGlobalRevPdfScanning ? 'Scanning Revision PDF...' : 'Update Version via PDF'}</span>
-              <input
-                type="file"
-                accept=".pdf,application/pdf"
-                className="hidden"
-                disabled={isGlobalRevPdfScanning}
-                onChange={async (e) => {
-                  const file = e.target.files?.[0] || null;
-                  if (file) {
-                    await handleGlobalRevisionPdfUpload(file);
-                  }
-                  e.target.value = '';
-                }}
-              />
-            </label>
+                <label
+                  className="px-3.5 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded text-xs font-semibold flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
+                  title="Select a revised CAD PDF to update an existing drawing version"
+                >
+                  <Upload className="w-4 h-4" />
+                  <span>{isGlobalRevPdfScanning ? 'Scanning Revision PDF...' : 'Update Version via PDF'}</span>
+                  <input
+                    type="file"
+                    accept=".pdf,application/pdf"
+                    className="hidden"
+                    disabled={isGlobalRevPdfScanning}
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0] || null;
+                      if (file) {
+                        await handleGlobalRevisionPdfUpload(file);
+                      }
+                      e.target.value = '';
+                    }}
+                  />
+                </label>
 
-            <label className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs font-semibold flex items-center gap-2 shadow-xs transition-colors cursor-pointer">
-              <Camera className="w-4 h-4" />
-              <span>Import via Image / Photo</span>
-              <input
-                type="file"
-                accept="image/*,.png,.jpg,.jpeg,.webp"
-                className="hidden"
-                onChange={async (e) => {
-                  const file = e.target.files?.[0] || null;
-                  resetDrawingModal();
-                  setIsNewModalOpen(true);
-                  if (file) {
-                    await handleDrawingFileImport(file);
-                  }
-                  e.target.value = '';
-                }}
-              />
-            </label>
+                <label className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs font-semibold flex items-center gap-2 shadow-xs transition-colors cursor-pointer">
+                  <Camera className="w-4 h-4" />
+                  <span>Import via Image / Photo</span>
+                  <input
+                    type="file"
+                    accept="image/*,.png,.jpg,.jpeg,.webp"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0] || null;
+                      resetDrawingModal();
+                      setIsNewModalOpen(true);
+                      if (file) {
+                        await handleDrawingFileImport(file);
+                      }
+                      e.target.value = '';
+                    }}
+                  />
+                </label>
 
-            <button
-              onClick={() => {
-                resetDrawingModal();
-                setIsNewModalOpen(true);
-              }}
-              className="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold flex items-center gap-2 shadow-xs transition-colors"
-            >
-              <Plus className="w-4 h-4" />
-              Register New Drawing
-            </button>
+                <button
+                  onClick={() => {
+                    resetDrawingModal();
+                    setIsNewModalOpen(true);
+                  }}
+                  className="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold flex items-center gap-2 shadow-xs transition-colors cursor-pointer"
+                >
+                  <Plus className="w-4 h-4" />
+                  Register New Drawing
+                </button>
+              </>
+            ) : (
+              <div className="px-3 py-1.5 bg-slate-100 text-slate-600 rounded text-xs font-mono font-bold border border-slate-200 flex items-center gap-1.5">
+                <FileSpreadsheet className="w-3.5 h-3.5 text-blue-600" />
+                <span>Controlled Drawings Viewer (Engineering Modification Restricted)</span>
+              </div>
+            )}
 
             {isAdmin && db.drawings.length > 0 && (
               <>

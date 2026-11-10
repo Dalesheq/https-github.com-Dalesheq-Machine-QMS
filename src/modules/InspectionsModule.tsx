@@ -239,9 +239,19 @@ export const InspectionsModule: React.FC = () => {
     });
   };
 
+  const canSignOff = currentUser.role === 'INSPECTOR' || currentUser.role === 'HSEQ' || currentUser.role === 'ADMINISTRATOR';
+
   const handleExecuteSignOff = async () => {
     if (!selectedInspection) return;
     setSignOffFeedback(null);
+
+    if (!canSignOff) {
+      setSignOffFeedback({
+        type: 'error',
+        message: 'UNAUTHORIZED: Quality Inspector, HSEQ Officer, or Administrator credentials required to sign off dimensional inspection records.',
+      });
+      return;
+    }
 
     const res = await signOffInspection(
       selectedInspection.id,
@@ -1037,13 +1047,20 @@ export const InspectionsModule: React.FC = () => {
                       />
                     </div>
                     <div className="flex justify-end">
-                      <button
-                        onClick={handleExecuteSignOff}
-                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-bold flex items-center gap-2 shadow-xs"
-                      >
-                        <CheckCircle2 className="w-4 h-4" />
-                        Execute Formal Inspector Sign-Off ({currentUser.name} / {currentUser.id})
-                      </button>
+                      {canSignOff ? (
+                        <button
+                          onClick={handleExecuteSignOff}
+                          className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-xs font-bold flex items-center gap-2 shadow-xs cursor-pointer"
+                        >
+                          <CheckCircle2 className="w-4 h-4" />
+                          Execute Formal Inspector Sign-Off ({currentUser.name} / {currentUser.id})
+                        </button>
+                      ) : (
+                        <div className="px-3 py-2 bg-slate-100 text-slate-500 rounded text-xs font-mono font-bold border border-slate-300 flex items-center gap-2">
+                          <Lock className="w-3.5 h-3.5" />
+                          <span>Quality Inspector / HSEQ Authority Required for Sign-Off</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

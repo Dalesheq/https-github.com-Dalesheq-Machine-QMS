@@ -52,6 +52,9 @@ export const ManufacturingModule: React.FC<ManufacturingModuleProps> = ({
 
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
+  const [scopeFilter, setScopeFilter] = useState<'ALL' | 'MY_RUNS'>(
+    currentUser.role === 'MACHINIST' ? 'MY_RUNS' : 'ALL'
+  );
   const [formError, setFormError] = useState<string | null>(null);
   const [selectedRecordDossier, setSelectedRecordDossier] = useState<ManufacturingRecord | null>(null);
 
@@ -136,9 +139,19 @@ export const ManufacturingModule: React.FC<ManufacturingModuleProps> = ({
         r.projectNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
         r.drawingNumber.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesStatus = statusFilter === 'ALL' || r.manufacturingStatus === statusFilter;
-      return matchesSearch && matchesStatus;
+
+      let matchesScope = true;
+      if (scopeFilter === 'MY_RUNS') {
+        const matchesUser =
+          r.machinistId === currentUser.id ||
+          r.machinist.toLowerCase().includes(currentUser.name.toLowerCase()) ||
+          r.workstation.toLowerCase().includes(currentUser.department.toLowerCase());
+        matchesScope = matchesUser;
+      }
+
+      return matchesSearch && matchesStatus && matchesScope;
     });
-  }, [db.manufacturingRecords, searchTerm, statusFilter]);
+  }, [db.manufacturingRecords, searchTerm, statusFilter, scopeFilter, currentUser]);
 
   // Cross-populate when selecting a Part Number
   const handleSelectPartNumber = (partNumber: string) => {
@@ -368,7 +381,33 @@ export const ManufacturingModule: React.FC<ManufacturingModuleProps> = ({
       </div>
 
       {/* Filter Bar */}
-      <div className="bg-white p-3.5 rounded-lg border border-slate-200 shadow-xs flex flex-col md:flex-row gap-3">
+      <div className="bg-white p-3.5 rounded-lg border border-slate-200 shadow-xs flex flex-col md:flex-row gap-3 items-stretch md:items-center">
+        {/* Role Scope Pill Filter */}
+        <div className="flex items-center p-0.5 bg-slate-100 rounded-lg text-xs font-semibold shrink-0">
+          <button
+            type="button"
+            onClick={() => setScopeFilter('ALL')}
+            className={`px-3 py-1.5 rounded-md transition-colors ${
+              scopeFilter === 'ALL'
+                ? 'bg-blue-600 text-white shadow-2xs'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            All Workshop Runs
+          </button>
+          <button
+            type="button"
+            onClick={() => setScopeFilter('MY_RUNS')}
+            className={`px-3 py-1.5 rounded-md transition-colors ${
+              scopeFilter === 'MY_RUNS'
+                ? 'bg-blue-600 text-white shadow-2xs'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            My Station / Runs
+          </button>
+        </div>
+
         <div className="relative flex-1">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
           <input

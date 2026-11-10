@@ -23,6 +23,7 @@ import {
   Sparkles,
   ClipboardList,
 } from 'lucide-react';
+import { getRoleConfig, getRoleAllowedTabs } from '../utils/rbac';
 
 export type ActiveTab =
   | 'dashboard'
@@ -104,212 +105,194 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
   }).length;
 
   const isManagement = currentUser?.role === 'MANAGEMENT';
+  const roleConfig = getRoleConfig(currentUser?.role);
+  const allowedTabs = getRoleAllowedTabs(currentUser?.role);
   const openProjectsCount = (db.projects || []).filter((p) => p.projectStatus !== 'COMPLETED').length;
 
-  const navItems: NavSection[] = isManagement
-    ? [
+  // Role-specific badge computations
+  const pendingInspectorSheets = (db.daleInspections || []).filter(
+    (s) => s.approvalStatus === 'PENDING' || !s.inspectorSignOff
+  ).length;
+
+  const myDeptMfgRuns = relevantMfgRecords.length;
+  const inProgressRunsCount = relevantMfgRecords.filter(
+    (r) => r.manufacturingStatus === 'IN_PRODUCTION' || r.manufacturingStatus === 'AWAITING_IDENTIFICATION' || r.manufacturingStatus === 'MANUFACTURED'
+  ).length;
+
+  const draftDrawingsCount = (db.drawings || []).filter(
+    (d) => d.drawingStatus === 'DRAFT' || d.drawingStatus === 'UNDER_REVIEW'
+  ).length;
+
+  const rawSections: NavSection[] = [
+    {
+      group: isManagement ? 'Executive Governance' : 'Operations & Production',
+      items: [
         {
-          group: 'Executive Oversight',
-          items: [
-            {
-              id: 'dashboard' as ActiveTab,
-              label: 'Executive Dashboard',
-              icon: LayoutDashboard,
-              badge: 'READ-ONLY',
-              badgeColor: 'bg-indigo-900/80 text-indigo-200 border-indigo-700 font-bold',
-              subtext: 'Fleet KPIs & Quality Conformance',
-            },
-            {
-              id: 'projects' as ActiveTab,
-              label: 'Open Projects',
-              icon: FolderGit2,
-              badge: openProjectsCount > 0 ? `${openProjectsCount} Open` : '0 Open',
-              badgeColor: 'bg-blue-100 text-blue-900 border-blue-200 font-bold',
-              subtext: 'Contracts & Machine BOMs',
-            },
-            {
-              id: 'machines' as ActiveTab,
-              label: 'Machine Fleet',
-              icon: Cpu,
-              badge: db.machines.length,
-              subtext: 'Divider & Equipment Serials',
-            },
-            {
-              id: 'dale-inspections' as ActiveTab,
-              label: 'Quality Inspections',
-              icon: ClipboardCheck,
-              badge: awaitingInspectionCount > 0 ? `${awaitingInspectionCount} Pending` : null,
-              badgeColor: 'bg-amber-100 text-amber-900 border-amber-300 font-bold',
-              subtext: 'QA Gates & FAT Checklists',
-            },
-            {
-              id: 'ncr' as ActiveTab,
-              label: 'Non-Conformances (NCR)',
-              icon: AlertTriangle,
-              badge: openNcrCount > 0 ? `${openNcrCount} Active` : '0 Active',
-              badgeColor: openNcrCount > 0 ? 'bg-rose-100 text-rose-900 border-rose-300 font-bold' : 'bg-emerald-100 text-emerald-900 border-emerald-300',
-              subtext: 'Quarantine & Containment',
-            },
-            {
-              id: 'reports' as ActiveTab,
-              label: 'Reports & Dossiers',
-              icon: FileText,
-              badge: 'PDF / PRINT',
-              badgeColor: 'bg-emerald-900/80 text-emerald-200 border-emerald-700 font-bold',
-              subtext: 'View, Preview, Print & PDF Export',
-            },
-          ],
-        },
-      ]
-    : [
-        {
-          group: 'Core Registers & Operations',
-          items: [
-            {
-              id: 'dashboard' as ActiveTab,
-              label: '1. Dashboard',
-              icon: LayoutDashboard,
-              badge: null,
-            },
-            {
-              id: 'machines' as ActiveTab,
-              label: '2. Machines Register',
-              icon: Cpu,
-              badge: db.machines.length,
-              subtext: 'Divider & Equipment',
-            },
-            {
-              id: 'projects' as ActiveTab,
-              label: '3. Projects Register',
-              icon: FolderGit2,
-              badge: db.projects.length,
-            },
-            {
-              id: 'components' as ActiveTab,
-              label: '4. Parts / Components',
-              icon: Boxes,
-              badge: `${criticalComponentsCount} crit`,
-              subtext: 'Drawing & Traceability flag',
-            },
-            {
-              id: 'drawings' as ActiveTab,
-              label: '5. Drawings & Revisions',
-              icon: FileSpreadsheet,
-              badge: db.drawings.length,
-              subtext: 'Approval & rev control',
-            },
-            {
-              id: 'manufacturing' as ActiveTab,
-              label: '6. Manufacturing Records',
-              icon: Hammer,
-              badge: awaitingInspectionCount > 0 ? `${awaitingInspectionCount} pending` : null,
-              badgeColor: 'bg-amber-100 text-amber-900 border-amber-300',
-              subtext: 'Auto Traceability & QR',
-            },
-          ],
+          id: 'dashboard' as ActiveTab,
+          label: isManagement ? 'Executive Dashboard' : '1. Dashboard',
+          icon: LayoutDashboard,
+          badge: isManagement ? 'READ-ONLY' : (roleConfig.role === 'MACHINIST' && inProgressRunsCount > 0 ? `${inProgressRunsCount} active` : null),
+          badgeColor: isManagement ? 'bg-indigo-900/80 text-indigo-200 border-indigo-700 font-bold' : 'bg-blue-100 text-blue-900 border-blue-200',
+          subtext: isManagement ? 'Fleet KPIs & Quality Conformance' : `${roleConfig.badgeLabel} Action Hub`,
         },
         {
-          group: 'Quality Gates & Traceability',
-          items: [
-            {
-              id: 'dale-inspections' as ActiveTab,
-              label: '7. Quality Inspections',
-              icon: ClipboardCheck,
-              badge: `${daleInspectionSheetsCount} Sheets`,
-              badgeColor: 'bg-blue-100 text-blue-900 border-blue-200 font-bold',
-              subtext: currentDeptObj ? `${currentDeptObj.code} Workflow Sheets` : 'Process & Dimensional Sheets',
-            },
-            {
-              id: 'inspection-templates' as ActiveTab,
-              label: '8. Inspection Plan Library',
-              icon: ClipboardList,
-              badge: `${(db.inspectionTemplates || []).filter((t) => t.status === 'APPROVED').length} Plans`,
-              badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-200 font-bold',
-              subtext: '44 Controlled DIM & FAB Plans',
-            },
-            {
-              id: 'ncr' as ActiveTab,
-              label: '9. Non-Conformances (NCR)',
-              icon: AlertTriangle,
-              badge: openNcrCount > 0 ? `${openNcrCount} OPEN` : '0',
-              badgeColor: openNcrCount > 0 ? 'bg-rose-100 text-rose-900 border-rose-300 font-bold animate-pulse' : 'bg-slate-100 text-slate-600',
-              subtext: 'Quarantine & Hold System',
-            },
-            {
-              id: 'deviations' as ActiveTab,
-              label: '9. Deviations & Changes',
-              icon: GitPullRequest,
-              badge: pendingDeviationsCount > 0 ? `${pendingDeviationsCount} review` : `${db.deviations.length}`,
-              badgeColor: 'bg-purple-100 text-purple-900 border-purple-200',
-              subtext: 'Engineering Redlines',
-            },
-            {
-              id: 'traceability-search' as ActiveTab,
-              label: '10. Traceability Search',
-              icon: Search,
-              badge: '2-WAY',
-              badgeColor: 'bg-blue-100 text-blue-900 border-blue-200',
-              subtext: 'Machine ↔ Component',
-            },
-            {
-              id: 'quality-release' as ActiveTab,
-              label: '11. Quality Release Gate',
-              icon: ShieldCheck,
-              badge: readyForReleaseCount > 0 ? `${readyForReleaseCount} ready` : '15 Gates',
-              badgeColor: readyForReleaseCount > 0 ? 'bg-emerald-100 text-emerald-900 border-emerald-300' : 'bg-slate-100 text-slate-600',
-              subtext: 'Final Release Barrier',
-            },
-            {
-              id: 'reports' as ActiveTab,
-              label: '12. Reports & Certs',
-              icon: FileText,
-              badge: 'Dossiers',
-              badgeColor: 'bg-slate-100 text-slate-600',
-              subtext: 'Printable Release Packs',
-            },
-          ],
+          id: 'manufacturing' as ActiveTab,
+          label: roleConfig.role === 'MACHINIST' ? 'Workshop Production' : 'Manufacturing Records',
+          icon: Hammer,
+          badge: roleConfig.role === 'INSPECTOR'
+            ? (awaitingInspectionCount > 0 ? `${awaitingInspectionCount} inspect` : null)
+            : roleConfig.role === 'MACHINIST'
+            ? (myDeptMfgRuns > 0 ? `${myDeptMfgRuns} runs` : null)
+            : (awaitingInspectionCount > 0 ? `${awaitingInspectionCount} pending` : `${db.manufacturingRecords.length}`),
+          badgeColor: awaitingInspectionCount > 0 ? 'bg-amber-100 text-amber-900 border-amber-300 font-bold' : 'bg-slate-200 text-slate-700',
+          subtext: roleConfig.role === 'MACHINIST' ? 'Runs, Parts & Barcode Tags' : 'Traceability & Production Runs',
         },
         {
-          group: 'Governance & Administration',
-          items: [
-            {
-              id: 'users' as ActiveTab,
-              label: '13. Users & Roles',
-              icon: Users,
-              badge: `${db.users.length} roles`,
-            },
-            {
-              id: 'audit-trail' as ActiveTab,
-              label: 'Audit Trail Records',
-              icon: History,
-              badge: `${db.auditLogs.length}`,
-            },
-            {
-              id: 'settings' as ActiveTab,
-              label: '14. System Settings',
-              icon: Settings,
-              badge: null,
-              subtext: 'Machine types, Backup, DB',
-            },
-            ...(currentUser?.role === 'ADMINISTRATOR'
-              ? [
-                  {
-                    id: 'ai-intelligence' as ActiveTab,
-                    label: '15. AI Intelligence',
-                    icon: Cpu,
-                    badge: 'ACTIVE',
-                    badgeColor: 'bg-indigo-100 text-indigo-900 border-indigo-300 font-bold',
-                    subtext: 'Background Auto-Pilot',
-                  },
-                ]
-              : []),
-          ],
+          id: 'projects' as ActiveTab,
+          label: isManagement ? 'Open Projects' : 'Projects Register',
+          icon: FolderGit2,
+          badge: openProjectsCount > 0 ? `${openProjectsCount} Open` : '0 Open',
+          badgeColor: 'bg-blue-100 text-blue-900 border-blue-200 font-bold',
+          subtext: 'Contracts & Machine BOMs',
         },
-      ];
+        {
+          id: 'machines' as ActiveTab,
+          label: isManagement ? 'Machine Fleet' : 'Machines Register',
+          icon: Cpu,
+          badge: db.machines.length,
+          subtext: 'Dividers & Equipment Serials',
+        },
+        {
+          id: 'components' as ActiveTab,
+          label: 'Parts / Components',
+          icon: Boxes,
+          badge: `${criticalComponentsCount} crit`,
+          subtext: 'BOM specs & tolerances',
+        },
+        {
+          id: 'drawings' as ActiveTab,
+          label: 'Drawings & Revisions',
+          icon: FileSpreadsheet,
+          badge: roleConfig.role === 'ENGINEERING' && draftDrawingsCount > 0
+            ? `${draftDrawingsCount} review`
+            : `${db.drawings.length}`,
+          badgeColor: draftDrawingsCount > 0 ? 'bg-purple-100 text-purple-900 border-purple-300 font-bold' : undefined,
+          subtext: 'Approval & rev control',
+        },
+      ],
+    },
+    {
+      group: 'Quality Metrology & Compliance',
+      items: [
+        {
+          id: 'dale-inspections' as ActiveTab,
+          label: roleConfig.role === 'INSPECTOR' ? 'Quality Checksheets' : 'Quality Inspections',
+          icon: ClipboardCheck,
+          badge: roleConfig.role === 'INSPECTOR' && pendingInspectorSheets > 0
+            ? `${pendingInspectorSheets} Action`
+            : `${daleInspectionSheetsCount} Sheets`,
+          badgeColor: pendingInspectorSheets > 0 ? 'bg-amber-100 text-amber-900 border-amber-300 font-bold' : 'bg-blue-100 text-blue-900 border-blue-200',
+          subtext: currentDeptObj ? `${currentDeptObj.code} Workflow Sheets` : 'Process & Dimensional Sheets',
+        },
+        {
+          id: 'inspection-templates' as ActiveTab,
+          label: 'Inspection Plan Library',
+          icon: ClipboardList,
+          badge: `${(db.inspectionTemplates || []).filter((t) => t.status === 'APPROVED').length} Plans`,
+          badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-200 font-bold',
+          subtext: '44 Controlled DIM & FAB Plans',
+        },
+        {
+          id: 'ncr' as ActiveTab,
+          label: 'Non-Conformances (NCR)',
+          icon: AlertTriangle,
+          badge: openNcrCount > 0 ? `${openNcrCount} OPEN` : '0',
+          badgeColor: openNcrCount > 0 ? 'bg-rose-100 text-rose-900 border-rose-300 font-bold animate-pulse' : 'bg-slate-100 text-slate-600',
+          subtext: 'Quarantine & Hold System',
+        },
+        {
+          id: 'deviations' as ActiveTab,
+          label: 'Deviations & Changes',
+          icon: GitPullRequest,
+          badge: pendingDeviationsCount > 0 ? `${pendingDeviationsCount} review` : `${db.deviations.length}`,
+          badgeColor: 'bg-purple-100 text-purple-900 border-purple-200',
+          subtext: 'Engineering Redlines',
+        },
+        {
+          id: 'quality-release' as ActiveTab,
+          label: 'Quality Release Gate',
+          icon: ShieldCheck,
+          badge: readyForReleaseCount > 0 ? `${readyForReleaseCount} ready` : '15 Gates',
+          badgeColor: readyForReleaseCount > 0 ? 'bg-emerald-100 text-emerald-900 border-emerald-300' : 'bg-slate-100 text-slate-600',
+          subtext: 'Final Release Barrier',
+        },
+        {
+          id: 'traceability-search' as ActiveTab,
+          label: 'Traceability Search',
+          icon: Search,
+          badge: '2-WAY',
+          badgeColor: 'bg-blue-100 text-blue-900 border-blue-200',
+          subtext: 'Machine ↔ Component',
+        },
+        {
+          id: 'reports' as ActiveTab,
+          label: 'Reports & Certs',
+          icon: FileText,
+          badge: 'Dossiers',
+          badgeColor: 'bg-slate-100 text-slate-600',
+          subtext: 'Printable Release Packs',
+        },
+      ],
+    },
+    {
+      group: 'Governance & Administration',
+      items: [
+        {
+          id: 'users' as ActiveTab,
+          label: 'Users & Roles',
+          icon: Users,
+          badge: `${db.users.length} roles`,
+        },
+        {
+          id: 'audit-trail' as ActiveTab,
+          label: 'Audit Trail Records',
+          icon: History,
+          badge: `${db.auditLogs.length}`,
+        },
+        {
+          id: 'settings' as ActiveTab,
+          label: 'System Settings',
+          icon: Settings,
+          badge: null,
+          subtext: 'Machine types, Backup, DB',
+        },
+        ...(currentUser?.role === 'ADMINISTRATOR'
+          ? [
+              {
+                id: 'ai-intelligence' as ActiveTab,
+                label: 'AI Intelligence',
+                icon: Cpu,
+                badge: 'ACTIVE',
+                badgeColor: 'bg-indigo-100 text-indigo-900 border-indigo-300 font-bold',
+                subtext: 'Background Auto-Pilot',
+              },
+            ]
+          : []),
+      ],
+    },
+  ];
+
+  // Filter sections and items strictly based on role's allowed tabs
+  const navItems: NavSection[] = rawSections
+    .map((section) => ({
+      ...section,
+      items: section.items.filter((item) => allowedTabs.includes(item.id)),
+    }))
+    .filter((section) => section.items.length > 0);
 
   return (
     <aside className="w-64 bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 min-h-[calc(100vh-53px)] transition-colors">
-      {/* Top Department Workflow Switcher or Executive Scope */}
+      {/* Top Department Workflow Switcher or Executive / Role Scope */}
       {isManagement ? (
         <div className="p-3 border-b border-slate-200 dark:border-slate-800/80 bg-slate-100/70 dark:bg-slate-900/80">
           <div className="flex items-center justify-between text-[10px] uppercase font-mono tracking-widest text-slate-500 dark:text-slate-400">
@@ -336,11 +319,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
       ) : (
         <div className="p-3 border-b border-slate-200 dark:border-slate-800/80 bg-slate-100/70 dark:bg-slate-900/80 relative">
           <div className="flex items-center justify-between text-[10px] uppercase font-mono tracking-widest text-slate-500 dark:text-slate-400">
-            <span className="flex items-center gap-1.5 font-bold">
-              <Building2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-              WORKSHOP DEPT WORKFLOW
+            <span className="flex items-center gap-1.5 font-bold truncate">
+              <Building2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" />
+              <span className="truncate">{roleConfig.badgeLabel} SCOPE</span>
             </span>
-            <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" title="Workflow Synced" />
+            <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse shrink-0" title="Workflow Synced" />
           </div>
 
         <button

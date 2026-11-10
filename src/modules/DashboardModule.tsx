@@ -6,6 +6,8 @@ import { DashboardLimeLine } from '../components/DashboardLimeLine';
 import { Modal } from '../components/Modal';
 import { generateExecutiveFleetSummaryPdf } from '../utils/pdfGenerator';
 import { StartProjectAndMachineModal } from '../components/StartProjectAndMachineModal';
+import { RoleActionHub } from '../components/RoleActionHub';
+import { getRoleConfig } from '../utils/rbac';
 import {
   Cpu,
   Boxes,
@@ -54,6 +56,7 @@ export const DashboardModule: React.FC<DashboardModuleProps> = ({
 }) => {
   const { db, currentUser } = useQMS();
   const isManagement = currentUser?.role === 'MANAGEMENT';
+  const roleConfig = getRoleConfig(currentUser?.role);
 
   // State
   const [selectedMachineFilter, setSelectedMachineFilter] = useState<string>('ALL');
@@ -656,7 +659,7 @@ export const DashboardModule: React.FC<DashboardModuleProps> = ({
             <Download className="w-3.5 h-3.5 text-indigo-400" />
             <span className="hidden sm:inline">Export PDF</span>
           </button>
-          {!isManagement && (
+          {roleConfig.canCreateMachine && (
             <button
               onClick={() => setIsStartProjectModalOpen(true)}
               className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-xs transition-colors cursor-pointer"
@@ -676,9 +679,18 @@ export const DashboardModule: React.FC<DashboardModuleProps> = ({
       </div>
 
       {/* ---------------------------------------------------- */}
+      {/* ROLE-TAILORED ACTION HUB (What Pertains to Me)       */}
+      {/* ---------------------------------------------------- */}
+      <RoleActionHub
+        setActiveTab={setActiveTab}
+        onOpenCreateRecordModal={onOpenCreateRecordModal}
+        onOpenCreateMachineModal={onOpenCreateMachineModal}
+      />
+
+      {/* ---------------------------------------------------- */}
       {/* CLEAN SLATE ONBOARDING BANNER (Zero Projects/Machines) */}
       {/* ---------------------------------------------------- */}
-      {(!db.projects || db.projects.length === 0) && (!db.machines || db.machines.length === 0) && (
+      {roleConfig.canCreateMachine && (!db.projects || db.projects.length === 0) && (!db.machines || db.machines.length === 0) && (
         <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 border border-blue-500/40 rounded-xl p-6 text-white shadow-md">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-start gap-3.5">
