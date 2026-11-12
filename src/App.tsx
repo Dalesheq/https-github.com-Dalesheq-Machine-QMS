@@ -409,25 +409,15 @@ function StandaloneLoginScreen() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Department Role *
+                  QMS Role / Authority *
                 </label>
                 <select
                   value={regForm.role}
                   onChange={(e) => {
                     const role = e.target.value as UserRole;
-                    const defaultDept: Record<UserRole, string> = {
-                      ADMINISTRATOR: 'QMS Systems & Governance',
-                      MACHINE_MANAGER: 'Machine Shop Management',
-                      INSPECTOR: 'Quality Metrology & Inspection',
-                      ENGINEERING: 'Mechanical Design & Engineering',
-                      HSEQ: 'Quality Assurance & Compliance (HSEQ)',
-                      MACHINIST: 'Machine Shop (CNC)',
-                      MANAGEMENT: 'Executive Oversight & Quality Governance',
-                    };
                     setRegForm({
                       ...regForm,
                       role,
-                      department: defaultDept[role] || regForm.department,
                     });
                   }}
                   className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg font-bold text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800"
@@ -464,7 +454,7 @@ function StandaloneLoginScreen() {
                   ))}
                 </select>
                 <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
-                  Links profile to department inspection holding points and job allocation.
+                  Assigned workshop bay or team. Department does not restrict or dictate user role authority.
                 </p>
               </div>
             </div>

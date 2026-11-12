@@ -57,8 +57,8 @@ export const Header: React.FC<HeaderProps> = ({
     name: '',
     username: '',
     email: '',
-    role: 'INSPECTOR' as UserRole,
-    department: 'Quality Control & Metrology',
+    role: 'MACHINIST' as UserRole,
+    department: WORKSHOP_DEPARTMENTS[0].name,
     password: '',
     confirmPassword: '',
   });
@@ -132,8 +132,8 @@ export const Header: React.FC<HeaderProps> = ({
           name: '',
           username: '',
           email: '',
-          role: 'INSPECTOR',
-          department: 'Quality Control & Metrology',
+          role: 'MACHINIST',
+          department: WORKSHOP_DEPARTMENTS[0].name,
           password: '',
           confirmPassword: '',
         });
@@ -497,20 +497,34 @@ export const Header: React.FC<HeaderProps> = ({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Role *</label>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                    QMS Role / Authority *
+                  </label>
                   <select
                     value={regForm.role}
                     onChange={(e) => setRegForm({ ...regForm, role: e.target.value as UserRole })}
                     className="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded font-bold bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
                   >
-                    <option value="MACHINIST">MACHINIST (Workshop Operator)</option>
+                    <option value="ADMINISTRATOR">ADMINISTRATOR (System Admin & QMS Governance)</option>
+                    <option value="MACHINE_MANAGER">MACHINE_MANAGER (Machine Shop / Production Lead)</option>
+                    <option value="INSPECTOR">INSPECTOR (Quality Metrology & Inspection)</option>
+                    <option value="ENGINEERING">ENGINEERING (Mechanical Design & CAD)</option>
+                    <option value="HSEQ">HSEQ (Quality Assurance & Compliance)</option>
+                    <option value="MACHINIST">MACHINIST (Workshop Operator / Bay Machinist)</option>
+                    <option value="MANAGEMENT">MANAGEMENT (Executive Oversight & Reporting)</option>
                   </select>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-                    Privileged roles require Administrator provisioning.
+                  <p className="text-[10px] text-blue-700 dark:text-blue-400 font-medium mt-1">
+                    {regForm.role === 'ADMINISTRATOR' && 'Full governance authority: users, permissions, drawings, and system configuration.'}
+                    {regForm.role === 'MACHINE_MANAGER' && 'Production lead: machine builds, scheduling, BOMs, and inspection templates.'}
+                    {regForm.role === 'INSPECTOR' && 'Quality authority: dimensional inspection, holding points, CMM, NCRs, and FAT release.'}
+                    {regForm.role === 'ENGINEERING' && 'Technical authority: drawing revisions, CAD redlines, and engineering deviations.'}
+                    {regForm.role === 'HSEQ' && 'Compliance authority: NCR disposition, corrective actions, audits, and release sign-offs.'}
+                    {regForm.role === 'MACHINIST' && 'Workshop authority: machining, turning, fabrication, pre-fitting, and first-off checks.'}
+                    {regForm.role === 'MANAGEMENT' && 'Executive oversight: machine progress, quality KPIs, and management reports.'}
                   </p>
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Department *</label>
+                  <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Assigned Department / Bay *</label>
                   <select
                     value={regForm.department}
                     onChange={(e) => setRegForm({ ...regForm, department: e.target.value })}
@@ -522,6 +536,9 @@ export const Header: React.FC<HeaderProps> = ({
                       </option>
                     ))}
                   </select>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
+                    Assigned workshop bay or team. Department does not restrict or dictate user role authority.
+                  </p>
                 </div>
               </div>
 

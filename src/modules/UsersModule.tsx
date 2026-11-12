@@ -349,24 +349,14 @@ export const UsersModule: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Role *</label>
+              <label className="block font-bold text-slate-700 mb-1">QMS Role / Authority *</label>
               <select
                 value={newUserForm.role}
                 onChange={(e) => {
                   const role = e.target.value as UserRole;
-                  const defaultDept: Record<UserRole, string> = {
-                    ADMINISTRATOR: 'QMS Systems & Governance',
-                    MACHINE_MANAGER: 'Machine Shop Management',
-                    INSPECTOR: 'Quality Metrology & Inspection',
-                    ENGINEERING: 'Mechanical Design & Engineering',
-                    HSEQ: 'Quality Assurance & Compliance (HSEQ)',
-                    MACHINIST: 'Machine Shop (CNC)',
-                    MANAGEMENT: 'Executive Oversight & Quality Governance',
-                  };
                   setNewUserForm({
                     ...newUserForm,
                     role,
-                    department: defaultDept[role] || newUserForm.department,
                   });
                 }}
                 className="w-full px-3 py-2 border border-slate-300 rounded bg-white font-bold text-slate-900"
@@ -390,7 +380,7 @@ export const UsersModule: React.FC = () => {
               </p>
             </div>
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Department *</label>
+              <label className="block font-bold text-slate-700 mb-1">Assigned Department / Bay *</label>
               <select
                 value={newUserForm.department}
                 onChange={(e) =>
@@ -404,6 +394,9 @@ export const UsersModule: React.FC = () => {
                   </option>
                 ))}
               </select>
+              <p className="text-[10px] text-slate-500 mt-1">
+                Assigned workshop bay or team. Department does not restrict or dictate user role authority.
+              </p>
             </div>
             <div>
               <label className="block font-bold text-slate-700 mb-1">Email *</label>
